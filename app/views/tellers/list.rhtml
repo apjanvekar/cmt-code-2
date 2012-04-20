@@ -1,0 +1,137 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+/* Div container to wrap the datagrid */
+div#divList {
+width: 420px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #800000;
+color: white;
+border-right: 1px solid silver;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+top: expression(document.getElementById("divList").scrollTop-2);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+th.locked {z-index: 99;}
+
+</STYLE> 
+<%= javascript_include_tag "backButton",:defaults %>
+</head>
+
+<body onunLoad="back()">
+<table border=0 width="759"><tr><td bgcolor="#FFFFFF" width="753">
+<table align=center border=5 bordercolor="#800000" width="979"><tr>
+  <td width="961" align="center">
+   
+<p align="center">
+<h1 align="center"><span style="font-weight: 400">
+<font color="#800000" face="Zurich BT" size="5">List of Counters</font></span></h1>
+<p>&nbsp;</p>
+<div class=clsDataGrid id=divList bgcolor=white style="width: 930; height: 193">
+<table border="1" width ="528" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="41" align=center>	                            	
+
+
+ 		 	 <tr bgcolor="#336699">  
+      			<th nowrap height="18" width="117" >
+                <font color=white face="Zurich BT" size="2">Counter No</font></th>
+      		<!--	<th nowrap height="18" width="117" >
+                <font color=white face="Zurich BT" size="2">Login Status</font></th>-->
+				<th  nowrap height="18" width="117" >
+                <font color=white face="Zurich BT" size="2">Counter Status</font></th>	
+				<th  height="18" width="180" >
+                <font color=white face="Zurich BT" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Services Mapped</font></th>	
+ 			<th  nowrap height="18" width="158" >
+                <font color=white face="Zurich BT" size="2">Customer Types</font></th>	
+ 			<th  nowrap height="18" width="18" >&nbsp;</th>
+ 			<th  nowrap height="18" width="18" >&nbsp;</th>
+
+
+</tr>
+			<% Counter.counter_no.each do |counter| %>
+  <tr>
+  
+	<td nowrap align="center" width="117">
+<font face="Zurich BT" size="2">
+
+	<%=counter.counterno %>&nbsp;</td>	</font>
+	
+	
+<td nowrap align="center" width="117">
+<% @counter_status=counter.counterstatus %><font face="Zurich BT" size="2">
+<% if @counter_status.to_i== 1 %> </font>
+<font face="Zurich BT" size="2">Active
+<%else%>
+Inactive
+<%end%>
+ &nbsp;</font>
+ </td>
+ 
+ 
+<td width="158" nowrap align=center>
+<p align="left">
+<font face="Zurich BT" size="1">
+<select id="services"  style="font-family: Zurich BT;  width:300px;" >
+<% @s=Csmapping.counter_services(counter.counterno) %> 
+<% @s.each do |d| %>
+<b><option><%= d.servicename %></option></b>
+ <%end %>
+ </select>
+ </font>
+</td>
+
+
+
+<td width="158" nowrap align=center>
+<p align="left">
+<font face="Zurich BT" size="1">
+<select id="services"  style="font-family: Zurich BT; width:158px" >
+<% @t=Ctypemapping.counter_customers(counter.counterno)%> 
+  <% @t.each do |d| %>
+ <b><option><%= d.ctypedesc -%></option></b>
+ <% end %>
+ </select>
+ </font >
+</td>
+
+
+<td align="left" width="7"><font face="Zurich BT" size="2"><%= link_to 'Edit', :action => 'edit', :id =>counter.id%></font><font face="Zurich BT" size="2">&nbsp;</font></td>
+<td align="left" width="7"><font face="Zurich BT" size="2"><%= link_to 'Delete' ,{ :action => 'deletecounters',  :id =>counter.id },:confirm =>"Are you sure? "  %></font><font face="Zurich BT" size="2">&nbsp;</font></td>
+ 
+</tr><% end %>	
+</table></div>			
+		
+<br />
+
+<p align=center> <font face="Zurich BT" size="3"><b><%= link_to 'Add New Counter', :action => 'new' %> </p></b></font>
+
+<p>&nbsp;</p>
+</td></tr></table>
+</td></tr></table>
+<% if flash[:notice] -%>
+
+<div id="notice"><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+<%end%>
+
+</body>
+</html>

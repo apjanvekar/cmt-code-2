@@ -1,0 +1,54 @@
+
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH:300px; 
+HEIGHT:100px;
+} 
+</STYLE> 
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+
+<body><table border=0 ><tr><td bgcolor="#FFFFFF">
+
+<table align="left" border=5 bordercolor="#800000" width="305"><tr>
+  <td width="287">
+
+
+<%= start_form_tag :controller=> 'tellers', :action => 'create_ad' %>
+<%= error_messages_for 'ad' %>
+<h3 align="center"><font color="#990000" face="Arial" size="3">Add new Footer Message</font></h3> 
+<p>&nbsp;</p>  
+
+
+<p align=center><label for="ad_adtext"><b>
+<font face="Arial" size="2" color="#990000">Enter 
+The Text For Footer Message</font></b></label><font color="#990000"></br>
+
+<%= text_field 'ad', 'adtext' %> </font><br>
+<font color="#990000">
+&nbsp;<input type="submit" value="Create" class="primary" style="font-family: Arial; font-size: 8pt" />&nbsp;&nbsp;&nbsp;
+
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'tellers',:action => "back_ads" }),:id=>'Back_ads', :style=>"font-family: Arial; font-size: 8pt" -%>
+<br>
+<br>
+</td></tr>
+</table>
+   </td></tr></table>
+</body>
+</html>

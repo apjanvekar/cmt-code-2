@@ -1,0 +1,404 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+<head>
+<style type="text/css">
+
+/* html body tag style */
+/* html body tag style */
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: arial;
+   
+    color: #000000;
+}
+
+/* h1 tag style */
+h1 {
+    margin: 0px;
+    padding: 0px;
+    font-family: arial;
+    font-size: 15px;
+    text-align:center;
+}
+
+/* CSS Style Rule for Div having id="outer-container" */
+/* outer-container will hold the whole assembly of
+   nested div overlays. */
+/* It will also center align the design */   
+#outer-container {
+    width: 990px;
+    margin: 0 ;
+}
+
+/* footer CSS Style Rule */
+#header {
+float:left;
+
+text-align:center;
+    width:880px;
+    height: 20px;
+    background-color: none;
+border-width: 2px; border-style: solid; border-color: black; 
+color:#336699;
+}
+
+/* footer CSS Style Rule */
+#footer {
+float:left;
+    width: 990px;
+    background-color: none;
+border-width: 2px; border-style: solid; border-color: black; 
+}
+
+/* content-container CSS Style Rule */
+/* It will hold the main content of the page. */
+/* it is the right side column */
+/* in this 3 columns div layout */   
+#content-container {
+    width: 990px;
+    /*height: 400px;*/
+    background-color: none;
+    /*margin: 2px 0px 2px 0px;*/
+    float: left;
+/*border-width: 2px; border-style: solid; border-color: black; */
+}
+
+/* sidebar1 and sidebar2 are 1st and 2nd */
+/* div columns in this div layout design */
+/* both are placed at the left side of */
+/* content container */   
+#sidebar1, #sidebar2, #sidebar3, #sidebar4, #sidebar5, #sidebar6, #sidebar7, #sidebar8, #sidebar9, #sidebar10, #sidebar11 {
+    width: 50px;
+    /*height: 400px;*/
+    background-color: none;
+   /* margin: 2px 2px 2px 0px;*/
+    float: left;
+border:1px solid black;
+ font-size: 12px;
+}
+#sidebar1{
+width:10px;
+}
+
+/* CSS rule to override the above styles */
+/* for sidebar2 */   
+#sidebar2 {
+    background-color: none;
+    color: black;
+width: 80px;
+}
+#sidebar3{
+width:80px
+}
+#sidebar4, #sidebar5, #sidebar6{
+width:80px
+}
+#sidebar7{
+width:30px;
+}
+#sidebar8{
+width:220px;
+/*font-size: 11px;*/
+}
+#sidebar9, #sidebar10, #sidebar11{
+width:60px
+}
+
+/* Top navigation CSS Style Rule */
+#top-Nav {
+    width: 990px;
+    background-color: none;
+    /*margin: 2px 0px 0px 0px;*/
+    float:left;
+}
+#sidebar12{
+width:410px;
+font-size:12px;
+float:left;
+ border:1px solid black ;
+
+}
+/* #sidebar13{
+ width:215px;
+ border:1px solid black;
+float:left;
+
+ }*/
+
+ #sidebar14{
+ width:480px;
+  border:1px solid black ;
+
+ 
+font-size:12px;
+float:left;
+ }
+ #bottom{
+ width:900px;
+ float:left;
+ }
+</style>
+</head>
+
+<body>
+<div id="outer-container">
+    <div id="header">
+        <h1>
+           Counter Wise Summery Report:</h1>
+    </div>
+
+    <div style="clear: both">
+    </div>
+
+	 <div id="top-Nav" align="left">
+      <% if params[:startdate].to_date == Date.today  %>
+
+<% @t = Service.find_by_sql("select distinct(counterno) as a1
+						from transact
+						where transdate='#{params[:startdate]}' order by counterno")  %>
+		<% @t.each do|a| %>
+			<%= a.a1 %>
+		<% end %>	
+<% else %>
+
+
+<% @t = Service.find_by_sql("select distinct(counterno) as a1
+						from transactmaster
+						where transdate='#{params[:startdate]}' order by counterno")  %>
+		<% @t.each do|a| %>
+			<% @counterno = a.a1 %>
+			
+		<%	@data=Service.find_by_sql("select tokenno,transdate,generatedtime,calledtime,servicedtime,login,serviceid,waittime,timetaken,tokenstatus
+										from transactmaster
+										where transdate='#{params[:startdate]}' and counterno='#{@counterno}' ") %>
+	
+		
+				Counter 
+
+
+			    No.<%= @counterno %>
+
+<div id="content_container">
+												
+													<div id="sidebar1"><div style="border-bottom: 1px solid #000000;">
+<p align="left">
+<b>Sr.no</b>	</div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><%= @count=@count.to_i+1 %></span><br />
+																						
+
+															<% end %>
+																		    </div>
+													<div id="sidebar2"><div style="border-bottom: 1px solid #000000;">
+                                                      <p align="left">
+                                                      <b>Token No. </b>	</div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><%= c.tokenno %></span>
+																						
+
+																		    
+															 <% end %>
+														</div>
+														<div id="sidebar3"><div style="border-bottom: 1px solid #000000;">
+                                                          <p align="left">
+                                                          <b>TransDate</b></div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><%= c.transdate %></span>
+																						
+
+																		    
+															 <% end %>
+														</div>
+														<div id="sidebar4"><div style="border-bottom: 1px solid #000000;">
+                                                          <p align="left">
+                                                          <b>GenTime</b></div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><%= c.generatedtime %></span>
+																						
+
+																		    
+															 <% end %>
+														</div>
+														<div id="sidebar5"><div style="border-bottom: 1px solid #000000;">
+                                                          <p align="left">
+                                                          <b>Called Time</b></div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><%= c.calledtime %></span>
+																						
+
+																		    
+															 <% end %>
+														</div>
+
+                                                        <div id="sidebar6"><div style="border-bottom: 1px solid #000000;">
+                                                          <p align="left">
+                                                          <b>Served Time</b></div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><%= c.servicedtime %></span>
+																						
+
+																		    
+															 <% end %>
+														</div>
+                                                         
+
+
+														<div id="sidebar7"><div style="border-bottom: 1px solid #000000;">
+                                                          <p align="left">
+                                                          <b>TellerNm</b></div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						                                                               <span><% if c.login.to_s == 'NULL' %> 
+								
+																									<%# c.login %>
+                                                          <p align="left"> <br />
+																								<% else %><%= c.login %><br />
+                                                                                          <% end %></span>
+																	 
+																						<!--<span ><%= c.login %></span>-->
+																						
+                                                                <% end %>
+														 </div>
+														 <div id="sidebar8" align="left"><div style="border-bottom: 1px solid #000000;">
+                                                           <p align="left">
+                                                           <b>Service Type</b><br /></div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><% Service.find(:all, :conditions => ["serviceid=?", c.serviceid]).each do |d| %>
+							
+																								<%= d.servicename %><br /> </span>
+																						        <% end %>
+
+
+																		    
+															 <% end %>
+														</div>
+                                                        <div id="sidebar9"><div style="border-bottom: 1px solid #000000;">
+                                                          <p align="left">
+                                                          <b>Wait Time</b></div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><%= c.waittime %></span>
+																						
+
+																		    
+															 <% end %>
+														</div>
+													 <div id="sidebar10"><div style="border-bottom: 1px solid #000000;">
+                                                       <p align="left">
+                                                       <b>Ttaken</b></div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><%= c.timetaken %></span>
+																						
+
+																		    
+															 <% end %>
+														</div>
+														 <div id="sidebar11"><div style="border-bottom: 1px solid #000000;">
+                                                           <p align="left">
+                                                           <b>TokStat</b></div>
+															<% @count = 0%>
+																<% @data.each do |c| %>
+						
+																	
+																						<span ><% if c.tokenstatus.to_s == '1' %> 
+								
+																									<%= "SERVED" %><br />
+																								<% else %><%= "In Q" %><br />
+															
+								                                                                <%end%></span>	
+							
+																						
+
+																		    
+															 <% end %>
+														</div>
+
+
+
+															     
+
+    
+					
+
+    <div id="bottom">
+       <div id="sidebar12"><font color="#336699"><b>Total Serviced:
+       <span><%@abc=Service.find_by_sql("select count(tokenno) as tokenno
+										from transactmaster
+										where transdate='#{params[:startdate]}' and counterno='#{@counterno}' and tokenstatus=1") %>
+										
+										<%= @abc[0].tokenno  %></span> </b>
+         </font>
+      </div>
+      
+      <div id="sidebar14"  ><font color="#336699"><b>Average Mean Time To Serve:
+      <span><%@abc=Service.find_by_sql("select avg(time_to_sec(timetaken)) as timetaken
+														from transactmaster
+														where transdate='#{params[:startdate]}' and counterno='#{@counterno}'") %>
+
+								<% seconds   =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - seconds.to_i) / 60
+								minutes    =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - minutes.to_i) / 60
+								hours      =  @abc[0].timetaken.to_i % 24 %>
+								
+								<% if(hours<10)
+									hours="0#{hours}"
+								end
+
+								if(minutes<10)
+									minutes="0#{minutes}"
+								end
+
+								if(seconds<10)
+									seconds="0#{seconds}"
+								end %>
+								
+								<%= "#{hours}:#{minutes}:#{seconds}"  %>
+								
+
+       </span>
+        </b></font>
+       </div>
+       <%end%>
+	<%end%>
+    </div>
+    
+   </div>
+  
+</div>
+
+
+</body>
+</html>

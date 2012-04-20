@@ -1,0 +1,166 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<%= button_to "Export To Excel", :controller => 'users', :action => "Masterreporth"   %>
+
+
+<table height="42" width="466" align=center><tr>
+<td height="256" width="292">	
+ 		<table border=5 width="432" height="321" bordercolor="#336699" align=center> 		
+ 		<tr>
+            <td bgcolor="#FFFFFF" height="315" width="439">
+ 		<table border=0 width="436" height="315">
+ 		<tr><td height="17" style="border-style: solid; border-width: 1">
+          
+          <p align=center>
+      		<b>
+      		<font face="Arial" size="4" color="#336699">Detailed Master Report</font>
+            </b><br/>
+      		 <p align="left">Generated On: <%= Date.today %> 
+      		 <h4 align="right">From:<% @t=Service.find_by_sql("SELECT CURDATE() - INTERVAL 15 day as b1") %> <%= @t[0].b1 %> To: <%= Date.today  %></h5> </p>
+      		 <p>Branch Name:<% @t = Service.find_by_sql("select branchname as b1 from settings" )%><%= @t[0].b1 %></p>
+
+      		</p>
+      		</td></tr>
+
+ 		<tr>
+ 		
+      		<td  width="430" height="311"> 
+ 			<div class=clsDataGrid id=divList bgcolor=white style="width: 700; height: 250"> 			
+ 			<div align="center">
+              <center> 			
+ 			<table border="0" width ="1334" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="41" style="border-collapse: collapse">
+
+
+
+<tr align=center bgcolor="#336699">
+        <th height="11"  bgcolor="#336699" width="1">
+        <font color=white face="Arial" size="2">Sr.No</font></th>
+
+      	<th height="11"  bgcolor="#336699" width="70">
+        <font color=white face="Arial" size="2">Token&nbsp;No&nbsp;</font></th>
+      	<th nowrap height="11" bgcolor="#336699" width="68">
+        <font color=white face="Arial" size="2">&nbsp;&nbsp;Date</font></th>
+		<th nowrap height="11"  bgcolor="#336699" width="82">
+        <font color=white face="Arial" size="2">Teller&nbsp;Name&nbsp;</font></th>
+		<th nowrap height="11"  bgcolor="#336699" width="351">
+        <font color=white face="Arial" size="2">&nbsp;Service&nbsp;Name</font></th>
+        <th nowrap height="11"  bgcolor="#336699" width="98">
+       	<font color=white face="Arial" size="2">&nbsp;Generated&nbsp;Time&nbsp;</font></th>
+		<th nowrap height="11"  bgcolor="#336699" width="117">
+       	<font color=white face="Arial" size="2">&nbsp;Called&nbsp;Time&nbsp;</font></th>
+		<th nowrap height="11"  bgcolor="#336699" width="71">
+        <font color=white face="Arial" size="2">&nbsp;Counter&nbsp;</font></th>
+		<th  height="11"  bgcolor="#336699" width="69">
+        <font color=white face="Arial" size="2">&nbsp;Wait&nbsp;Time</font></th>
+        <th  height="11"  bgcolor="#336699" width="96">
+        <font color=white face="Arial" size="2">&nbsp;Serviced&nbsp;Time</font></th>
+        <th  height="11"  bgcolor="#336699" width="79">
+        <font color=white face="Arial" size="2">&nbsp;Time&nbsp;Taken</font></th>
+		<th  height="11"  bgcolor="#336699" width="86">
+        <font color=white face="Arial" size="2">&nbsp;Token&nbsp;Status</font></th>
+                 
+
+</tr>
+<% @count=0 %>
+<% @master=Transact.find_by_sql("select distinct serviceid,tokenno,transdate,generatedtime,login,calledtime,counterno,waittime,servicedtime,timetaken,tokenstatus
+						from transactmaster
+						where transdate BETWEEN DATE_SUB( CURDATE( ) ,INTERVAL 15 DAY ) AND CURDATE( )
+    						and (tokenstatus=0 or tokenstatus=1 or tokenstatus=3 )") %>
+    					
+<% @master.each do |player|%>
+	
+<tr align=center>
+<td nowrap  height="11" align=center width="50" ><font size="2" face="Arial">
+<%= @count=@count+1 %></font></td>
+
+
+<td nowrap  height="11" align=center width="70" ><font size="2" face="Arial">
+<%= player.tokenno %></font></td>
+
+
+<td nowrap  height="11" align=center width="68" ><font size="2" face="Arial">
+<%= player.transdate.strftime("%d/%m/%Y") %></font></td>
+
+<td nowrap  height="11" align=center width="82" ><font size="2" face="Arial">
+<%= player.login %></font></td>
+
+
+
+<% @service= player.serviceid
+@a=Service.find(:first,:conditions=>["serviceid=?",@service]) %>
+
+<td nowrap  height="11" align=left width="351" ><font size="2" face="Arial">
+<%= @a.servicename %></font></td>
+
+
+<td nowrap  height="11" align=center width="98" ><font size="2" face="Arial">
+<%= player.generatedtime.strftime("%H:%M:%S") %></font></td>
+
+
+
+<% if(player.calledtime!=nil) %>
+<td nowrap  height="11" align=center width="117" ><font size="2" face="Arial">
+<%= player.calledtime.strftime("%H:%M:%S") %> </font></td>
+<% end %>
+
+<td nowrap  height="11" align=center width="71" ><font size="2" face="Arial">
+<%= player.counterno %></font></td>
+
+
+
+<% if(player.waittime!=nil) %>
+<td nowrap  height="11" align=center width="69" ><font size="2" face="Arial">
+<%= player.waittime.strftime("%H:%M:%S") %></font></td>
+
+<% end %>
+
+<% if(player.servicedtime!=nil) %>
+<td nowrap  height="11" align=center width="96" ><font size="2" face="Arial">
+<%= player.servicedtime.strftime("%H:%M:%S") %></font></td>
+<% end %>
+
+<% if(player.timetaken!=nil) %>
+<td nowrap  height="11" align=center width="79" ><font size="2" face="Arial">
+<%= player.timetaken.strftime("%H:%M:%S") %></font></td>
+
+<% end %>
+<td nowrap  height="11" align=center width="86" ><font size="2" face="Arial">
+
+<% @status= player.tokenstatus %>
+<% if(@status=="0") %>
+InQueue
+
+<% elsif(@status=="1") %>
+Served
+
+<% elsif(@status=="3") %>
+Missed
+<% end %></font></td>
+
+<%end%>
+</tr>
+
+<% @time = Transact.find_by_sql("select SEC_TO_TIME(AVG(TIME_TO_SEC(timetaken))) as AverageServicedTime from transactmaster
+where transdate BETWEEN DATE_SUB( CURDATE( ) ,INTERVAL 15 DAY ) AND CURDATE( )
+    and (tokenstatus=0 or tokenstatus=1 or tokenstatus=3 )") %>
+
+
+</tr></table>
+
+
+              </center>
+            </div>
+
+
+</body>
+
+</html>

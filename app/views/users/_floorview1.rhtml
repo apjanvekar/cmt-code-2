@@ -1,0 +1,264 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+ <%= javascript_include_tag "prototype","effects","application",:defaults %>
+
+<SCRIPT LANGUAGE=javascript>
+
+
+
+ function addZero(vNumber){ 
+    return ((vNumber < 10) ? "0" : "") + vNumber 
+  } 
+        
+  function formatDate(vDate, vFormat){ 
+    var vDay              = addZero(vDate.getDate()); 
+    var vMonth            = addZero(vDate.getMonth()+1); 
+    var vYearLong         = addZero(vDate.getFullYear()); 
+    var vYearShort        = addZero(vDate.getFullYear().toString().substring(3,4)); 
+    var vYear             = (vFormat.indexOf("yyyy")>-1?vYearLong:vYearShort) 
+    var vHour             = addZero(vDate.getHours()); 
+    var vMinute           = addZero(vDate.getMinutes()); 
+    var vSecond           = addZero(vDate.getSeconds()); 
+    var vDateString       = vFormat.replace(/dd/g, vDay).replace(/MM/g, vMonth).replace(/y{1,4}/g, vYear) 
+    vDateString           = vDateString.replace(/hh/g, vHour).replace(/mm/g, vMinute).replace(/ss/g, vSecond) 
+    return vDateString 
+  } 
+  
+ function difference(a,b,c,d)
+ {
+var dateformat="dd/MM/yy hh:mm:ss";
+
+var today=formatDate(new Date(),dateformat);
+
+var z=new Date(a);
+var z2=new Date(today);
+var z1=new Date(d);
+
+	var sec=(z1.getTime()-z.getTime());
+	
+ 	var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
+	var hours = Math.floor(sec / hour);
+	if(hours<10)
+	hours="0"+hours;
+	sec -= hours * hour;
+	var minutes = Math.floor(sec / minute);
+	if(minutes<10)
+	minutes="0"+minutes;
+	
+	sec -= minutes * minute;
+	var seconds = Math.floor(sec / second);
+	if(seconds<10)
+	seconds="0"+seconds;
+	
+	var diff=hours+":"+minutes+":"+seconds;
+			if(b<=diff)
+			{
+			document.getElementById(c).style.background = "red";
+
+			document.getElementById(c).innerHTML="<font color='white'><center>"+diff+"</font></center>";
+			}
+			else
+			document.getElementById(c).innerHTML=diff;
+
+         
+
+
+}
+ </SCRIPT>
+
+<SCRIPT LANGUAGE=javascript>
+
+var no1,x,no2,no3;
+ 
+function timediff(a,b,c,d)
+{
+var z=new Date(a);
+var z1=new Date(d);
+no1=(z1.getTime()-z.getTime());
+no2=b;
+no3=c;
+showdiff(no1,no2,no3);
+}
+
+var x=no1;
+var y=no2;
+var z=no3;
+var hours;
+var minutes;
+var seconds;
+function showdiff(no1,no2,no3)
+{
+x=no1+1000;
+y=no2;
+z=no3;
+
+var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
+	hours = Math.floor(no1 / hour);
+	if(hours<10)
+	hours="0"+hours;
+	no1 -= hours * hour;
+	minutes = Math.floor(no1 / minute);
+	if(minutes<10)
+	var minutes="0"+minutes;
+	
+	no1 -= minutes * minute;
+	seconds = Math.floor(no1 / second);
+	if(seconds<10)
+	seconds="0"+seconds;
+	
+	var diff=hours+":"+minutes+":"+seconds;
+
+			if(no2<diff)
+			document.getElementById('no3').innerHTML="<FONT COLOR=''>"+diff+"</font>";
+			else
+			document.getElementById('no3').innerHTML=diff;
+            
+			
+}
+
+ </SCRIPT>
+<STYLE type="text/css"> 
+  
+/* Div container to wrap the datagrid */
+div#divList {
+width: 420px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #800000;
+color: white;
+border-right: 1px solid silver;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+top: expression(document.getElementById("divList").scrollTop-2);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+th.locked {z-index: 99;}
+
+</STYLE> 
+
+
+</head>
+
+<table height="42" width="466" align=center><tr><td height="256" width="292">	
+ 		<table border=5 width="432" height="321" bordercolor="#800000" align=center> 		
+ 		<tr>
+            <td bgcolor="#FFFFFF" height="315" width="439">
+ 		<table border=0 width="436" height="315">
+ 		<tr><td height="17"><p align=center>
+      		<b>
+      		<font face="Zurich BT" color="#800000">Wait Area Floorview </font>
+            </b>
+      		</p>
+      		</td></tr>
+
+ 		<tr>
+ 		
+      		<td  width="430" height="311"> 
+ 			<div class=clsDataGrid id=divList bgcolor=white style="width: 700; height: 250"> 			
+ 			<table border="1" align=center width ="537" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="41">
+
+
+
+
+	<tr  bgcolor="#800000" >
+      	    	
+		<th height="16" width="97" align=left>
+        <font color=white face="Zurich BT" size="2">&nbsp;Token No&nbsp;</font></th>
+		
+		<th height="16"  width="122" align=left>
+        <font color=white face="Zurich BT" size="2">&nbsp;Customer Type&nbsp;</font></th>
+		<th height="16"   width="149" align=left>
+        <font color=white face="Zurich BT" size="2">&nbsp;Threshold Value&nbsp;</font></th>
+		<th height="16"  width="116" align=left>
+        <font color=white face="Zurich BT" size="2">&nbsp;&nbsp;&nbsp;&nbsp; Wait Time&nbsp;</font></th>
+	</tr>
+<% @t = Counter.find_by_sql("select * from counters where counterstatus=1 order by counterno" ) %><font size="1" face="Zurich BT">
+<% @l=Transact.find(:all,:select=>'distinct tokenno,ctypeid,serviceid,transdate,generatedtime',:conditions=>'tokenstatus=0',:group=>'tokenno') %>
+
+<% @l.each do |c| %> 
+<tr align=left>
+<td width="87" height="2" align=center>
+		<font size="2" face="Zurich BT">
+		<%= c.tokenno -%></font></font><font size="1"><font size="2" face="Zurich BT"> </td>
+		</font>
+	
+	  <td width="145" height="2"  align=center nowrap>
+		<% @c= Customertype.find(:first, :conditions=>["ctypeid = ?",c.ctypeid]) %><font face="Zurich BT" size="2">
+        </font>
+		<font size="2"  face="Zurich BT">
+		<%= @c.ctypedesc -%></font><font size="2"  face="Zurich BT"> 
+		</font>
+	</td>
+	<td width="149" height="2" align=center>
+		<% @d= Service.find(:first, :conditions=>["serviceid = ? ",c.serviceid]) %><font face="Zurich BT" size="2">
+        </font>
+		<font size="2" face="Zurich BT">
+		<%= @c.thresholdtime.strftime("%H:%M:%S") -%></font><font size="2" face="Zurich BT"> 
+		</font>
+	</td>
+<td width="192" height="15" align=center>
+		<font size="2" face="Zurich BT">
+		
+		<div id="<%= c.tokenno %>"></div>
+
+		<div id='time' ></div>
+<% @s= Service.find(:first, :conditions=>["serviceid = ? ",c.serviceid]) %></font><font size="2" face="Zurich BT">
+
+		
+		</font>
+		<font size="2" face="Zurich BT">
+		
+<script>				
+a='<%= c.transdate.strftime("%d/%m/%y") %>'+" "+'<%= c.generatedtime.strftime("%H:%M:%S") %>';
+b='<%= @s.thresholdtime.strftime("%H:%M:%S") %>'
+c='<%= c.tokenno %>' 
+d='<%= c.transdate.strftime("%d/%m/%y") %>'+" "+'<%= Time.now().strftime("%H:%M:%S") %>';
+difference(a,b,c,d);
+
+        </script>
+
+		
+		</font>
+	</td>
+
+	
+	
+	
+
+</tr>
+<% end %>
+ </font>
+</table>
+</div>
+			</td>
+		</tr>
+		
+		</table>	
+ 		
+ 	</td>
+ 	
+ 	
+</tr>
+</table></td></tr></table>
+</table>
+</body>
+</html>
+
+</html>

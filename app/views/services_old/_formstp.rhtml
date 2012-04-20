@@ -1,0 +1,39 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<%= error_messages_for 'service' %>
+
+<!--[form:service]-->
+
+<p align=left><b><font face="Arial" size="2" color="#800000"><label for="stp_stpname">
+STP Name </label><br/>
+<%= text_field 'stp', 'stpname', :size =>10  %></font></b></p><br>
+
+<p align=left><font face="Arial"><b><font color="#800000"><font size="2">
+<label for="stp_serviceid">Service ID</label>&nbsp;
+</font>
+<select id="stp_serviceid" name="stp[serviceid]">
+
+<% @t = Service.find_by_sql("select * from services" ) %>
+<% @t.each do |c| %>
+
+<option ><%= c.serviceid %></option>
+<% end %>
+</SELECT></font><font size="2" color="#800000"> </font></b></font>
+<br /><br>
+
+<p align=left><b><font face="Arial" size="2" color="#800000"><label for="stp_servicetime">
+Service Time</label><br/>
+<%= time_select 'stp', 'servicetime', :include_seconds =>true %></font></b></p></br>
+
+<p align=left><font face="Arial"><b><font color="#800000"><label for="service_servicestatus">
+<font size="2">Status</font></label><font size="2"><br/>
+</font>
+<input type="radio" id="service_servicestatus" name="service[servicestatus]" value="1" checked="checked"  /></font><font size="2" color="#800000">Active &nbsp;&nbsp;&nbsp;
+</font><font color="#800000">
+ <input type="radio" id="service_servicestatus" name="service[servicestatus]" value="0" unchecked/></font><font size="2" color="#800000">In Active
+</font></b></font>
+</p><br/>
+
+<!--[eoform:service]-->

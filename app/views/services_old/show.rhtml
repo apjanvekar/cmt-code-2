@@ -1,0 +1,31 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+</head>
+
+<body>
+<table border =0><tr><td bgcolor="#FFFFFF">
+<table align="left" border=5 bordercolor="#FF6600"><tr><td>
+<h1> <font color="#990000">Edited Service </font> </h1>
+<p>&nbsp;</p>
+<% for column in Service.content_columns %><font color="#990000"> </font>
+<p align=left>
+    <font color="#990000"><b>&nbsp;<%= column.human_name %>:</b>&nbsp;<b> <%=h @service.send(column.name) %></b>&nbsp;
+</p>
+<% end %> </font>
+<p>&nbsp;</p>
+
+<%= link_to 'Edit', :action => 'edit', :id => @service.id %><font color="#990000">
+</font><font color="#990000">|
+<%= link_to 'Back', :action => 'list' %> </font>
+<p>&nbsp;</p>
+</td></tr></table>
+   </td></tr></table>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+
+
+ <%= javascript_include_tag "prototype"%>
+
+<script type="text/javascript">
+!--
+history.forward();
+
+-->
+</script>
+
+<script type="" language="JavaScript">
+function disable()
+{
+	document.form1.submit.disabled=true;
+ } 
+ 
+ function enabled()
+{
+	document.form1.nonstp.disabled=false;
+ } 
+
+</script>
+
+<%= stylesheet_link_tag "style" %>
+
+
+</head>
+<body>
+<table height="351" align="center">
+	<tr><td height="388" align="center">
+		<table border=0 height="199" align="center" width="555" >			
+			<tr><td height="402" align="center" width="840">
+				<table align="center" width="671" height="385">
+				<tr><td height="122" width="748">
+				<table width="669" height="127"><tr>
+  					<td id=banner width="445" height="123" style="background-repeat:no-repeat" ></td>
+  					<td id=logo width="214" height="123" style="background-repeat:no-repeat" >
+                    </tr></table>
+                    </td>
+                    </tr>
+  					
+  				<tr>
+  					<td  height="21" bgcolor="#800000" width="748" >
+  					 					
+  					</td>
+  				</tr>
+  				
+  				<tr><td width="748" height="230">
+  				<table width="670" height="1"><tr>
+  					
+  					<td width="664" height="19" >
+  						<table align=right cellpadding=0 height="20"><tr>  					
+  					<td  height="1" >
+  					<font color="#FFFFFF" face="Arial" size="2"><b><%= link_to "Back", :controller=> "client", :action => 'transact' %></b></font>
+  					</td>
+  					<td height="1"><p>&nbsp;&nbsp;</p></td>
+  					<td  height="1" >
+  					<font color="#FFFFFF" face="Arial" size="2"><b></b></font>
+  					</td>
+  				
+  					</tr></table></td></tr>
+                  <tr>
+                    <td align="center" height="115" width="664">
+  						<table border=5 bordercolor="#800000"><tr><td>
+ 							<table border="1" width ="329" cellpadding="0"  cellspacing="0"  bordercolor="#111111"  id="AutoNumber1" bgcolor=white height="41">
+ 							<form id="form1" name="form1" align="center">
+							<tr bgcolor="#800000">
+								<th nowrap width="107"  >
+        						<font color="#FFFFFF" face="Arial" size="2">Counterno</font></th>
+								<th nowrap width="101"  >
+       							 <font color="#FFFFFF" face="Arial" size="2"><b>Token No</b </font></th>
+								<th nowrap width="113"  >
+      							  <font color="#FFFFFF" face="Arial" size="2">&nbsp;<b>Service Name</b>&nbsp; </font></th>      	
+   								 
+    				    	</tr>
+    				    	<% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+							<% @t=Transact.find_all(["tokenstatus=3"]) %>
+							
+							<% @t.each do |c| %>
+							<tr >
+								<td height="19" bgcolor=white width="101"><%= c.counterno %></td>
+
+								<td height="19" bgcolor=white width="101"><%= c.tokenno %></td>
+								<td width="113" height="19" bgcolor=white>					
+								<% @b= Service.find_first(["serviceid = ? ",c.serviceid]) %>
+								<%= @b.servicename -%> &nbsp;</td>							
+								
+							</tr>
+							<% end %>	
+						</table></td></tr>
+						</table>
+						</td>
+                  </tr>
+                  <tr>
+  					
+  					<td width="664" height="30" align="center" >
+  						&nbsp;</td></tr><tr>
+  					
+  					<td width="664" height="140" align="center" >
+  						&nbsp;</td></tr></table>
+						</td>
+						
+						</tr></table>
+						</td></tr></table>
+						</td></tr>
+						<tr>
+						<td height="1"> 
+						
+						</td>
+						</tr>
+						
+						
+						
+						</table>
+
+
+
+
+
+</body>
+
+</html>

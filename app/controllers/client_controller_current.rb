@@ -1,0 +1,1685 @@
+#An unpublished work of Sprylogic Technologies Ltd. 
+# © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved 
+require 'fileutils'
+class ClientController < ApplicationController
+ before_filter :login_required
+def updateteller
+begin
+     session[:count]=0
+     session[:timer]=false
+     session[:flag]=false
+      @counterid=params[:updateteller][:counterno]
+     session[:logincounter]=params[:updateteller][:counterno]
+      @counter=Counter.find_first(["counterno = ? and loginstatus='N' and counterstatus=1",@counterid])
+    #@teller=Teller.find, :conditions => loginstatus='N')
+    
+    if @counter==nil
+       #p 'Counter is already logged in'
+       flash[:notice] = 'Counter is already logged in... '
+          @message  = "Wrong teller"
+       #render :action => 'updateteller'
+        #redirect_to :controller => 'account', :action => "logout"         
+    else
+       # $counterno=@counter.counterno
+        #p $counterno
+       
+      @b= Counter.update(@counter.id,{:loginstatus=> 'Y'}) 
+      #p "Counter logging by #{@teller.id}"
+      #update counterno in user table
+      @c=User.find_first(["login=?",@session['user']['login']])
+      #p "user is logged with #{@c.login}"
+      
+      User.update(@c.id , {:counterno=> @counter.counterno})
+      
+       #p "User is logged to counter  #{@session['user']['counterno']}"
+      flash[:notice] = 'logged in... '
+      
+      #modified code under construction
+      @counter=User.find_first(["login=?",@session['user']['login']])
+      #@pendingtoken =Transact.find_first(["tokenstatus=0 and counterno=?",@counter.counterno])
+       #@pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:limit=>1) 
+
+Transact.transaction do
+              @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0  and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')        
+              #p "#{pendingtoken}"
+              
+              if(@pendingtoken==nil)
+                    redirect_to :action => "transact"
+                    else
+                       @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+                      
+                        #@t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno]) 
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+                    redirect_to :action => "status"
+      end
+    end  
+      #redirect_to  :controller => 'users',:action => "updatetoken"
+      
+     
+   end
+   rescue Exception => exc
+    
+    #STDERR.puts "Error is #{exc.message}"
+  end
+
+end
+
+#updatetransact function for updating tokenstatus and showing current token to be served
+def updatetransact  
+   begin
+    session[:gvar]=0
+    session[:b]=0
+    session[:flag]=false
+     @counter=User.find_first(["login=?",@session['user']['login']])
+    @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno])   
+    
+  # p @transact.login
+    if @transact==nil
+    
+     #modified code under construction
+              @counter=User.find_first(["login=?",@session['user']['login']])
+Transact.transaction do
+              @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0  and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE') 
+              #p "IN UPDATETRANSCAT"
+              
+              if(@pendingtoken==nil)
+                    redirect_to :action => "transact"
+                    else
+#new code                    
+                    #@findtoken=Tokendisplay.find(:first,:conditions=>["tokenno=?",@pendingtoken.tokenno],:lock=>true)
+
+#if(findtoken==nil)
+#@d=Tokendisplay.find_first(["counterno=?",@counterno])
+#Tokendisplay.update(@d.counterno,{:tokenno=>@pendingtoken.tokenno})
+#end
+
+                   # @t1= Transact.find_first(["tokenstatus=2 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                    #if(@t1==nil)
+                     # p "no record found with tokenstatus=2"
+			#@pendingtoken.tokenstatus=2
+			#@pendingtoken.save
+           
+  
+@update=Transact.update(@pendingtoken.id,{:tokenstatus=>2})      
+		#@t= Transact.find_all([" id<>? and tokenno=?",@update.id,@update.tokenno])    	  
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')
+     
+#@update=Transact.update_all(@pendingtoken.tokenno,{:tokenstatus=>4}) 
+
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+
+
+
+                      #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                        
+                            	    
+
+                    redirect_to :action => "status"
+                    #else
+                     # redirect_to :action => "updatetransact"
+                    #end
+      end
+end
+      #render :action => 'transact'
+        else
+    
+      if @transact.update_attributes(params[:transact])
+        
+        #    Wait time = generatedtime-currenttime"   
+        #@gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+       
+        # servicedtime= time when service is served"   
+        @gservicedtime=Time.now()
+             
+        
+  
+        # timetaken= servicedtime-calledtime"
+        #@gtimetaken=User.time_diff_in_minutes(@gservicedtime,@transact.calledtime)
+	  if @transact.missingflag==nil
+          @gtimetaken=User.time_diff_in_minutes(@transact.calledtime,Time.now())
+	else
+       @gtimetaken=User.time_diff_in_minutes(@transact.call1,Time.now())
+   end
+   
+   
+   
+  
+         #checking whether the missed is clicked or not if yes then update tokenstatus=3 else tokenstatus=1
+                  if (params[:missed]=='on')
+                # render :text =>"value is on"
+                  #User.hi
+                  @b=Transact.find_all(["tokenid=? and serviceid=?",@transact.tokenid,@transact.serviceid])
+            if @transact.missingflag==nil 
+              @b.each do |b|
+                b.tokenstatus=3
+                b.missingflag=1
+                b.save
+               end 
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3',:missingflag=>'1'})
+          else
+            @b.each do |b|
+               b.tokenstatus=3
+               b.missingflag=2
+               b.save
+               end
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3'})
+          end
+          @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+        c.tokenstatus=0
+        c.save
+        end    
+        else
+		   p "----------------"
+        
+	   @b= Transact.update(@transact.id,{:login=>@session['user']['login'], :tokenstatus => '1',:score => '007', :servicedtime=>@gservicedtime,:timetaken => @gtimetaken}) 
+       
+       @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+        c.tokenstatus=0
+        c.save
+        end      
+          @t= Transact.delete_all(["tokenstatus=4 and tokenid= ? and counterno<>? and serviceid=?",@transact.tokenid,@counter.counterno,@transact.serviceid])
+           
+      end
+    
+    
+          #modified code under construction
+          @counter=User.find_first(["login=?",@session['user']['login']])
+          #@pendingtoken =Transact.find_first(["tokenstatus=0 and counterno=?",@counter.counterno])
+Transact.transaction do           
+ @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')   
+              #p "#{pendingtoken}"
+              
+              if(@pendingtoken==nil)
+                    redirect_to :action => "transact"
+                    else
+                       @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+                      #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                           #@t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno])
+
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')  	
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+                    redirect_to :action => "status"
+      end
+end
+        #redirect_to  :action => 'transact'
+           
+      else
+        #p "redirecting"
+      render  :action => 'transact'
+    
+    end
+    end
+rescue Exception => exc
+redirect_to :action => "transact"
+end
+  end
+  
+  
+def updatetransacthold
+  begin
+    session[:gvar]=0
+    session[:b]=0
+    session[:flag]=false
+     @counter=User.find_first(["login=?",@session['user']['login']])
+    @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno])   
+    
+  # p @transact.login
+    if @transact==nil
+    
+     #modified code under construction
+              @counter=User.find_first(["login=?",@session['user']['login']])
+Transact.transaction do
+              @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0  and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE') 
+              #p "IN UPDATETRANSCAT"
+              
+              if(@pendingtoken==nil)
+                    redirect_to :action => "transact"
+                    else
+#new code                    
+                    #@findtoken=Tokendisplay.find(:first,:conditions=>["tokenno=?",@pendingtoken.tokenno],:lock=>true)
+
+#if(findtoken==nil)
+#@d=Tokendisplay.find_first(["counterno=?",@counterno])
+#Tokendisplay.update(@d.counterno,{:tokenno=>@pendingtoken.tokenno})
+#end
+
+                   # @t1= Transact.find_first(["tokenstatus=2 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                    #if(@t1==nil)
+                     # p "no record found with tokenstatus=2"
+			#@pendingtoken.tokenstatus=2
+			#@pendingtoken.save
+           
+  
+@update=Transact.update(@pendingtoken.id,{:tokenstatus=>2})      
+		  
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')
+     
+#@update=Transact.update_all(@pendingtoken.tokenno,{:tokenstatus=>4}) 
+#@t= Transact.find_all([" id<>? and tokenno=?",@update.id,@update.tokenno])    	
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+
+
+
+                      #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                        
+                            	    
+
+                    redirect_to :action => "status"
+                    #else
+                     # redirect_to :action => "updatetransact"
+                    #end
+      end
+end
+      #render :action => 'transact'
+        else
+    
+      if @transact.update_attributes(params[:transact])
+        
+        #    Wait time = generatedtime-currenttime"   
+        #@gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+       
+        # servicedtime= time when service is served"   
+        @gservicedtime=Time.now()
+             
+        
+  
+        # timetaken= servicedtime-calledtime"
+        #@gtimetaken=User.time_diff_in_minutes(@gservicedtime,@transact.calledtime)
+	  if @transact.missingflag==nil
+          @gtimetaken=User.time_diff_in_minutes(@transact.calledtime,Time.now())
+	else
+       @gtimetaken=User.time_diff_in_minutes(@transact.call1,Time.now())
+   end
+   
+   
+   
+  
+         #checking whether the missed is clicked or not if yes then update tokenstatus=3 else tokenstatus=1
+                  if (params[:missed]=='on')
+                # render :text =>"value is on"
+                  #User.hi
+                  @b=Transact.find_all(["tokenid=? and serviceid=?",@transact.tokenid,@transact.serviceid])
+            if @transact.missingflag==nil 
+              @b.each do |b|
+                b.tokenstatus=3
+                b.missingflag=1
+                b.save
+               end 
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3',:missingflag=>'1'})
+          else
+            @b.each do |b|
+               b.tokenstatus=3
+               b.missingflag=2
+               b.save
+               end
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3'})
+          end
+          @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+        c.tokenstatus=0
+        c.save
+        end    
+        else
+        @b= Transact.update(@transact.id,{:login=>@session['user']['login'], :tokenstatus=> '1', :servicedtime=>@gservicedtime,:timetaken => @gtimetaken}) 
+       
+       @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+        c.tokenstatus=0
+        c.save
+        end      
+          @t= Transact.delete_all(["tokenstatus=4 and tokenid= ? and counterno<>? and serviceid=?",@transact.tokenid,@counter.counterno,@transact.serviceid])
+           
+      end
+    
+    
+          #modified code under construction
+          @counter=User.find_first(["login=?",@session['user']['login']])
+          #@pendingtoken =Transact.find_first(["tokenstatus=0 and counterno=?",@counter.counterno])
+Transact.transaction do           
+ @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')   
+              #p "#{pendingtoken}"
+              
+              if(@pendingtoken==nil)
+                    redirect_to :action => "transact"
+                    else
+                       @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+                      #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                           #@t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno])
+
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')  	
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+                    redirect_to :action => "status"
+      end
+end
+        #redirect_to  :action => 'transact'
+           
+      else
+        #p "redirecting"
+      render  :action => 'transact'
+    
+    end
+    end
+rescue Exception => exc
+redirect_to :action => "transact"
+end
+  end
+  
+def shrinksave_pause
+@counter=User.find_first(["login=?",@session['user']['login']]) 
+@transact= Transact.find_first(["pauseflag=1 and counterno=?",@counter.counterno])    
+#@reason=params[:auxreason][:reasons]
+@reason='Lunch'
+@b= Pause.update(@transact.counterno,{:reason=> 'Lunch'})
+#p "Reason selected was #{@reason}"
+
+end
+
+def time
+     begin   
+     #p "falg = #{session[:flag]}"
+     @counter=User.find_first(["login=?",@session['user']['login']])
+     @transact= Transact.find_first([" counterno=?  ",@counter.counterno])     
+     session[:gvar]=session[:gvar]+5
+    
+    if session[:gvar]>60
+     session[:b]=session[:b]+1
+     session[:gvar]=0
+    @c="00:0#{session[:b]}:#{session[:gvar]}"
+    @time=Service.find_first(["serviceid=? and thresholdtime=?",@transact.serviceid,@c])
+    if (@time==nil and session[:flag]==false)
+     render :text=> " 00:0#{session[:b]}:#{session[:gvar]}" 
+    elsif session[:flag]==true
+      @p=render :text=> '<font color=red size=4><b>'+"00:0#{session[:b]}:#{session[:gvar]}" +'</b></font>'
+      #flag=true
+    else
+      @p=render :text=> '<font color=red size=4><b>'+"00:0#{session[:b]}:#{session[:gvar]}" +'</b></font>'
+      session[:flag]=true
+    end
+    
+    else
+      
+    @f="00:0#{session[:b]}:#{session[:gvar]}"  
+    @time=Service.find_first(["serviceid=? and thresholdtime=?",@transact.serviceid,@f])
+    if (@time==nil and session[:flag]==false)
+     render :text=> " 00:0#{session[:b]}:#{session[:gvar]}" 
+    elsif session[:flag]==true
+      @p=render :text=> '<font color=red size=4><b>'+"00:0#{session[:b]}:#{session[:gvar]}" +'</b></font>'
+      #flag=true
+    else
+      @p=render :text=> '<font color=red size=4><b>'+"00:0#{session[:b]}:#{session[:gvar]}" +'</b></font>'
+      session[:flag]=true
+    end
+   #render :text=>" 00:0#{session[:b]}:#{session[:gvar]}" 
+  end
+ rescue Exception => exc
+     
+     #STDERR.puts "Error is #{exc.message}"
+     end  
+end
+
+#function for retrieving current counter logged in
+def token
+  #p "#{params[:id]}"
+    # $counter = Counter.find(params[:id])
+     @session['token'] = Counter.find(params[:id])
+  #p "counter no is #{$counter}" 
+    #
+end
+
+#missing function for redirecting to missing view
+def missing
+  render :update do |page|
+      # page.replace_html 'aux_div', 'Please wait releasing pause ....'
+    page.redirect_to url_for(:controller=>'client', :action=>'displaymissing')
+    #page.form.reset :form1
+    end
+end
+ 
+#Redirect Method
+def redirect
+          #redirecting the current token to onther counter by updating its token status=0 and who is redirecting as 5
+        @counter=User.find_first(["login=?",@session['user']['login']])
+
+        @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno])   
+        @b= Transact.update(@transact.id,{:tokenstatus=> '5'}) 
+        p "ID= #{params[:id]}"
+        
+        @session['redirecttoken'] = Counter.find(params[:id])
+        p "#{@session['redirecttoken']['counterno']}"
+        
+       @transact2=Transact.new
+       @transact2.tokenno=@transact.tokenno
+       @transact2.tokenid=@transact.tokenid
+       @transact2.generatedtime=@transact.generatedtime
+       @transact2.transdate=@transact.transdate
+       @transact2.serviceid=@transact.serviceid
+       @transact2.ctypeid=@transact.ctypeid
+       @transact2.counterno=@session['redirecttoken']['counterno']
+       @transact2.redirecttime=Time.now()
+       @transact2.tokenstatus=0
+       #@transact2.counterno=@counter.counterno
+       
+       @transact2.save
+       
+       #code for releasing token for other services
+       @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+        c.tokenstatus=0
+        c.save
+        end      
+          @t= Transact.delete_all(["tokenstatus=4 and tokenid= ? and counterno<>? and serviceid=?",@transact.tokenid,@counter.counterno,@transact.serviceid])
+        
+       #end
+       
+       
+       
+        p "redirected properly"
+        redirect_to  :action => 'updatetransact'
+
+      
+end
+# End if Redirect method
+
+
+#old Redirect Method for redirecting token to counter having similar service mapped
+def redirect111
+          #redirecting the current token to onther counter by updating its token status=0 and who is redirecting as 5
+        @counter=User.find_first(["login=?",@session['user']['login']])
+
+        @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno])   
+        @b= Transact.update(@transact.id,{:tokenstatus=> '5'}) 
+       p "ID= #{params[:id]}"
+        
+        @session['redirecttoken'] = Transact.find(params[:id])
+        p "#{@session['redirecttoken']['counterno']}"
+        
+ @transact2= Transact.find_first(["counterno=? and tokenno=? and tokenstatus=4",@session['redirecttoken']['counterno'],@session['redirecttoken']['tokenno']])   
+ 
+ #p "#{@transact2.counterno}"
+      if @transact2!=nil
+       #@transact2.tokenstatus=0
+       @transact2.redirecttime=Time.now()
+       @transact2.tokenstatus=0
+       #@transact2.counterno=@counter.counterno
+       
+        @transact2.save
+        p "redirected properly"
+        redirect_to  :action => 'updatetransact'
+      end
+      
+        #@transact1= Transact.find_all(["tokenstatus=4 and tokenid= ?  and counterno<>?",@transact.tokenid,@counter.counterno])   
+        #p "Rows = #{@transact1}"
+       
+        #if @transact1==nil
+        
+       
+        #else
+        #updating tokenstatus to be 0 for same token pending at others counters
+        #@transact1.each do |c|
+        #c.tokenstatus=0
+        #c.save
+        #p 'record updated'
+        #end
+  
+       # #@t= Transact.update(["tokenstatus=0 and tokenid= ? and counterno<>?",@transact.tokenid,$counterno])
+       # #page.redirect_to url_for(:controller=>'client', :action=>'updatetransact')
+        ##page.form.reset :form1
+        
+        #end
+      
+end
+# End if Redirect method
+
+
+def redirecting
+ render :update do |page|
+      # page.replace_html 'aux_div', 'Please wait releasing pause ....'
+    page.redirect_to url_for(:controller=>'client', :action=>'tokenredirect')
+    #page.form.reset :form1
+    end
+end
+
+
+def password_changed
+end
+def pass_change
+  p'in pass'
+  render :update do |page|
+      # page.replace_html 'aux_div', 'Please wait releasing pause ....'
+    page.redirect_to url_for(:controller=>'client', :action=>'transact')
+    #page.form.reset :form1
+    end
+end
+
+def password
+   #@user = @session['user']
+   @user=User.find(@session['user'])
+   #@session['message'] = nil
+   #render :update do |page|
+   case @request.method
+      when :post   
+        unless @user.password_check?(@params['old_password'])        
+          #page.replace_html 'passwd', 'You have introduced a wrong password!'        
+          @msg = 'You have introduced a wrong old password!'
+          else
+          unless @params['new_password'] == @params['new_password_confirmation']
+            @msg = 'Your new password and password confirmation dont match!'
+            else
+          if @user.change_password(@params['new_password'])
+            end
+               
+                  
+                  redirect_to :controller=>'client', :action=>'password_changed'   
+            
+         
+                 #page << "document.getElementById('pass').style.visibility = 'hidden'"
+
+          end 
+          #redirect_back_or_default :controller => "client", :action => "transact" 
+          #page.redirect_to url_for(:controller=>"users", :action => "change_password")
+          #redirect_back_or_default :controller => "client", :action => "transact" 
+        end
+      end
+      
+    #end
+  end
+  
+  
+def passwordold
+   #@user = @session['user']
+   @user=User.find(@session['user'])
+   #@session['message'] = nil
+   #render :update do |page|
+   case @request.method
+      when :post   
+        unless @user.password_check?(@params['old_password'])        
+          #page.replace_html 'passwd', 'You have introduced a wrong password!'        
+          @msg = 'You have introduced a wrong old password!'
+          else
+          unless @params['new_password'] == @params['new_password_confirmation']
+            @msg = 'Your new password and password confirmation dont match!'
+            else
+            @msg = 'Your password was changed successfully!' if @user.change_password(@params['new_password'])
+            #page.alert("password changed successfully")
+              #page.redirect_to url_for(:controller=>'client', :action=>'transact')
+            end
+          end 
+          #redirect_back_or_default :controller => "client", :action => "transact" 
+          #page.redirect_to url_for(:controller=>"users", :action => "change_password")
+          #redirect_back_or_default :controller => "client", :action => "transact" 
+        end
+      #end
+      
+    #end
+  end
+  
+def password1 
+
+#@user = User.find(params[:id]) 
+@user=User.find(@session['user'])
+
+p "#{@user.login}"
+if request.post? 
+if User.authenticate(@user.login,@params['old_password']) == @user 
+  p "matched"
+@user.password = @params['new_password']
+@user.password_confirmation = @params['new_password_confirmation']
+if @user.save 
+flash[:notice] = 'Your password has been changed' 
+redirect_to :controller=>'client',:action => 'transact' 
+else 
+flash[:error] = 'Unable to change your password' 
+end 
+else 
+flash[:error] = 'Invalid password' 
+end 
+end 
+end 
+
+def call_missing
+#p "#{$callid}"
+
+  @transact2= Transact.find_first(["tokenno=?",$tokenno])   
+  
+  #p "record found #{@transact2.tokenstatus}"
+  #@transact2.each do |c|
+       @transact2.tokenstatus=0
+        @transact2.save
+        #p 'record updated'
+      #end
+render :update do |page|
+#Transact.update($callid,{:tokenstatus=>0}) 
+page.redirect_to url_for(:controller=>'client', :action=>'updatetransact')
+end
+
+end
+
+
+#function for tokenpulling
+def calltoken
+#p "tokenid=#{params[:id]}"  
+@counter=User.find_first(["login=?",@session['user']['login']]) 
+@session['calltoken'] = Transact.find(params[:id])
+p "#{@session['calltoken']['counterno']}"
+
+ @transact2= Transact.find_first(["tokenno=? and id=? and tokenstatus=0",@session['calltoken']['tokenno'],@session['calltoken']['id']])   
+ 
+ #p "#{@transact2.counterno}"
+      if @transact2!=nil
+       #@transact2.tokenstatus=0
+       @transact2.pullcounter=@transact2.counterno
+       @transact2.counterno=@counter.counterno
+       
+        @transact2.save
+        end
+       redirect_to  :action => 'updatetransact'
+       
+end
+
+
+def callholdtoken
+
+=begin
+@tokens = Transact.find(params[:id])
+
+
+ @transact2= Transact.find_first(["tokenno=? and id=? and tokenstatus=0",@session['calltoken']['tokenno'],@session['calltoken']['id']])   
+ 
+ #p "#{@transact2.counterno}"
+      if @transact2!=nil
+       #@transact2.tokenstatus=0
+       @transact2.pullcounter=@transact2.counterno
+       @transact2.counterno=@counter.counterno
+       
+        @transact2.save
+        end
+       redirect_to  :action => 'updatetransact'
+=end
+
+begin
+@t=Transact.find_by_sql("update transacts set tokenstatus=0 where id=#{params[:id]}")
+rescue
+end
+redirect_to  :action => 'updatetransact'
+end
+  
+
+
+def save_pause
+  begin
+  
+@counter=User.find_first(["login=?",@session['user']['login']]) 
+p "#{params[:transact][:reasons]}"
+render :update do |page|
+
+if params[:transact][:reasons]==""
+ # p 'value is null for reasons'
+  @msg = 'Please select pause time!'
+  page.alert "Please Select Pause Reason!"
+   #render  :action => 'transact'
+else
+
+@transact= Transact.find_first(["pauseflag=1 and counterno=?",@counter.counterno])    
+@transact.reasons=params[:transact][:reasons]
+@transact.save
+
+@pause= Pausedetail.find_first(["pflag=1 and counterno=?",@counter.counterno])    
+@pause.reason=params[:transact][:reasons]
+@pause.save
+
+#@b= Pause.update(@transact.counterno,{:reason=> 'Lunch'})
+#p "Reason selected was #{@reason}"
+       page.replace_html 'aux_div', 'You are in Pause Mode ....'
+    #page.redirect_to url_for(:controller=>'client', :action=>'updatetransact')
+    page << "document.getElementById('Release').disabled = false;"
+     page << "document.getElementById('show').style.visibility = 'visible'"
+     page << "document.getElementById('pausetime').style.visibility = 'visible'"
+    #page.form.reset :form1
+  end
+
+end
+
+ rescue Exception => exc
+    
+    #STDERR.puts "Error is #{exc.message}"
+  end
+end
+
+
+def updateshrink
+  begin
+ @counter=User.find_first(["login=?",@session['user']['login']])
+  @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno])       
+    if @transact==nil 
+      #render :action => 'shrink1'
+     
+      
+              @counter=User.find_first(["login=?",@session['user']['login']])
+              #@pendingtoken =Transact.find_first(["tokenstatus=0 and counterno=?",@counter.counterno])
+Transact.transaction do
+              @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0  and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')    
+
+              #@pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:limit=>1) 
+              #p "IN UPDATETRANSCAT"
+              
+              if(@pendingtoken==nil)
+                    redirect_to :action => "shrink1"
+                    else
+                    #@calledtime= Time.now().strftime("%H:%M:%S")
+
+                    @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+                      #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                       # @t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno])
+
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')      	
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+                            	    
+
+                    redirect_to :action => "shrinkstatus"
+      end
+     end 
+      
+      
+    else
+    if @transact.update_attributes(params[:transact])
+       
+        #    Wait time = generatedtime-currenttime"   
+        #@gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+       
+        # servicedtime= time when service is served"   
+        @gservicedtime=Time.now()
+        
+        # timetaken= servicedtime-calledtime"
+        #@gtimetaken=User.time_diff_in_minutes(@gservicedtime,@transact.calledtime)
+          @gtimetaken=User.time_diff_in_minutes(@transact.calledtime,Time.now())
+          
+         #checking whether the missed is clicked or not if yes then update tokenstatus=3 else tokenstatus=1
+                  if (params[:missed]=='on')
+
+            @t= Transact.find_all(["tokenid= ?",@transact.tokenid])
+             
+            #updating tokenstatus to be 1 for same token pending at others counters
+            @t.each do |c| 
+                          c.tokenstatus=3
+            c.calledtime=@transact.calledtime
+            c.save
+            end 
+
+        else
+        
+        @b= Transact.update(@transact.id,{:tokenstatus=> '1',:servicedtime=>@gservicedtime,:timetaken => @gtimetaken}) 
+         
+           @t= Transact.delete_all(["tokenstatus=1 and tokenid= ? and counterno<>?",@transact.tokenid,@counter.counterno])
+          
+        end
+        
+         @counter=User.find_first(["login=?",@session['user']['login']])
+              #@pendingtoken =Transact.find_first(["tokenstatus=0 and counterno=?",@counter.counterno])
+Transact.transaction do
+              @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0  and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')  
+              #@pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:limit=>1) 
+              #p "IN UPDATETRANSCAT"
+              
+              if(@pendingtoken==nil)
+                    redirect_to :action => "shrink1"
+                    else
+                       #@calledtime= Time.now().strftime("%H:%M:%S")
+                     @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+                      #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                         #@t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno])
+
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')     	
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+                            	    
+
+                    redirect_to :action => "shrinkstatus"
+end
+      end
+    end
+
+
+  end
+  #redirect_to  :action => 'shrink1'
+               
+  
+  
+    #render :update do |page|
+    #page.alert "Moving To Shrink will end the current service request"
+ #page.redirect_to url_for(:controller=>'client', :action=>'updateshrink')   
+#end
+
+rescue Exception => exc
+redirect_to :action => "shrink1"
+end
+end
+
+
+
+def refresh
+ 
+  #render :partial=>'counter'
+   render :update do |page|
+     page.replace_html('counter_div',:partial=>'counter')
+       page.replace_html('services_div',:partial=>'services')
+        page.replace_html('customer_div',:partial=>'customertype')
+    end 
+  end
+  
+   def ok
+    # change our conditional stop loop variable
+    #session[:stop_timer] = true
+   render :update do |page|
+    #enable the button
+     #page << "document.getElementById('aux_div').style.visibility = 'visible'"
+   page << "document.getElementById('dialog_div').style.visibility = 'visible'"
+    end
+  end
+  
+  
+  def cancel
+    # change our conditional stop loop variable
+    #session[:stop_timer] = true
+   render :update do |page|
+    #enable the button
+     #page << "document.getElementById('aux_div').style.visibility = 'visible'"
+   page << "document.getElementById('dialog_div').style.visibility = 'hidden'"
+    end
+  end                                     
+
+def back
+  
+render :update do |page|
+ page.redirect_to url_for(:controller=>'client', :action=>'transact')   
+end
+
+
+end
+
+def arrived1
+    begin
+@counter=User.find_first(["login=?",@session['user']['login']])
+
+   @a= Transact.find_first(["counterno = ? AND tokenstatus=0",@counter.counterno])
+
+
+			
+                            	@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@a.tokenid,@counter.counterno]) 
+                            	
+                            	    @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	    c.save 
+                            	    end
+                            	    
+                            	
+                            	
+                            	@x=Transact.find_all(["tokenstatus=0 and tokenid=? and counterno=? and serviceid<>?",@a.tokenid,@counter.counterno,@a.serviceid])
+                            	@x.each do |x| 
+                            	x.tokenstatus=4 
+                            	x.save 
+                            	end 
+                            	
+                            	
+                            	if @a.calledtime==nil
+                            	calledtime= Time.now().strftime("%H:%M:%S")
+                            	call="00:00:00"
+                            	else
+                            	calledtime=@a.calledtime
+                            	call= Time.now().strftime("%H:%M:%S") 
+				end
+				 
+                            	@gwaittime=User.time_diff_in_minutes(@a.generatedtime,Time.now())
+                            	
+
+                            	
+                            	@update=Transact.update(@a.id,{:call1=>call,:calledtime => calledtime,:waittime => @gwaittime, :login=> @session['user']['login'], :tokenstatus=>2}) 
+
+                            	
+                            	
+                            	@d=Tokendisplay.find_first(["counterno=?",@a.counterno])
+                            	Tokendisplay.update(@d.counterno,{:tokenno=>@a.tokenno})  
+render :update do |page|
+ page.redirect_to url_for(:controller=>'client', :action=>'transact')   
+end
+
+rescue Exception => exw
+            a=Dir.pwd()
+                if File.directory?("home/ErrorLogs")
+                    f="home/ErrorLogs"
+                    Dir.chdir(f)
+                    fp=File.new("Error.log","a")
+                    fp.write(Time.now.to_s+"-"+exw.message)
+                    fp.write("\n")
+                    fp.close()
+                    Dir.chdir(a)
+                else
+                    e="C:/"
+                    Dir.chdir(e)
+                    FileUtils.mkdir_p 'ErrorLogs'
+                    f="home/ErrorLogs"
+                    Dir.chdir(f)
+                    fp=File.new("Error.log","a")
+                    fp.write(Time.now.to_s+"-"+exw.message)
+                    fp.write("\n")
+                    fp.close()
+                    Dir.chdir(a)
+                end
+      
+            puts exw.message
+            end
+end
+
+def arrived
+    begin
+   @counter=User.find_first(["login=?",@session['user']['login']]) 
+   @x=Tokendisplay.update(@counter.counterno,{:tokenno=>'0000'}) 
+  
+   render :update do |page|
+      @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=2 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:limit=>1)        
+                           
+              if(@pendingtoken==nil)
+                    #redirect_to :action => "transact"
+                    page.redirect_to url_for(:controller=>'client', :action=>'transact')   
+                    else
+                    #if @pendingtoken.calledtime==nil
+                      #      	calledtime= Time.now().strftime("%H:%M:%S")
+                       #   	call="00:00:00"
+                        #    	else
+                         #   	calledtime=@pendingtoken.calledtime
+                          #  	call= Time.now().strftime("%H:%M:%S") 
+#                    end
+                  if @pendingtoken.calledtime.strftime("%H:%M:%S") !=Time.parse('00:00:00').strftime("%H:%M:%S")
+                            	calledtime=@pendingtoken.calledtime
+                            	call= Time.now().strftime("%H:%M:%S") 
+                            	else
+                            	
+                              calledtime= Time.now().strftime("%H:%M:%S")
+                            	call="00:00:00"
+                    end
+                        
+   
+    
+    
+    
+    p"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+ begin 
+ if @pendingtoken.redirecttime==nil
+        @gwaittime=User.time_diff_in_minutes(@pendingtoken.generatedtime,Time.now())
+          #difference=(Time.parse(Time.now().strftime("%H:%M:%S"))-Time.parse(@pendingtoken.generatedtime.strftime("%H:%M:%S"))).to_i
+          #@gwaittime=User.newtimediff(difference)
+          
+        else
+        @gwaittime=User.time_diff_in_minutes(@pendingtoken.redirecttime,Time.now())
+         #@gwaittime=Time.now().strftime("%H:%M:%S")-@pendingtoken.redirecttime.strftime("%H:%M:%S")
+         #difference=(Time.parse(Time.now().strftime("%H:%M:%S"))-Time.parse(@pendingtoken.redirecttime.strftime("%H:%M:%S"))).to_i
+          #@gwaittime=User.newtimediff(difference)
+       end
+       rescue Exception => ex
+       puts "Error.............."
+       puts ex.message
+       end
+           
+         #  puts "WAITTIME IS"
+          # puts @gwaittime
+        #   puts calledtime
+         #  puts call
+           puts "############################################################################"
+           #	@gwaittime=User.time_diff_in_minutes(@pendingtoken.generatedtime,Time.now())
+                       @update=Transact.update(@pendingtoken.id,{:waittime=>@gwaittime,:call1=>call,:calledtime => calledtime}) 
+                       #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                       #@t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno]) 
+                            	
+                            	  #@t.each do |c| 
+                            	    #c.waittime=@gwaittime
+                                    #c.call1=call
+                                    #c.calledtime=calledtime
+                                    #c.tokenstatus=4 
+                            	    #c.save
+                                  #end
+                    #redirect_to :action => "status"
+                    page.redirect_to url_for(:controller=>'client', :action=>'transact')   
+                  end
+#render :update do |page|
+ #page.redirect_to url_for(:controller=>'client', :action=>'transact')   
+end
+#render :update do |page|
+# page.redirect_to url_for(:controller=>'client', :action=>'transact')   
+#end
+
+rescue Exception => exw
+            a=Dir.pwd()
+                if File.directory?("home/ErrorLogs")
+                    f="home/ErrorLogs"
+                    Dir.chdir(f)
+                    fp=File.new("Error.log","a")
+                    fp.write(Time.now.to_s+"-"+exw.message)
+                    fp.write("\n")
+                    fp.close()
+                    Dir.chdir(a)
+                else
+                    e="/home"
+                    Dir.chdir(e)
+                    FileUtils.mkdir_p 'ErrorLogs'
+                    f="home/ErrorLogs"
+                    Dir.chdir(f)
+                    fp=File.new("Error.log","a")
+                    fp.write(Time.now.to_s+"-"+exw.message)
+                    fp.write("\n")
+                    fp.close()
+                    Dir.chdir(a)
+                end
+      
+            puts exw.message
+            end
+
+end
+
+
+
+def arrivedstatus
+@counter=User.find_first(["login=?",@session['user']['login']]) 
+  
+  
+   render :update do |page|
+      @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=2 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:limit=>1)        
+                           
+              if(@pendingtoken==nil)
+                    #redirect_to :action => "transact"
+                    page.redirect_to url_for(:controller=>'client', :action=>'shrink1')   
+                    else
+                    if @pendingtoken.calledtime==nil
+                            	calledtime= Time.now().strftime("%H:%M:%S")
+                            	call="00:00:00"
+                            	else
+                            	calledtime=@pendingtoken.calledtime
+                            	call= Time.now().strftime("%H:%M:%S") 
+				           end
+                        
+             if @pendingtoken.redirecttime==nil
+               @gwaittime=User.time_diff_in_minutes(@pendingtoken.generatedtime,Time.now())
+                    else
+                      @gwaittime=User.time_diff_in_minutes(@pendingtoken.redirecttime,Time.now())
+                    end
+
+           	#@gwaittime=User.time_diff_in_minutes(@pendingtoken.generatedtime,Time.now())
+                       @update=Transact.update(@pendingtoken.id,{:waittime=>@gwaittime,:call1=>call,:calledtime => calledtime}) 
+                       #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                       #@t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno]) 
+                            	
+                            	 # @t.each do |c| 
+                            	   # c.tokenstatus=4 
+                            	   # c.save 
+                                  #end
+                    #redirect_to :action => "status"
+                    page.redirect_to url_for(:controller=>'client', :action=>'shrink1')   
+                  end
+#render :update do |page|
+ #page.redirect_to url_for(:controller=>'client', :action=>'transact')   
+end
+#render :update do |page|
+ #page.redirect_to url_for(:controller=>'client', :action=>'shrink1')   
+#end
+end
+
+def missed
+	begin
+	puts "in missing"
+
+	 @counter=User.find_first(["login=?",@session['user']['login']]) 
+     
+     puts @counter.counterno
+     @x=Tokendisplay.update(@counter.counterno,{:tokenno=>'0000'}) 
+	 
+     @transact= Transact.find_first(["counterno = ? AND tokenstatus=2",@counter.counterno])
+	 puts "TOKENNO=#{@transact.tokenno}"
+		  if @transact.pullcounter!=nil
+		  @transact.counterno=@transact.pullcounter
+		  @transact.save
+		  end
+		
+		@set=Setting.find(:first)
+            	#puts @set
+ 		if @transact.missingflag==nil 
+            	#if @b.missingflag==""
+                @transact.missingflag=0
+                @transact.save
+	        end
+		puts "flag in missed=#{@transact.missingflag}"
+
+		@b=Transact.find_all(["tokenid=? and serviceid=?",@transact.tokenid,@transact.serviceid])
+		         @b.each do |b|
+		       	     if b.missingflag==nil 
+		            #if @b.missingflag==""
+                             b.missingflag=0
+		             b.save
+		             end  
+			  end
+      
+                if @transact.missingflag<@set.missingcount
+  	                puts "in condition"
+			puts "condition satisfied"
+		       if @transact.redirecttime==nil
+               
+	              # @gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+               difference=(Time.parse(Time.now().strftime("%H:%M:%S"))-Time.parse(@transact.generatedtime.strftime("%H:%M:%S"))).to_i
+          @gwaittime=User.newtimediff(difference)
+          
+        else
+        #@gwaittime=User.time_diff_in_minutes(@pendingtoken.redirecttime,Time.now())
+         #@gwaittime=Time.now().strftime("%H:%M:%S")-@pendingtoken.redirecttime.strftime("%H:%M:%S")
+         difference=(Time.parse(Time.now().strftime("%H:%M:%S"))-Time.parse(@transact.redirecttime.strftime("%H:%M:%S"))).to_i
+          @gwaittime=User.newtimediff(difference)
+        	       end
+		
+			 @b.each do |b|
+                         
+	                #@gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+        	        b.waittime=@gwaittime
+                	b.login=@session['user']['login']
+                	b.tokenstatus=3
+                	#if(b.missingflag=="")
+                  	#puts "missing countset to 0"
+                  	#b.missingflag=1
+                  	#else
+                	#puts "MISSING added"
+               
+                
+               		 #end
+                	 b.missingflag=b.missingflag+1
+                   if b.calledtime.strftime("%H:%M:%S") !=Time.parse('00:00:00').strftime("%H:%M:%S")
+                      b.call1= Time.now().strftime("%H:%M:%S")                          	
+                    else
+                      b.calledtime=Time.now().strftime("%H:%M:%S")                               
+                    end
+	               #  if(b.calledtime==nil)
+         		 #b.calledtime=Time.now()
+	             #    else
+         		 #b.call1=Time.now()
+		         #end
+              		if(@set.missingcount==b.missingflag)
+			b.missingflag=1000
+			end
+		
+                         b.save
+                         puts "missing flag after increment=#{@transact.missingflag}"
+
+                        end #end of loop
+          else
+            puts "count crossed"
+            @b.each do |b|
+                          
+            # if @transact.redirecttime==nil
+              # @gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+                #    else
+                  #   @gwaittime=User.time_diff_in_minutes(@transact.redirecttime,Time.now())
+                    #end
+
+              #@gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+                #b.waittime=@gwaittime
+                b.login=@session['user']['login']
+               b.tokenstatus=3
+               b.missingflag=100
+               b.call1=Time.now()
+               b.save
+               end
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3'})
+
+
+	       end  #end of if
+      
+
+		render :update do |page|
+			puts "in render"
+ 			#modified code under construction
+      			@counter=User.find_first(["login=?",@session['user']['login']])
+    			  #@pendingtoken =Transact.find_first(["tokenstatus=0 and counterno=?",@counter.counterno])
+       				#@pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:limit=>1)
+
+			Transact.transaction do
+		        @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0  and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')         
+		        #p "#{pendingtoken}"
+              
+              		if(@pendingtoken==nil)
+                    	page.redirect_to url_for(:controller=>'client', :action=>'transact')  
+			puts "no token" 
+                    	else
+			puts "tokens pendings"
+
+                       @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+                      #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                       # @t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno]) 
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+                    page.redirect_to url_for(:controller=>'client', :action=>'status')   
+                   end 
+                  end
+                end
+ rescue Exception => exc
+    
+   STDERR.puts "Error is #{exc.message}"
+  end               
+end
+
+def missed1
+begin
+  @counter=User.find_first(["login=?",@session['user']['login']]) 
+   @transact= Transact.find_first(["counterno = ? AND tokenstatus=2",@counter.counterno])
+  
+  if @transact.pullcounter!=nil
+     @transact.counterno=@transact.pullcounter
+     @transact.save   
+   end
+  
+   puts "in missed"
+   puts "flag=#{@transact.missingflag}"
+            
+            @set=Setting.find(:first)
+            puts 
+            if @transact.missingflag==nil 
+            #if @b.missingflag==""
+              
+               @transact.missingflag=0
+               @transact.save
+             end
+             
+             puts "flag in missed=#{@transact.missingflag}"
+             @b=Transact.find_all(["tokenid=? and serviceid=?",@transact.tokenid,@transact.serviceid])
+             
+              if @transact.missingflag<@set.missingcount
+                
+               if @transact.redirecttime==nil
+               
+               @gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+               else
+               @gwaittime=User.time_diff_in_minutes(@transact.redirecttime,Time.now())
+               end
+                
+               @b.each do |b|
+                         
+           
+
+                #@gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+                b.waittime=@gwaittime
+                b.login=@session['user']['login']
+                b.tokenstatus=3
+                #if(b.missingflag=="")
+                  #puts "missing countset to 0"
+                  #b.missingflag=1
+                  #else
+                #puts "MISSING added"
+               
+                
+                #end
+                
+                b.missingflag=b.missingflag+1
+                if(b.calledtime==nil)
+                b.calledtime=Time.now()
+                else
+                b.call1=Time.now()
+                end
+              
+                b.save
+               end 
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3',:missingflag=>'1'})
+          else
+            puts "count crossed"
+            @b.each do |b|
+                          
+            # if @transact.redirecttime==nil
+              # @gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+                #    else
+                  #   @gwaittime=User.time_diff_in_minutes(@transact.redirecttime,Time.now())
+                    #end
+
+              #@gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+                #b.waittime=@gwaittime
+                b.login=@session['user']['login']
+               b.tokenstatus=3
+               b.missingflag=100
+               b.call1=Time.now()
+               b.save
+               end
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3'})
+          end
+          @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+        c.tokenstatus=0
+        c.save
+      end 
+      
+      
+     
+render :update do |page|
+	puts "in render"
+ #modified code under construction
+      @counter=User.find_first(["login=?",@session['user']['login']])
+      #@pendingtoken =Transact.find_first(["tokenstatus=0 and counterno=?",@counter.counterno])
+       #@pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:limit=>1)
+
+Transact.transaction do
+              @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0  and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')         
+              #p "#{pendingtoken}"
+              
+              if(@pendingtoken==nil)
+                    page.redirect_to url_for(:controller=>'client', :action=>'transact')  
+			puts "no token" 
+                    else
+			puts "tokens pendings"
+
+                       @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+                      #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                       # @t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno]) 
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+                    page.redirect_to url_for(:controller=>'client', :action=>'status')   
+                   end 
+                  end
+                end
+ rescue Exception => exc
+    
+    STDERR.puts "Error is #{exc.message}"
+  end               
+end
+
+
+
+def missedstatus111
+
+  @counter=User.find_first(["login=?",@session['user']['login']]) 
+
+   @transact= Transact.find_first(["counterno = ? AND tokenstatus=2",@counter.counterno])
+if @transact.pullcounter!=nil
+     @transact.counterno=@transact.pullcounter
+     @transact.save
+   end
+               @b=Transact.find_all(["tokenid=? and serviceid=?",@transact.tokenid,@transact.serviceid])
+            if @transact.missingflag==nil 
+              @b.each do |b|
+                b.tokenstatus=3
+                b.missingflag=1
+                b.calledtime=Time.now()
+                b.save
+               end 
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3',:missingflag=>'1'})
+          else
+            @b.each do |b|
+               b.tokenstatus=3
+               b.missingflag=2
+               b.save
+               end
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3'})
+          end
+          @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+        c.tokenstatus=0
+        c.save
+        end 
+render :update do |page|
+ page.redirect_to url_for(:controller=>'client', :action=>'shrink1')   
+end
+end
+
+
+
+
+def missedstatus
+
+  @counter=User.find_first(["login=?",@session['user']['login']]) 
+
+   @transact= Transact.find_first(["counterno = ? AND tokenstatus=2",@counter.counterno])
+   if @transact.pullcounter!=nil
+     @transact.counterno=@transact.pullcounter
+     @transact.save
+   end
+   
+               @b=Transact.find_all(["tokenid=? and serviceid=?",@transact.tokenid,@transact.serviceid])
+            if @transact.missingflag==nil 
+               if @transact.redirecttime==nil
+              p "in missing 2"    
+               @gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+                  else
+                  @gwaittime=User.time_diff_in_minutes(@transact.redirecttime,Time.now())
+                end
+                
+              @b.each do |b|
+                #@gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+                b.waittime=@gwaittime
+                b.tokenstatus=3
+                b.missingflag=1
+                b.calledtime=Time.now()
+                b.save
+               end 
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3',:missingflag=>'1'})
+          else
+            @b.each do |b|
+              #@gwaittime=User.time_diff_in_minutes(@transact.generatedtime,Time.now())
+               # b.waittime=@transact.waittime
+               b.tokenstatus=3
+               b.missingflag=2
+               b.call1=Time.now()
+               b.save
+               end
+            #@b= Transact.update(@transact.id,{:tokenstatus=> '3'})
+          end
+          @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+        c.tokenstatus=0
+        c.save
+      end 
+      
+      #NEW CODE
+      render :update do |page|
+ #modified code under construction
+      @counter=User.find_first(["login=?",@session['user']['login']])
+      #@pendingtoken =Transact.find_first(["tokenstatus=0 and counterno=?",@counter.counterno])
+ Transact.transaction do
+              @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0  and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')        
+#@pendingtoken =Transact.find_first(:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:limit=>1)        
+              #p "#{pendingtoken}"
+              
+              if(@pendingtoken==nil)
+                    page.redirect_to url_for(:controller=>'client', :action=>'shrink1')   
+                    else
+                       @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+                      #@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@pendingtoken.tokenid,@counter.counterno]) 
+                        #@t= Transact.find_all(["tokenstatus=0 and id<>? and tokenno=?",@pendingtoken.id,@pendingtoken.tokenno])
+
+@t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE') 
+                            	  @t.each do |c| 
+                            	    c.tokenstatus=4 
+                            	     c.save 
+                            	     end
+                    page.redirect_to url_for(:controller=>'client', :action=>'shrinkstatus')   
+                    end
+                  end
+                end
+      #END
+end
+
+def hold
+  
+puts "@@@@@@@@@@@@@@@@@@@@@@@@in Hold @@@@@@@@@@@@@@@@@@@@@@"
+ @counter=User.find_first(["login=?",@session['user']['login']])
+    @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno])  
+    
+    puts @counter.counterno
+    puts @transact.tokenno
+    @update1=Transact.update(@transact.id,{:tokenstatus=>9}) 
+    
+    
+    Transact.transaction do           
+      @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')   
+        if(@pendingtoken==nil)
+           render :update do |page|
+            page.redirect_to url_for(:controller=>'client', :action=>'transact')
+          end
+        else
+          @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+          @t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')  	
+          @t.each do |c| 
+              c.tokenstatus=4 
+              c.save 
+            end
+          render :update do |page|
+            page.redirect_to url_for(:controller=>'client', :action=>'status')
+          end
+        end #if end
+      end
+
+  
+end
+
+
+def onhold
+  p "-------------------------------------------------------------------"
+  @counter=User.find_first(["login=?",@session['user']['login']])
+  @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno])  
+  #puts @counter.login
+  #p @transact.tokenno
+  if @transact==nil
+     render :update do |page|        
+        page.redirect_to url_for(:controller=>'client', :action=>'holdtokens')        
+      end     
+  else
+    if params[:transact][:stpname]!=""
+    begin
+    session[:gvar]=0
+    session[:b]=0
+    session[:flag]=false
+     @counter=User.find_first(["login=?",@session['user']['login']])
+    @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno]) 
+    if @transact==nil
+      render :update do |page|        
+        page.redirect_to url_for(:controller=>'client', :action=>'holdtokens')        
+      end         
+    else    
+      if @transact.update_attributes(params[:transact])
+        @gservicedtime=Time.now()
+        if @transact.missingflag==nil
+          @gtimetaken=User.time_diff_in_minutes(@transact.calledtime,Time.now())
+        else
+          @gtimetaken=User.time_diff_in_minutes(@transact.call1,Time.now())
+        end
+        if (params[:missed]=='on')
+          @b=Transact.find_all(["tokenid=? and serviceid=?",@transact.tokenid,@transact.serviceid])
+        if @transact.missingflag==nil 
+          @b.each do |b|
+            b.tokenstatus=3
+            b.missingflag=1
+            b.save
+          end 
+        else
+            @b.each do |b|
+               b.tokenstatus=3
+               b.missingflag=2
+               b.save
+              end
+        end
+        @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+          c.tokenstatus=0
+          c.save
+        end    
+        else
+        @b= Transact.update(@transact.id,{:login=>@session['user']['login'], :tokenstatus=> '1', :servicedtime=>@gservicedtime,:timetaken => @gtimetaken}) 
+       
+       @c=Transact.find_all(["tokenid=? and tokenstatus=4 and serviceid<>?",@transact.tokenid,@transact.serviceid])
+        @c.each do |c|
+        c.tokenstatus=0
+        c.save
+        end      
+          @t= Transact.delete_all(["tokenstatus=4 and tokenid= ? and counterno<>? and serviceid=?",@transact.tokenid,@counter.counterno,@transact.serviceid])
+           
+    end
+    @counter=User.find_first(["login=?",@session['user']['login']])
+
+p "1111111111111111111111111111111111111111111111111111111111111111111"
+    render :update do |page|        
+      page.redirect_to url_for(:controller=>'client', :action=>'holdtokens')        
+    end  
+    else
+    render :update do |page|        
+      page.redirect_to url_for(:controller=>'client', :action=>'holdtokens')        
+    end  
+    end
+    end
+rescue Exception => exc
+    render :update do |page|        
+      page.redirect_to url_for(:controller=>'client', :action=>'holdtokens')        
+    end  
+end      
+      
+      
+      
+      
+      else  
+      render :update do |page|        
+        page.alert("Please Select STP Name")   
+      end 
+     end 
+      
+  end  
+#render :update do |page|
+      # page.replace_html 'aux_div', 'Please wait releasing pause ....'
+    #page.redirect_to url_for(:controller=>'client', :action=>'holdtokens')
+    #page.form.reset :form1
+    #end
+end
+ 
+ def holdtokens
+ end
+ 
+
+def backtransact
+  p "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+ @counter=User.find_first(["login=?",@session['user']['login']])
+  @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno])  
+    Transact.transaction do           
+      @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE')   
+        if(@pendingtoken==nil)
+          redirect_to :action => "transact"
+        else
+          @update=Transact.update(@pendingtoken.id,{:tokenstatus=>2}) 
+          @t= Transact.find(:all,:conditions=>["tokenstatus=0 and id<>? and tokenno=?",@update.id,@update.tokenno],:lock=>'LOCK IN SHARE MODE')  	
+          @t.each do |c| 
+              c.tokenstatus=4 
+              c.save 
+            end
+          redirect_to :action => "status"
+        end #if end
+      end
+
+
+end
+
+end
+

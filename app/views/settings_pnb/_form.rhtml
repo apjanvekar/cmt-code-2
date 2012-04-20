@@ -1,0 +1,22 @@
+<%= error_messages_for 'setting' %>
+
+<!--[form:setting]-->
+
+
+<p><font color="#800000"><label for="setting_missingcount">Missing Count</label></font><br/>
+<%= text_field 'setting', 'missingcount',:size=>10  %></p>
+
+<p><font color="#800000"><label for="setting_missingtime">Missing Time</label></font><br/>
+<%= time_select 'setting', 'missingtime', :include_seconds => true   %></p>
+
+<p><font color="#800000"><label for="setting_returntime">Screen Timeout(in seconds)</label></font><br/>
+<%= text_field 'setting', 'returntime' ,:size=>10 %></p>
+
+<p><font color="#800000"><label for="setting_returntime">Purging Interval(in days)</label></font><br/>
+<%= text_field 'setting', 'purgingdata' ,:size=>10 %></p>
+<% if @session['user']['usertype']=="SuperAdmin" %>	
+
+<p><font color="#800000"><label for="setting_windowtitle">Title of the Window</label></font><br/>
+<%= text_field 'setting', 'windowtitle' ,:size=>25 %></p>
+
+<% end %><!--[eoform:setting]-->

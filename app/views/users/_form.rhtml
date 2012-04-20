@@ -1,0 +1,112 @@
+
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+
+</head>
+
+<body topmargin=0 bottommargin=0 leftmargin=0 rightmargin=0 >
+<%= error_messages_for 'user' %>
+<%= start_form_tag :action=> "create" %>
+<table border=0 width="987" bordercolor="#800000" height="500">  
+	
+  <tr>
+  <td bgcolor="#FFFFFF" width="981" height="489">
+<table align="center" border=5 bordercolor="#800000" width="475"><tr>
+  <td width="457">
+<h3 align="center"><span style="font-weight: 400"><u>
+<font face="Arial" color="#800000">Add New User</font></u></span></h3>
+<table width="458" height="83"><tr><td width="215" rowspan="3" height="79">
+  
+<font color="#990000"><br/>
+  </font>
+  <p align=left>
+  <font face="Arial" size="2" color="#800000">
+  <label for="user_firstname">Enter first name:</label></font><b><font face="Arial" size="2" color="#990000"><br/>
+  <%= text_field "user", "firstname", :size => 20 %><br/></font></b></p>
+	<p align=left>
+  <label for="user_lastname">
+  <font face="Arial" size="2" color="#800000">
+  Enter last name</font><font face="Arial" size="2" color="#336699">:</font></label><b><font face="Arial" size="2" color="#990000"><br/>
+  <%= text_field "user", "lastname", :size => 20 %><br/></font></b></p>
+
+	 <p align=left>
+  <font face="Arial" size="2" color="#800000">
+  <label for="user_login">Enter login name:</label></font><b><font face="Arial" size="2" color="#990000"><br/>
+  <%= text_field "user", "login", :size => 10 %><br/></font></b></p>
+ <p align=left>
+
+  <font face="Arial" size="2" color="#800000">
+
+  <label for="user_password">Choose password:</label></font><b><font face="Arial" size="2" color="#990000"><br/>
+  <%= password_field "user", "password", :size => 10 %><br/></font></b></p>
+ <p align=left>
+
+  <font face="Arial" size="2" color="#800000">
+
+  <label for="user_password_confirmation">Confirm password:</label></font><b><font face="Arial" size="2" color="#990000"><br/>
+  <%= password_field "user", "password_confirmation", :size => 10 %><br/></font>
+  </b></p>
+ 
+
+ <font face="Arial"><b><font color="#336699">
+
+ </font></b>
+ </font>
+<p>&nbsp;</p>
+</td><td width="237" height="47">
+   <p align=left>
+ <font face="Arial" size="2" color="#800000">
+ <label for="user_type">User Type:</label></font><b><font face="Arial" size="2" color="#336699"><br/>
+ 
+
+<select  id="user_usertype" name="user[usertype]" style="font-family: Arial; font-size: 8pt">
+<option value="Operator">Operator</option>
+<option value="Admin">Admin</option>
+<% if @session['user']['usertype']=="SuperAdmin" %>	
+
+<option value="SuperAdmin">SuperAdmin</option>
+<% end %>
+</select></font><font face="Arial" size="2" color="#336699">
+
+<br/></font></b></p>
+
+  
+  </td></tr><tr>
+  <td width="237" height="1">
+  
+
+ <p align="left">
+  
+
+ <label for="user_status"><font size="2" face="Arial" color="#800000">User Status:</font></label><font color="#336699"><b><font face="Arial"><font size="2"><br/>
+ </font>
+ <input type="radio" id="user_userstatus" name="user[userstatus]" value="1" checked="checked" /></font></b></font><font face="Arial"><font size="2" color="#800000">Active</font><font size="2" color="#336699">
+ </font>  </font><font size="2" color="#336699"><b>
+
+ <font face="Arial">&nbsp;&nbsp;&nbsp; </font></b>
+ </font><b>
+
+ <font face="Arial"><font color="#336699">
+ <input type="radio" id="user_userstatus" name="user[userstatus]" value="0" /></font></font></b><font face="Arial" color="#800000" size="2">Inactive </font>
+
+ 
+  </td></tr><tr><td width="237" height="66">
+  
+<input type="submit" value="Create User &#187;" class="primary" style="font-family: Arial; font-size: 10pt; float:left" /></font>
+ <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'users',:action => "cancel" }),:id=>'cancel', :style=>"font-family: Arial; font-size: 8pt align=left" %>
+
+  
+  </td></tr></table>
+
+	</td></tr></table>
+<%= end_form_tag %>
+</body>
+</html>

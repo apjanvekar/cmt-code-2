@@ -1,0 +1,146 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH:380px; 
+HEIGHT:100px;
+} 
+</STYLE> 
+
+ <%= javascript_include_tag "prototype","effects",:defaults %>
+</head>
+
+<%= error_messages_for 'teller' %>
+
+<table width="568" height="336"><tr><td width="562" height="296">
+<p align="left"><label for="counter_counterno">
+<font color="#336699">
+<b>&nbsp;<font face="Zurich BT"> </font> </b>
+</font>
+
+<font color="#800000" face="Zurich BT"><b>Counter No.</b></font><font face="Zurich BT">
+<font color="#336699">:</font></font></label><br/>
+&nbsp; <%= text_field 'counter', 'counterno', :size =>5, :readOnly=>true %></p>
+
+<% @a=Counter.find(params[:id])%>
+<% @loginstatus=@a.loginstatus%>
+<%if(@loginstatus=='N')%>
+<p align="left">
+<b>
+<font color="#336699">&nbsp;</font>
+<font color="#800000" face="Zurich BT">
+Status:
+</font>
+</b>
+<br/>
+<% @a= Counter.find(params[:id])%>
+<% @b=@a.counterstatus %>
+<% if @b.to_i== 1 %>
+&nbsp;<font face="Zurich BT"><input type="radio" id="counter_status" name="counter[counterstatus]" value="1" checked="checked"  /><font size="2">&nbsp; 
+<font  color="#800000">Active</font><font  color="#336699"> 
+&nbsp;&nbsp;&nbsp;
+ &nbsp;</font></font></font><font face="Zurich BT" color="#336699"><input type="radio" id="counter_status" name="counter[counterstatus]" value="0" unchecked/><font size="2">&nbsp;</font></font><font size="2" face="Zurich BT"><font  color="#336699"> </font>
+<font  color="#800000">Inactive</font></font><p align="left">
+<font face="Zurich BT"><font size="2"><br/>
+ <% else %>
+&nbsp; </font> <input type="radio" id="counter_status" name="counter[counterstatus]" value="1" unchecked/><font size="2">&nbsp;</font><font size="2" color="#800000">
+ </font> 
+ <font  size="2"><font color="#800000">Active</font><font color="#336699"> </font> </font>
+ </font><font face="Zurich BT" color="#336699"><font size="2">&nbsp;&nbsp;&nbsp;
+&nbsp; </font> <input type="radio" id="counter_status" name="counter[counterstatus]" value="0" checked="checked"/><font size="2">&nbsp;
+ </font></font>
+ <font color="#800000" size="2"><font face="Zurich BT">Inactiv</font>e</font><font color="#800000"><% end %>
+ </font>
+
+</p>
+<p align="left">&nbsp;<font color="#800000"> </font><b>
+<font ><label for="user_loginstatus">
+<font color="#800000" face="Zurich BT">Login Status:</font></label></font><font  color="#336699"><font size="2"><br/>
+<% @a= Counter.find(params[:id])%>
+<% @b=@a.loginstatus %>
+<% if @b.to_s== 'Y' %> <font face="Zurich BT">
+<!--<input type="radio" id="counter_loginstatus" name="counter[loginstatus]" value="Y" checked="checked"  /></font></b><font face="Arial"><font size="2" color="#800000" face="Arial">Logged In</font><font size="2" color="#336699" face="Arial"> <b>&nbsp; </b>
+</font><b><font color="#336699" face="Arial">-->
+
+</font> </font>
+<font face="Zurich BT">
+
+<input type="radio" id="counter_loginstatus" name="counter[loginstatus]" value="N" unchecked/></font></font></b><font face="Zurich BT"><font size="2" color="#800000" >Logged Out</font><font size="2" color="#336699" ><b><br/>
+
+&nbsp;<% else %> </b>  </font></font><b><font color="#336699" >
+
+<font size="2" face="Zurich BT">
+
+<!--<input type="radio" id="counter_loginstatus" name="counter[loginstatus]" value="Y" unchecked/></font></b><font size="2" color="#800000" face="Arial">Logged In</font><font size="2" color="#336699" face="Arial"><b>
+</b> 
+</font><font color="#336699" face="Arial">-->
+
+&nbsp;</font><font face="Zurich BT"><input type="radio" id="counter_loginstatus" name="counter[loginstatus]" value="N" checked="checked"/></font></font></b><font size="2" color="#800000" face="Zurich BT">Logged Out</font><b><br/>
+&nbsp;<% end %><!--[eoform:user]--> </b></font>
+
+<%end%>
+
+
+<p align=left><font color="#800000" face="Zurich BT"><b><label for="counter_countertype">Customer Type:</label></b> </font>
+<p align=left>
+<% @ctype = Ctypemapping.find(:first, :conditions=>["counterno=? and ctypeid=1",@a.counterno]) %>
+<% if @ctype!=nil %>
+<font color="#336699" face="Zurich BT"><input type="checkbox" name="type1" value="1" checked=" checked"></font><font color="#800000"  size="2" face="Zurich BT">Privilege Customer </input></font>
+<font face="Zurich BT"><font size="2" color="#336699"></input></font>
+<font size="2">
+<% else %> </font></font>
+<font color="#336699" face="Zurich BT"><input type="checkbox" name="type1" value="1" unchecked></font><font  size="2" color="#800000"><font color="#800000"  size="2" face="Zurich BT">Privilege Customer </input></font>
+<font face="Zurich BT">
+</input></font></font>
+<font color="#800000" face="Zurich BT" size="2">
+<%end%> </font>
+<p align=left>
+<font face="Zurich BT" size="2">
+<% @ctype1 = Ctypemapping.find(:first, :conditions=>["counterno=? and ctypeid=2",@a.counterno]) %>
+<% if @ctype1!= nil %> </font>
+<font size="1"  color="#336699" face="Zurich BT"><input type="checkbox" name="type2" value="2"  checked=" checked"></font><font  size="2" color="#800000" face="Zurich BT">Customer</font><font face="Zurich BT" size="2" color="#336699"></input></font><font face="Zurich BT" size="2">
+<% else %> </font>
+<font size="1"   color="#336699" face="Zurich BT"><input type="checkbox" name="type2" value="2" unchecked></font><font  size="2" color="#800000" face="Zurich BT">Customer</input></font><p align=left>
+<font face="Zurich BT" size="2">
+<%end%> </font>
+
+<p align=left>
+<font face="Zurich BT" size="2">
+<% @ctype2 = Ctypemapping.find(:first, :conditions=>["counterno=? and ctypeid=3",@a.counterno]) %>
+<% if @ctype2!=nil %> </font>
+<font size="1"  color="#336699" face="Zurich BT"><input type="checkbox" name="type3" value="3" checked=" checked"></font><font size="2" face="Zurich BT" color="#800000">Representative</font><font size="2" color="#336699" face="Zurich BT"></input></font><font size="2" face="Zurich BT">
+<% else %> </font>
+<font size="1"  color="#336699" face="Zurich BT"><input type="checkbox" name="type3" value="3" unchecked></font><font size="2" face="Zurich BT" color="#800000">Representative</input>
+<% end %> </font>
+<p align=left>
+<font face="Zurich BT">
+<br/>
+<font color="#800000"><b>Add services to the counter :</b></font></font><br /><!--<input type="checkbox" name="check" value="1" style="float: left"> <font  face="Arial" size="2" align=left color="#336699">Select 
+all services </font>-->
+<p align=left>
+
+<table width="303">
+<tr>
+  <td width="130" align="left">
+
+<div  id=rep1 align=left >
+		<%= render :partial=>"rep1" %>
+</div> 
+
+</td></tr></table>
+
+</font>
+</html>

@@ -1,0 +1,141 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+<!-- version DQMS_ROR_ver1.0.2 -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Aplab-Dynamic Queue Management System(DQMS)</title>
+<%=stylesheet_link_tag 'menu_style'-%>
+
+<style type="text/css">
+<!--
+.style1 {font-weight: bold}
+.style3 {font-weight: bold; font-size: 16px; }
+.style4 {font-weight: bold; font-size: 18px; }
+.style6 {
+	font-size: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.style9 {
+	font-size: 14px;
+}
+.style10 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+.style11 {
+	font-family: Arial, Helvetica, sans-serif
+}
+.style12 {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.style13 {font-weight: bold; font-size: 14px; color: #666666; font-family: Arial, Helvetica, sans-serif; }
+.style14 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+}
+.style17 {font-size: 12px; font-family: Arial, Helvetica, sans-serif; }
+.style20 {font-weight: bold; font-size: 18px; color: #FF9900; font-family: Arial, Helvetica, sans-serif; }
+.style21 {
+	color: #666666;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.style23 {color: #FF9900}
+.style24 {
+	color: #3399CC;
+	font-size: 24px;
+	font-weight: bold;
+}
+.style25 {color: #000000}
+.style26 {font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #000000; }
+-->
+
+</style>
+<%= stylesheet_link_tag "style" %>
+</head>
+<body topmargin=0 bottommargin=0 leftmargin=0 rightmargin=0 >
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" height="429">
+  <tr>    
+    <td  height="359" align="center" width="100%" >
+    <table  border="0" align="center" cellpadding="0" cellspacing="0" height="64" width="100%">
+     <tr bgcolor=#336699>
+  		<td width="100%" height="77" bgcolor="#336699" >    
+  			<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber3" height="87">
+          		<tr>
+            		<td id=back  width="19%" height="87" bgcolor="#1F3F5F" >
+            			<div align="center">
+              				<table border="0" cellpadding="0" cellspacing="0" width="100%" id="AutoNumber4" height="88">
+                				<tr>
+                  					<td width="9%" height="85" rowspan="2">
+                  						<p>&nbsp;</p>
+                  					</td>
+                  					<td  width="191%" height="18"></td>
+                				</tr>
+                				<tr>
+                  					<td id=logo_accounts style="background-repeat:no-repeat" width="191%" height="67">&nbsp;</td>
+                				</tr>
+              				</table>
+            			</div>
+            		</td>
+            		<td id=back width="48%" height="87" bgcolor="#1F3F5F" >&nbsp;</td>
+            		<td id=back width="33%" height="87" bgcolor="#1F3F5F" >&nbsp;</td>
+          		</tr>
+        	</table>
+  		</td>
+  	</tr>      
+  </table>
+     <!--<div id="links" style="width: 923; height: 23">-->
+      <table width="100%"  bordercolor="#ffffff" cellpadding="0" cellspacing="0"  height="30">
+        <tr bgcolor=#FF6600>        
+           <td width="100%" height="27" bgcolor="#336699">
+         		<BLINK>
+          			<MARQUEE  behavior="alternate" scrolldelay="100" class='menu' width="100%" height="16"><font color="#FFFFF" face="Arial" >
+						<b>Welcome To Admin</b></font>	
+					</MARQUEE>
+				</BLINK>        
+        	</td>
+        </tr>      
+        <tr  bgcolor="#E5DBB8"> 
+        	 <td  width="100%" height="25" align="left" bgcolor="#336699">
+         		<ul id="menu">
+         			<% if @session['user']['usertype']=="SuperAdmin" %>    	
+		  			<li><%= link_to 'SuperAdmin', :controller => 'users', :action => "superadmin" %></li>
+		  			<% end %>
+         			<li><%= link_to 'Events', :controller => 'tellers', :action => "list_ad" %></li>		
+        	 		<li><%= link_to 'ScrollMsg', :controller => 'displayscrollmsgs', :action => "list" %></li>
+         			<li><%= link_to 'Users', :controller => 'users', :action => "list" %></li>
+         			<li><%= link_to 'Services', :controller => 'services', :action => "list" %></li>
+         			<li><%= link_to 'Counters', :controller => 'tellers', :action => "list" %></li>
+         			<li><%= link_to 'Password', :controller => 'users', :action => "password" %></li>
+         			<li><%= link_to 'OnlineInfo', :controller => 'users', :action => "onlineinfomain" %></li>
+         			<li><%= link_to 'Reports', :controller => 'users', :action => "report" %></li>
+         			<li><%= link_to 'FloorView', :controller => 'users', :action => "floorviewmain" %></li>
+         			<li><%= link_to 'Settings',:controller=>"backup",  :action => "settings" %></li>
+         			<li><%= link_to "Log Out", :controller=> "account", :action => 'logout' %></li>
+         		</ul>
+         	</td>		
+        </tr>
+      </table>
+      <table  border="0" cellspacing="0" cellpadding="0"  width="100%" height="290">       
+          
+        <tr align=center>        
+          <td height="291" width="100%" align=center>  
+          	<div id="content" align=center>
+  	  			<h2><%= @page_heading %></h2><center>
+      			<%= @content_for_layout %></center>
+  			</div>  
+          </td>
+        </tr>
+        </table>
+      
+     </td>
+    
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+ <html>
+ 
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<%= javascript_include_tag "prototype","effects","backButton",:defaults %>
+
+</head>
+<body onunLoad="back()">
+<center>
+<table width="731"><tr><td width="754">
+    <table height="42" width="752">
+    	<tr>
+ 				<td height="38" width="106">	
+ 					&nbsp;<td height="38" width="992">	
+ 					<p align="center"><b><font face="Zurich BT"><a href="javascript: window.location.reload()">Refresh</a></font></b> <%#= button_to_function 'Refresh',remote_function(:url => {:controller=>'users',:action => "refresh_onlinecounterwise" }),  :id=>'updatetoken'%>
+
+				<%# button_to_function 'Back',remote_function(:url => {:controller=>'users',:action => "back_counter" }),  :id=>'updatetoken'%>
+
+					<tr>
+ 						<td height="256" width="106">		
+ 							&nbsp;</td>
+ 						<td height="256" align=left width=710>		
+ 							<div class=online id=onlineinfo bgcolor=white>
+ 							<center>&nbsp;</center>
+ 							<%= render :partial => 'counterwise' %>
+ 							</div>
+ 						</td>
+ 					</tr>
+ 				</td>
+ 		</tr>
+ 	</table>
+ 	</td>
+ 		</tr>
+ 	</table>
+	</center>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+<head>
+<%= stylesheet_link_tag "style" %>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+ <script type="text/javascript">
+!--
+history.forward();
+
+-->
+</script>
+
+<script type="text/javascript">
+
+var myclose = false;
+
+function ConfirmClose()
+{
+if (event.clientY < 0)
+{
+event.returnValue = 'Are You Sure You Want to Quit?';
+
+setTimeout('myclose=false',100);
+myclose=true;
+}
+}
+
+function HandleOnClose()
+{
+if(myclose==true)
+{
+new Ajax.Request("<%= url_for :controller=> :account,:action=>:logout2 %>",{method:'get'})
+}
+}
+
+</script>
+
+
+</head>
+
+
+<body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()" >
+
+        <table border=0 width="231" height="392" >
+          	<tr>
+	<td width="64" height="386">
+	<table border=5 bordercolor="#800000" height="143" width="227">
+	
+	<tr><td height="137" width="227">
+			<table width="208" height="1">
+				<tr>
+					<td width="203" height="24">
+					</td>
+				</tr>
+				<tr>
+					<td width="203" height="28">  <% @counter=User.find_first(["login=?",@session['user']]) %><font size="2">
+
+   <% @a= Transact.find_first(["counterno = ? AND tokenstatus=2",@counter.counterno]) %>
+	<% if @a==nil %> <%= render(:action=>"transact") %>
+		<% else %>
+			
+                            	    
+                            	
+                            	
+                            	<% @x=Transact.find_all(["tokenstatus=2 and tokenid=? and counterno=? and serviceid<>?",@a.tokenid,@counter.counterno,@a.serviceid]) %>
+                            	<%@x.each do |x| %>
+                            	<%x.tokenstatus=4 %>
+                            	<%x.save %>
+                            	<%end %>
+                            	
+                            	
+                            	
+                            	
+                            	     
+                            	
+                            	<% @d=Tokendisplay.find_first(["counterno=?",@a.counterno]) %>
+                            	<% Tokendisplay.update(@d.counterno,{:tokenno=>@a.tokenno})  %>
+                    </font>
+
+						<font face="Arial" size="2"><font color="#800000">Token 
+                    No.:</font><b>&nbsp;<font color="#800000"> <%= @a.tokenno -%> 
+
+</font></b></font>
+					</td>
+				</tr>
+				<tr>
+					<td width="203" height="31">
+							<font size="2" face="Arial" color="#800000">
+                            Service&nbsp;&nbsp; : </font><b>
+							<font size="2" face="Arial" color="#800000"><% @s= Service.find_first(["serviceid = ? ",@a.serviceid]) %>
+								<%= @s.servicename %><% end %> </font></b>
+					</td>
+				</tr>
+				<tr>
+    				<td width="203" height="1" align=center>
+  						<br />
+  						<%= button_to_function 'Arrived',remote_function(:url => {:controller=>'client',:action => "arrivedstatus" }),  :id=>'arrived'%>&nbsp;&nbsp;
+  						<%= button_to_function 'Missing',remote_function(:url => {:controller=>'client',:action => "missedstatus" }),  :id=>'missed '%>
+
+
+					</td>
+				</tr>
+				</table>
+				</td></tr></table>
+</td>
+            </tr>
+				</table>
+ 				
+ 			</body>
+
+</html>

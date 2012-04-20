@@ -1,0 +1,48 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+ <html>
+ 
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 740px; 
+HEIGHT:200px;
+} 
+</STYLE> 
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+<body>
+<table ><tr><td width="753">
+    <table height="42" width="752">
+    	<tr>
+ 				<td height="38" width="65">	
+ 					&nbsp;<td height="38" width="677">	
+ 					<p align="center"><%= button_to_function 'Refresh',remote_function(:url => {:controller=>'users',:action => "refresh_floor" }),  :id=>'floor'%>
+					<%= button_to_function 'Back',remote_function(:url => {:controller=>'users',:action => "back_floor" }),  :id=>'floor'%>
+					<tr>
+ 						<td height="256" width="65">		
+ 							&nbsp;</td>
+ 						<td height="256" width="677">		
+ 							<div id=floor_div bgcolor=white>
+ 							<%= render :partial => 'floorview' %>
+ 							</div>
+ 						</td>
+ 					</tr>
+ 				</td>
+ 		</tr>
+ 	</table>
+ 	</td>
+ 		</tr>
+ 	</table>
+	
+</body>
+</html>

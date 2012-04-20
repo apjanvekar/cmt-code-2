@@ -1,0 +1,20 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+<head>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+<body>
+<select id="newservice" multiple size=8 name="newservice[serviceid]">
+    				<% @s= Service.find_all(["servicestatus=0 "]) %>
+    				<% @s.each do |c| %>
+	      				   <b> 					
+	      					
+	      					<font face="Arial" size="2"> <option value="<%= c.serviceid %>"><b><%= c.servicename -%></font></b></option>
+                    </b>      <% end %>							
+      		 			</select>
+</body>
+</html>

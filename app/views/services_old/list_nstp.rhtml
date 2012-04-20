@@ -1,0 +1,76 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 520px; 
+HEIGHT:200px;
+} 
+</STYLE> 
+
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+
+<body align=center>
+<table border=0 width="976"><tr><td bgcolor="#FFFFFF" width="970">
+<table align=center border=5 bordercolor="#FF66000" cellpadding=5 width="933"><tr>
+  <td width="907" align="center">
+   
+<p align="center">
+<h1 align="center"><span style="font-weight: 400">
+<font color="#990000" face="Arial" size="5">Listing Non STP Services</font></span></h1>
+<p>&nbsp;</p>
+<div class=clsDataGrid id=divList bgcolor=white>
+<table border="1" width ="80%" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="41" align="left">
+            	                            	
+
+
+  <tr bgcolor="#FF66000"> 
+      	
+      	<th nowrap height="18" width="119">
+        <font color=white face="Arial" size="2">Non STP Name</font></th>		
+		<th  nowrap height="18" width="119">
+        <font color=white face="Arial" size="2">Status</font></th>		 
+		
+ </tr>
+  
+<% @t =Nonstp.find_by_sql("select * from nonstps" ) %>
+<% @t.each do |c| %>
+  <tr>
+  
+	
+	<td nowrap align="left"><font face="Arial" size="2"><%= c.nonstpname %></font><font face="Arial" size="2">&nbsp;</font></td>
+	
+	<td nowrap align="center">
+<% @b=c.status %><font face="Arial" size="2">
+<% if @b.to_i== 1 %> </font> 
+<font face="Arial" size="2">Active
+<%else%>
+In Active
+<%end%> </font>
+</td>	
+	
+</tr><% end %>	
+</table></div>
+
+<br />
+
+ <%= button_to_function 'Back' , remote_function(:url=> {:controller=>'services',:action => "back_stp" }),:id=>'Back_stp', :style=>"font-family: Arial; font-size: 10pt" %>
+<p>&nbsp;</p>
+</td></tr></table>
+</td></tr></table>
+</body>
+</html>

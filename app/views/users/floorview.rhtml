@@ -1,0 +1,68 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+ <html>
+ 
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<%= javascript_include_tag "prototype","effects","backButton",:defaults %>
+<STYLE type="text/css"> 
+  
+/* Div container to wrap the datagrid */
+div#divList {
+width: 420px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #800000;
+color: white;
+border-right: 1px solid silver;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+top: expression(document.getElementById("divList").scrollTop-2);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+th.locked {z-index: 99;}
+</style>
+
+</head>
+<body onunLoad="back()">
+<table width="909" ><tr><td width="979">
+    <table width="965" height="375" >
+    	<tr>
+ 				<td height="34" width="38">	
+ 					&nbsp;<td height="34" width="310">	
+ 					<p align="center">
+ 					</style>
+<%#= button_to_function 'Refresh',remote_function(:url => {:controller=>'users',:action => "refresh_floor" }),  :id=>'floor'%>
+				
+					<tr>
+ 						<td height="333" width="38">		
+ 							&nbsp;</td>
+ 						<td height="374" width="917">							
+							<center><div id='floor_div'>
+							<p align="center"><font face="Zurich BT"><b><a href="javascript: window.location.reload()">Refresh</a></b></font></p>	
+							<%= render(:partial=>"floorview") %>
+							<%#= periodically_call_remote(:url => {:action => 'refresh_floor'},  :frequency =>5) %>
+							</div></center>	
+ 						</td>
+ 					</tr>
+ 				</td>
+ 		</tr>
+ 	</table>
+ 	</td>
+ 		</tr>
+ 	</table>
+	
+</body>
+</html>

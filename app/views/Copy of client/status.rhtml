@@ -1,0 +1,40 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+
+<script>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+</script>
+</head>
+
+<body>
+
+<form method="POST" action="--WEBBOT-SELF--">
+  
+  
+  
+   <% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+
+   <% @a= Transact.find_first(["counterno = ? AND tokenstatus=0",@counter.counterno]) %>
+	<% if @a==nil %>
+                            				
+                            				<% else %>
+    <%= @a.tokenno -%> 
+<% end %>
+    <%= button_to_function 'Arrived',remote_function(:url => {:controller=>'client',:action => "arrived" }),  :id=>'arrived'%>
+	<%= button_to_function 'Missing',remote_function(:url => {:controller=>'client',:action => "missed" }),  :id=>'missed '%>
+
+ 
+</form>
+
+</body>
+
+</html>

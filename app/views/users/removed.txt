@@ -1,0 +1,12 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+*************************************************************************
+user email
+
+<!-- <p align=left>
+  <b><font face="Arial" size="2" color="#990000">
+  <label for="user_email">Email:</label><br/>
+  <%= text_field "user", "email", :size => 30 %><br/></font></b></p>-->
+****************************************************************************

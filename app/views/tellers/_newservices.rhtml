@@ -1,0 +1,39 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+<head>
+
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+<body>
+	
+	
+					<% @k=Csmapping.find_all(["counterno=?",@session['counter']])%>
+					
+
+					<% if(@k==nil)%>
+					
+					
+					<%else%>
+					<select id="services" multiple size=8 name="csmapping[serviceid]">
+
+    				
+    				<% @k.each do |c| %> 
+	      				   <b>
+	      					<% @s1= Service.find_first(["serviceid = ? ",c.serviceid]) %> 
+	      					<font face="Arial" size="2">
+	      					 <option id=<%= "service_#{c.id}" %>>
+	      					
+
+	      					 <b>
+	      					 
+	      					<%= @s1.servicename -%></font></b></option>
+                    </b>  				<%end%>	
+      		 						
+ </select>
+ <% end %>
+</body>
+</html>

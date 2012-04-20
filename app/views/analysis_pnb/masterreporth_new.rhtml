@@ -1,0 +1,291 @@
+<html>
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<%= button_to "Export To Excel", :controller => 'users', :action => "Servicewisesummaryreport" ,:startdate => "#{params[:startdate]}", :enddate => "#{params[:enddate]}"   %>
+
+<table height="42" width="443" align=center>
+<tr>
+
+	<td height="256" width="313">	
+ 		<table border=5 width="55" height="221" bordercolor="#336699" align=center> 		
+ 		<tr>
+            <td bgcolor="#FFFFFF" height="315" width="525">
+ 		<table border=0 width="867" height="273">
+ 		<tr>
+          <td height="1" width="1097" style="border-style: solid; border-width: 1">
+          
+          <p align=center>
+      		<b>
+      		<font face="Arial" size="4" color="#336699">Detailed Master Report </font>
+      		</b><br/>
+      		 <p align="left">Generated On: <%= Date.today %> 
+      		 <h4 align="right">From: <%= "#{params[:startdate]}" %> To: <%= "#{params[:enddate]}" %></h5> </p>
+      		 <p>Branch Name:<% @t = Service.find_by_sql("select branchname as b1 from settings" )%><%= @t[0].b1 %></p>
+
+      		</p>
+      		</td></tr>
+
+ 		<tr>
+ 		
+      		<td  width="1097" height="311"> 
+ 			<div class=clsDataGrid id=divList bgcolor=white style="width: 1200; height: 325"> 			
+ 			<div align="center">
+              <center> 			
+ 			<table border="0" width ="1344" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="1" style="border-collapse: collapse" bgcolor="#FFFFFF">
+
+<% if params[:startdate].to_date == Date.today and params[:enddate].to_date == Date.today  %>
+    <% @count=0 %>
+		<% @master=Transact.find_by_sql("select distinct serviceid,tokenno,transdate,generatedtime,login,calledtime,counterno,waittime,servicedtime,timetaken,tokenstatus
+						from transacts
+						where transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}'
+						 and (tokenstatus=0 or tokenstatus=1 or tokenstatus=3 )") %>
+    					
+		
+
+
+		<tr  bgcolor="#336699">
+	
+		<th height="16"  bgcolor="#336699" width="50" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Sr.No</font></th>
+      	<th height="16"  bgcolor="#336699" width="70" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Token&nbsp;No</font></th>
+      	<th nowrap height="16" bgcolor="#336699" width="78">
+        <p>
+        <font color=white face="Arial" size="2">Date</font></th>
+		<th  height="16"  bgcolor="#336699" width="149">
+        <p>
+        <font color=white face="Arial" size="2">Issue&nbsp;Date</font></th>
+		<th nowrap height="16"  bgcolor="#336699" width="126" >
+        <p align="center">
+        <font color=white face="Arial" size="2">Called&nbsp;Time</font></th>
+        <th height="16"  bgcolor="#336699" width="113" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Serviced&nbsp;Time</font></th>
+		<th height="16"  bgcolor="#336699" width="102" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Teller&nbsp;Name</font></th>
+		<th height="16"  bgcolor="#336699" width="71" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Counter</font></th>
+		<th height="16"  bgcolor="#336699" width="69" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Wait&nbsp;Time</font></th>
+		<th height="16"  bgcolor="#336699" width="79" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Sr.&nbsp;Time</font></th>
+		<th height="16"  bgcolor="#336699" width="86" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Status</font></th>
+        <th height="16"  bgcolor="#336699" width="351" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Service</font></th>
+
+	
+	</tr>
+		<% @master.each do |player|%>	
+	<tr align=center>
+	<td nowrap  height="11" align=center width="50" ><font size="2" face="Arial">
+	<%= @count=@count+1 %></font></td>
+
+
+	<td nowrap  height="11" align=center width="70" ><font size="2" face="Arial">
+	<%= player.tokenno %></font></td>
+
+
+	<td nowrap  height="11" align=center width="78" ><font size="2" face="Arial">
+	<%= player.transdate.strftime("%d/%m/%Y") %></font></td>
+
+
+    <td nowrap  height="11" align=center width="149" ><font size="2" face="Arial">
+	<%= player.generatedtime.strftime("%H:%M:%S") %></font></td>
+	
+   	<% if(player.calledtime!=nil) %>
+	<td nowrap  height="11" align=leftwidth="117" width="126" ><font size="2" face="Arial">
+	<%= player.calledtime.strftime("%H:%M:%S") %> </font></td>
+	<% end %>
+	
+	<% if(player.servicedtime!=nil) %>
+	<td nowrap  height="11" align=center width="113" ><font size="2" face="Arial">
+	<%= player.servicedtime.strftime("%H:%M:%S") %></font></td>
+	<% end %>
+	
+	
+	
+	<td nowrap  height="11" align=center width="102" ><font size="2" face="Arial">
+	<%= player.login %></font></td>
+
+    <td nowrap  height="11" align=center width="71" ><font size="2" face="Arial">
+	<%= player.counterno %></font></td>
+	
+	<% if(player.waittime!=nil) %>
+	<td nowrap  height="11" align=center width="69" ><font size="2" face="Arial">
+	<%= player.waittime.strftime("%H:%M:%S") %></font></td>
+	<% end %>
+	
+	<% if(player.timetaken!=nil) %>
+	<td nowrap  height="11" align=center width="79" ><font size="2" face="Arial">
+	<%= player.timetaken.strftime("%H:%M:%S") %></font></td>
+	<% end %>
+	
+	<td nowrap  height="11" align=center width="86" ><font size="2" face="Arial">
+
+	<% @status= player.tokenstatus %>
+	<% if(@status=="0") %>
+	InQueue
+
+	<% elsif(@status=="1") %>
+	Served
+
+	<% elsif(@status=="3") %>
+	Missed
+	<% end %></font></td>
+
+	<% @service= player.serviceid
+	@a=Service.find(:first,:conditions=>["serviceid=?",@service]) %>
+	<td nowrap  height="11" align=left width="351" ><font size="2" face="Arial">
+	<%= @a.servicename %></font></td>
+
+
+  <%end%>
+</tr>
+
+	
+<% else %>
+
+
+		<% @count=0 %>
+		<% @master=Transact.find_by_sql("select distinct serviceid,tokenno,transdate,generatedtime,login,calledtime,counterno,waittime,servicedtime,timetaken,tokenstatus
+						from transactmaster
+						where transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}'
+						 and (tokenstatus=0 or tokenstatus=1 or tokenstatus=3 )") %>
+    					
+		
+
+
+		<tr  bgcolor="#336699">
+	
+		<th height="16"  bgcolor="#336699" width="50" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Sr.No</font></th>
+      	<th height="16"  bgcolor="#336699" width="70" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Token&nbsp;No</font></th>
+      	<th nowrap height="16" bgcolor="#336699" width="78">
+        <p>
+        <font color=white face="Arial" size="2">Date</font></th>
+		<th  height="16"  bgcolor="#336699" width="149">
+        <p>
+        <font color=white face="Arial" size="2">Issue&nbsp;Date</font></th>
+		<th nowrap height="16"  bgcolor="#336699" width="126" align="center">
+        
+        <font color=white face="Arial" size="2">Called&nbsp;Time</font></th>
+        <th height="16"  bgcolor="#336699" width="113" border="1">
+        
+        <font color=white face="Arial" size="2">Serviced&nbsp;Time</font></th>
+		<th height="16"  bgcolor="#336699" width="102" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Teller&nbsp;Name</font></th>
+		<th height="16"  bgcolor="#336699" width="71" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Counter</font></th>
+		<th height="16"  bgcolor="#336699" width="69" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Wait&nbsp;Time</font></th>
+		<th height="16"  bgcolor="#336699" width="79" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Sr.&nbsp;Time</font></th>
+		<th height="16"  bgcolor="#336699" width="86" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Status</font></th>
+        <th height="16"  bgcolor="#336699" width="351" border="1">
+        <p>
+        <font color=white face="Arial" size="2">Service</font></th>
+
+	
+	</tr>
+		<% @master.each do |player|%>	
+	<tr align=center>
+	<td nowrap  height="11" align=center width="50" ><font size="2" face="Arial">
+	<%= @count=@count+1 %></font></td>
+
+
+	<td nowrap  height="11" align=center width="70" ><font size="2" face="Arial">
+	<%= player.tokenno %></font></td>
+
+
+	<td nowrap  height="11" align=center width="78" ><font size="2" face="Arial">
+	<%= player.transdate.strftime("%d/%m/%Y") %></font></td>
+
+
+    <td nowrap  height="11" align=center width="149" ><font size="2" face="Arial">
+	<%= player.generatedtime.strftime("%H:%M:%S") %></font></td>
+	
+   	<% if(player.calledtime!=nil) %>
+	<td nowrap  height="11" align=center width="126" ><font size="2" face="Arial">
+	<%= player.calledtime.strftime("%H:%M:%S") %> </font></td>
+	<% end %>
+	
+	<% if(player.servicedtime!=nil) %>
+	<td nowrap  height="11" align=center width="113" ><font size="2" face="Arial">
+	<%= player.servicedtime.strftime("%H:%M:%S") %></font></td>
+	<% end %>
+	
+	
+	
+	<td nowrap  height="11" align=center width="102" ><font size="2" face="Arial">
+	<%= player.login %></font></td>
+
+    <td nowrap  height="11" align=center width="71" ><font size="2" face="Arial">
+	<%= player.counterno %></font></td>
+	
+	<% if(player.waittime!=nil) %>
+	<td nowrap  height="11" align=center width="69" ><font size="2" face="Arial">
+	<%= player.waittime.strftime("%H:%M:%S") %></font></td>
+	<% end %>
+	
+	<% if(player.timetaken!=nil) %>
+	<td nowrap  height="11" align=center width="79" ><font size="2" face="Arial">
+	<%= player.timetaken.strftime("%H:%M:%S") %></font></td>
+	<% end %>
+	
+	<td nowrap  height="11" align=center width="86" ><font size="2" face="Arial">
+
+	<% @status= player.tokenstatus %>
+	<% if(@status=="0") %>
+	InQueue
+
+	<% elsif(@status=="1") %>
+	Served
+
+	<% elsif(@status=="3") %>
+	Missed
+	<% end %></font></td>
+
+	<% @service= player.serviceid
+	@a=Service.find(:first,:conditions=>["serviceid=?",@service]) %>
+	<td nowrap  height="11" align=left width="351" ><font size="2" face="Arial">
+	<%= @a.servicename %></font></td>
+  <%end%>
+</tr>
+<% end %>
+	
+</table>
+</center>
+</div>
+</div>
+</tr>
+</table>
+</table>
+</table>
+</body>
+
+</html>

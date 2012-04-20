@@ -1,0 +1,392 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<%= button_to "Export To Excel", :controller => 'users', :action => "Servicewisebenchmarkreport" ,:startdate => "#{params[:startdate]}", :enddate => "#{params[:enddate]}"   %>
+
+<table height="42" width="424" align=center>
+<tr>
+
+	<td height="256" width="294">	
+ 		<table border=5 width="1" height="221" bordercolor="#800000" align=center> 		
+ 		<tr>
+            <td bgcolor="#FFFFFF" height="315" width="471">
+ 		<table border=0 width="818" height="315">
+ 		<tr>
+          <td height="17" width="1048" style="border-style: solid; border-width: 1">
+          
+          <p align=center>
+      		<b>
+      		<font face="Arial" size="4" color="#800000">Service Wise Benchmark Report </font>
+      		</b>
+      		<br/>
+      		 <p align="left">Generated On: <%= Date.today %> 
+      		 <h4 align="right">From: <%= "#{params[:startdate]}" %> To: <%= "#{params[:enddate]}" %></h5> </p>
+      		 <p>Branch Name:<% @t = Service.find_by_sql("select branchname as b1 from settings" )%><%= @t[0].b1 %></p>
+
+      		</p>
+      		</td></tr>
+
+ 		<tr>
+ 		
+      		<td  width="1048" height="311"> 
+ 			<div class=clsDataGrid id=divList bgcolor=white style="width: 700; height: 250"> 			
+ 			<div align="center">
+              <center> 			
+ 			<table border="0" width ="1073" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="1" style="border-collapse: collapse" bgcolor="#FFFFFF">
+
+
+
+
+
+<% if params[:startdate].to_date == Date.today  and params[:enddate].to_date == Date.today %>
+
+<% @t = Service.find_by_sql("select distinct(counterno) as a1
+						from transacts
+						where transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}' order by counterno")  %>
+		<% @t.each do|a| %>
+			<% @ctypeid = a.a1 %>
+			
+		<% @s = Service.find_by_sql("select distinct(serviceid) as b1 
+								from transacts 
+								where transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}' and ctypeid='#{@ctypeid}'
+								order by ctypeid")  %>
+				        
+                <% @s.each do|b| %>
+					<% @serviceid = b.b1 %>
+		<tr align=center>
+		    <td width="200" height="19" colspan="5" >
+				<p align="left"><b><font size="2">Service:
+				<% Service.find(:all, :conditions => ["serviceid=?",@serviceid]).each do |d| %>
+				<%= d.servicename %><% end %> </font></b>
+			</td>
+		
+			<td width="155" height="19" colspan="3" >
+				<p align="left"><b><font size="2">For:
+				<% Customertype.find(:all, :conditions => ["ctypeid=?",@ctypeid]).each do |d| %>
+				<%= d.ctypedesc %><% end %> </font></b>
+			</td>
+			
+			<td width="155" height="19" colspan="4" >
+				<p align="left"><b><font size="2">Benchmark:
+				<% Service.find(:all, :conditions => ["serviceid=?",@serviceid]).each do |d| %>
+				<%= d.thresholdtime.strftime("%H:%M:%S")  %><% end %> </font>
+                </b>
+			</td>
+
+		</tr>
+			
+	  <tr  bgcolor="#800000">
+	
+		<th height="16"   width="68" border="1">
+        <p align="left">
+        <font color=white face="Arial" size="2">Sr.No</font></th>
+      	<th height="16"   width="99" border="1">
+        <p align="left">
+        <font color=white face="Arial" size="2">TokenNo</font></th>
+      	<th nowrap height="16"  width="118">
+        <p align="left">
+        <font color=white face="Arial" size="2">Transaction Date</font></th>
+		<th  height="16"   width="90">
+        <p align="left">
+        <font color=white face="Arial" size="2">Generated&nbsp;Time</font></th>
+		<th nowrap height="16"   width="100" align="left">
+        <font color=white face="Arial" size="2">CalledTime</font></th>
+		<th  height="16"   width="69" align="left">
+        <font color=white face="Arial" size="2">ServedTime</font></th>
+
+		<th  height="16"  width="68" align="left">
+        <font color=white face="Arial" size="2">Teller&nbsp;Name</font></th>
+        <th  height="16"   width="165" align="left">
+        <font color=white face="Arial" size="2">Counter&nbsp;No.</font></th>
+        <th nowrap height="16"  width="76" align="left">
+        <font color=white face="Arial" size="2">Wait Time</font></th>
+        <th nowrap height="16"  width="79" align="left">
+        <font color=white face="Arial" size="2">Timetaken</font></th>
+        
+        <th  height="16"   width="185" align="left">
+        <font color=white face="Arial" size="2">Token&nbsp;Status</font></th>
+        <th nowrap height="16"   width="79" align="left">
+        <font color=white face="Arial" size="2">Benchmark&nbsp;%</font></th>
+      </tr>
+
+         <%	@data=Service.find_by_sql("select tokenno,transdate,generatedtime,calledtime,servicedtime,login,counterno,waittime,timetaken,tokenstatus,format(((time_to_sec(timetaken)/time_to_sec(thresholdtime)))*100,0) as benchmark
+										from transacts t1,services s1
+										where t1.serviceid=s1.serviceid and t1.serviceid='#{@serviceid}' and ctypeid=#{@ctypeid}
+										and transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}' ") %>
+
+
+	  	<% @count = 0%>
+	   <% @data.each do |c| %>
+		<tr border=0>
+		<td width="68" height="10"><font size=1> <%= @count=@count.to_i+1 %></font></td>
+		<td width="99" height="10"><font size="1" face="Arial"><%= c.tokenno %></font>&nbsp;</td>
+		<td   height="10" align=center width="118" ><font size="1" face="Arial">
+		    <%= c.transdate %></font></td>
+		<td width="90" height="10" align="center"><font size="1" face="Arial">
+		    <%= c.generatedtime %>&nbsp;</font></td>
+		<td width="100" height="10"><font size="1" face="Arial">
+			<%= c.calledtime %>&nbsp;</font></td>
+		<td width="69" height="10"><font size="1" face="Arial">
+			<%= c.servicedtime %>&nbsp;</font></td>
+		<td width="68" height="10"><font size="1" face="Arial">
+			<%= c.login %>&nbsp;</font></td>
+		<td width="82" height="10"><font size="1" face="Arial">
+			<%= c.counterno %>&nbsp;</font></td>
+	
+		<td width="158" height="10" ><font size="1" face="Arial">
+	    	<%= c.waittime %>&nbsp;</font></td>
+        <td width="90" height="10"><font size="1" face="Arial">
+			<%= c.timetaken %>&nbsp;</font></td> 
+		<td width="107" height="10"><font size="1" face="Arial">
+		     <% if c.tokenstatus.to_i == 1 %> 
+			<%= "SERVED" %>&nbsp; </font>
+			<% else %>															
+		 	<font size="1" face="Arial">
+			In&nbsp;Q&nbsp;</font>
+			<%end%>	</td> 
+		<td width="285" height="10"><font size="1" face="Arial">
+		    <%= c.benchmark %>&nbsp;</font></td>
+        </tr>
+		 <% end %> 
+		 
+				
+      	<tr>
+      	 <td width="200" height="19" colspan="5" >
+				<p align="left"><font size="2" color="#800000">Tokens&nbsp;Served:
+      	  <%@abc=Service.find_by_sql("select count(tokenno) as tokenno
+										from transacts
+										where serviceid='#{@serviceid}' and ctypeid=#{@ctypeid} and tokenstatus=1
+										and transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}' ") %>
+										
+										<%= @abc[0].tokenno  %> </font>
+      	 </td>
+       
+      	<td width="93" colspan="2"><font size="1"> </font></td>
+										
+										
+										
+		 <td width="207" height="19" colspan="5" >
+				<p align="left"><font size="2" color="#800000">Avg Mean Time To Serve:</font><font size="1" color="#800000">
+          <%@abc=Service.find_by_sql("select avg(time_to_sec(timetaken)) as timetaken
+														from transacts
+														where serviceid='#{@serviceid}' and ctypeid=#{@ctypeid} and tokenstatus=1
+										                 and transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}'") %>
+
+								<% seconds   =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - seconds.to_i) / 60
+								minutes    =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - minutes.to_i) / 60
+								hours      =  @abc[0].timetaken.to_i % 24 %>
+								
+								<% if(hours<10)
+									hours="0#{hours}"
+								end
+
+								if(minutes<10)
+									minutes="0#{minutes}"
+								end
+
+								if(seconds<10)
+									seconds="0#{seconds}"
+								end %>
+								
+								<%= "#{hours}:#{minutes}:#{seconds}"  %> </font>
+								
+
+							
+         </td>
+		
+								
+
+					</tr>
+			 <% end %>		
+			<% end %>			
+	
+<% else %>
+
+
+<% @t = Service.find_by_sql("select distinct(ctypeid)as a1 
+								from transactmaster 
+								where transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}'
+								order by ctypeid")  %>
+		<% if @t ==[] %>
+		          <!-- <p align="center"> No Data Found </p>   -->
+		<% else %>						
+		<% @t.each do|a| %>
+			<% @ctypeid = a.a1 %>
+			
+		<% @s = Service.find_by_sql("select distinct(serviceid) as b1 
+								from transactmaster 
+								where transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}' and ctypeid='#{@ctypeid}'
+								order by ctypeid")  %>
+				        
+                <% @s.each do|b| %>
+					<% @serviceid = b.b1 %>
+		<tr align=center>
+		    <td width="200" height="19" colspan="5" >
+				<p align="left"><b><font size="2">Service:
+				<% Service.find(:all, :conditions => ["serviceid=?",@serviceid]).each do |d| %>
+				<%= d.servicename %><% end %> </font></b>
+			</td>
+		
+			<td width="155" height="19" colspan="3" >
+				<p align="left"><b><font size="2">For:
+				<% Customertype.find(:all, :conditions => ["ctypeid=?",@ctypeid]).each do |d| %>
+				<%= d.ctypedesc %><% end %> </font></b>
+			</td>
+			
+			<td width="155" height="19" colspan="4" >
+				<p align="left"><b><font size="2">Benchmarke:
+				<% Service.find(:all, :conditions => ["serviceid=?",@serviceid]).each do |d| %>
+				<%= d.thresholdtime.strftime("%H:%M:%S")  %><% end %> </font>
+                </b>
+			</td>
+
+		</tr>
+			
+	  <tr  bgcolor="#800000">
+	
+		<th height="16"   width="68" border="1">
+        <p align="left">
+        <font color=white face="Arial" size="2">Sr.No</font></th>
+      	<th height="16"  width="99" border="1">
+        <p align="left">
+        <font color=white face="Arial" size="2">TokenNo</font></th>
+      	<th nowrap height="16"  width="118">
+        <p align="left">
+        <font color=white face="Arial" size="2">Transaction Date</font></th>
+		<th  height="16"   width="90">
+        <p align="left">
+        <font color=white face="Arial" size="2">Generated&nbsp;Time</font></th>
+		<th nowrap height="16"   width="100" align="left">
+        <font color=white face="Arial" size="2">CalledTime</font></th>
+		<th  height="16"   width="69" align="left">
+        <font color=white face="Arial" size="2">ServedTime</font></th>
+
+		<th  height="16"   width="68" align="left">
+        <font color=white face="Arial" size="2">Teller&nbsp;Name</font></th>
+        <th  height="16"   width="165" align="left">
+        <font color=white face="Arial" size="2">Counter&nbsp;No.</font></th>
+        <th nowrap height="16"   width="76" align="left">
+        <font color=white face="Arial" size="2">Wait Time</font></th>
+        <th nowrap height="16"   width="79" align="left">
+        <font color=white face="Arial" size="2">Timetaken</font></th>
+        
+        <th  height="16"  width="185" align="left">
+        <font color=white face="Arial" size="2">Token&nbsp;Status</font></th>
+        <th nowrap height="16"  width="79" align="left">
+        <font color=white face="Arial" size="2">Benchmark&nbsp;%</font></th>
+      </tr>
+
+         <%	@data=Service.find_by_sql("select tokenno,transdate,generatedtime,calledtime,servicedtime,login,counterno,waittime,timetaken,tokenstatus,format(((time_to_sec(timetaken)/time_to_sec(thresholdtime)))*100,0) as benchmark
+										from transactmaster t1,services s1
+										where t1.serviceid=s1.serviceid and t1.serviceid='#{@serviceid}' and ctypeid=#{@ctypeid}
+										and transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}' ") %>
+
+
+	  	<% @count = 0%>
+	   <% @data.each do |c| %>
+		<tr border=0>
+		<td width="68" height="10"><font size=1> <%= @count=@count.to_i+1 %></font></td>
+		<td width="99" height="10"><font size="1" face="Arial"><%= c.tokenno %></font>&nbsp;</td>
+		<td   height="10" align=center width="118" ><font size="1" face="Arial">
+		    <%= c.transdate %></font></td>
+		<td width="90" height="10" align="center"><font size="1" face="Arial">
+		    <%= c.generatedtime %>&nbsp;</font></td>
+		<td width="100" height="10"><font size="1" face="Arial">
+			<%= c.calledtime %>&nbsp;</font></td>
+		<td width="69" height="10"><font size="1" face="Arial">
+			<%= c.servicedtime %>&nbsp;</font></td>
+		<td width="68" height="10"><font size="1" face="Arial">
+			<%= c.login %>&nbsp;</font></td>
+		<td width="82" height="10"><font size="1" face="Arial">
+			<%= c.counterno %>&nbsp;</font></td>
+	
+		<td width="158" height="10" ><font size="1" face="Arial">
+	    	<%= c.waittime %>&nbsp;</font></td>
+        <td width="90" height="10"><font size="1" face="Arial">
+			<%= c.timetaken %>&nbsp;</font></td> 
+		<td width="107" height="10"><font size="1" face="Arial">
+		     <% if c.tokenstatus.to_i == 1 %> 
+			<%= "SERVED" %>&nbsp; </font>
+			<% else %>															
+		 	<font size="1" face="Arial">
+			In&nbsp;Q&nbsp;</font>
+			<%end%>	</td> 
+		<td width="285" height="10"><font size="1" face="Arial">
+		    <%= c.benchmark %>&nbsp;</font></td>
+        </tr>
+		 <% end %> 
+		 
+				
+      	<tr>
+      	 <td width="200" height="19" colspan="5" >
+				<p align="left"><font size="2" color="#800000">Tokens&nbsp;Served:
+      	  <%@abc=Service.find_by_sql("select count(tokenno) as tokenno
+										from transactmaster
+										where serviceid='#{@serviceid}' and ctypeid=#{@ctypeid} and tokenstatus=1
+										and transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}' ") %>
+										
+										<%= @abc[0].tokenno  %> </font>
+      	 </td>
+       
+      	<td width="93" colspan="2"><font size="1"> </font></td>
+										
+										
+										
+		 <td width="207" height="19" colspan="5" >
+				<p align="left"><font size="2" color="#800000">Avg Mean Time To Serve:</font><font size="1" color="#800000">
+          <%@abc=Service.find_by_sql("select avg(time_to_sec(timetaken)) as timetaken
+														from transactmaster
+														where serviceid='#{@serviceid}' and ctypeid=#{@ctypeid} and tokenstatus=1
+										                 and transdate>='#{params[:startdate]}' and transdate<='#{params[:enddate]}'") %>
+
+								<% seconds   =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - seconds.to_i) / 60
+								minutes    =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - minutes.to_i) / 60
+								hours      =  @abc[0].timetaken.to_i % 24 %>
+								
+								<% if(hours<10)
+									hours="0#{hours}"
+								end
+
+								if(minutes<10)
+									minutes="0#{minutes}"
+								end
+
+								if(seconds<10)
+									seconds="0#{seconds}"
+								end %>
+								
+								<%= "#{hours}:#{minutes}:#{seconds}"  %> </font>
+								
+
+							
+         </td>
+		
+								
+
+					</tr>
+				<% end %>	
+			 <% end %>		
+			<% end %>			
+		   <% end %>	
+	     </table>
+        </center>
+       </div>
+</div>
+</tr>
+</table>
+</table>
+</body>
+
+</html>

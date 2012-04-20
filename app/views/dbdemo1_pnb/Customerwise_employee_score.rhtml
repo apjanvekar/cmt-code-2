@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<%= javascript_include_tag 'jquery','rails','highcharts'%>
+
+ <script type="text/javascript"> 
+                
+			$(document).ready(function() 
+				{		
+                    var chart;
+                    var name;
+                              
+					chart = new Highcharts.Chart({
+						chart: 
+						{
+								renderTo: 'container',
+								defaultSeriesType: 'column'
+														
+					             	
+						},
+						
+						title: 
+						{
+							text: '',
+							x: -20 //center
+						},         
+					
+						subtitle: 
+						{
+							
+							x: -20
+						},
+						
+						xAxis: 
+						{
+							categories: [<%= @dev %>],
+							labels: {
+						        rotation: -45,
+						        align: 'right',
+						        style: {
+							 font: 'normal 13px times new roman, aril'
+						}
+
+						        
+						
+                                }
+							
+						},
+						
+						yAxis: 
+						{
+							title: 
+							{
+								text: 'No of Token Served'
+							},
+
+							plotLines: [{value: 0,width: 1,color: '#808080'}]
+						},
+	
+						tooltip: 
+						{
+							formatter: function() 
+							{
+					               	 return '<b>'+ this.series.name +'</b><br/>'+
+									this.x +': '+ this.y ;
+							}
+						},
+					
+						legend: 
+						{
+							 style: { 
+                              left: 'auto', 
+                              bottom: 'auto', 
+                              right: '70px', 
+                              top: '35px' 
+                            }, 
+  
+                        
+                            borderColor: '#CCC', 
+                            borderWidth: 1, 
+                            shadow: false 
+						},
+										
+								 		
+						 		
+					series: [{
+					
+						name: 'Token Served',
+						data: [<%= @arr1.join(',') %>]
+					}]					
+					
+				}
+				);
+				
+				
+			});
+				
+		</script>
+		
+	</head>
+	<body>
+		<% session[:values] %>
+		<!-- 3. Add the container -->
+		<table border=0 width="850" height="50">
+ 		<tr>
+          <td height="17" width="1048" style="border-style: solid; border-width: 1">
+          
+          <p align=center>
+      		<font face="Arial" size="4" color="#336699">Customerwise Token Served </font>
+      		</p>
+          <p><br/>
+      		 </p>
+      		 <p align="left"><b>Generated On: <%= Date.today %> </b> 
+      		 <h4 align="right">From: <%= "#{params[:startdate]}" %> To: <%= "#{params[:enddate]}" %></h5> 
+          <p></p>
+      		 <p><b>Branch Name:<% @t = Service.find_by_sql("select branchname as b1 from settings" )%><%= @t[0].b1 %></b></p>
+
+      		</td>
+      		</tr>
+
+        </table>
+        
+
+		<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+		
+				
+	</body>
+</html>

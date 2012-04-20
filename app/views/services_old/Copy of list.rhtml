@@ -1,0 +1,64 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 530px; 
+HEIGHT:100px;
+} 
+</STYLE> 
+
+
+</head>
+
+<body>
+<table border=10><tr><td bgcolor="#FFCC66">
+<table align=center border=5 bordercolor="#800000"><tr><td>
+   
+<p align="center">
+<h1><font color="#800000">Listing services</font></h1>
+<p>&nbsp;</p>
+<div class=clsDataGrid id=divList bgcolor=white>
+<table border="1" width ="80%" cellpadding="0"  cellspacing="0"  bordercolor="#111111"  id="AutoNumber1"  height="41">
+
+  <tr bgcolor="#800000">
+  <% for column in Service.content_columns %>
+    <th nowrap ><font color=white><%= column.human_name %>&nbsp;</font></th>
+  <% end %>
+  </tr>
+  
+<% for service in @services %>
+  <tr>
+  <% for column in Service.content_columns %>
+    <td><%=h service.send(column.name) %>&nbsp;</td>
+  <% end %>
+   
+    <td><%= link_to 'Edit', :action => 'edit', :id => service %>&nbsp;</td>
+    <td><%= link_to 'Delete', { :action => 'destroy', :id => service }, :confirm => 'Are you sure?', :method => :post %>&nbsp;</td>
+  </tr>
+<% end %>
+</table></div>
+
+<%= link_to 'Previous page', { :page => @service_pages.current.previous } if @service_pages.current.previous %>
+<%= link_to 'Next page', { :page => @service_pages.current.next } if @service_pages.current.next %> 
+
+<br />
+
+<%= link_to 'Add new service', :controller => 'services', :action => 'new' %> | <%= link_to 'Back', :controller => 'users', :action => 'admin' %>
+
+</td></tr></table>
+</td></tr></table>
+</body>
+</html>

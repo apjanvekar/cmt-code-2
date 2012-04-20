@@ -1,0 +1,65 @@
+<html>
+<head>
+<%= javascript_include_tag "backButton",:defaults %>
+<script>
+
+function abc()
+{
+
+var extensions = new Array("jpg","jpeg","gif","png","bmp");
+
+var img_obj=document.getElementById('upload_datafile');
+
+var image_file = img_obj.value;
+
+var image_length = image_file.length;
+
+var pos = image_file.lastIndexOf('.') + 1;
+
+var ext = image_file.substring(pos, image_length);
+
+var final_ext = ext.toLowerCase();
+
+for (i = 0; i < extensions.length; i++)
+{
+    if(extensions[i] == final_ext)
+    {
+    return true;
+    }
+}
+
+alert("You must upload an image file with one of the following extensions: "+ extensions.join(', ') +".");
+return false;
+}</script>
+</head>
+<body onunLoad="back()">
+<table width="100%" height="100%">
+<tr><td width="503" height="384" rowspan="2" align="left" > 
+
+<h1 align="left"><font face="Arial" color="#800000" size="5">Upload DQMS 
+Advertising 
+Images</font></h1>
+<br/>
+<body>
+<h1>&nbsp;</h1>
+
+<% form_tag({:name => "form" ,:action => 'uploadFile3'} ,
+                        :multipart => true, :onsubmit => "return abc();" ) do  %>
+
+<p align="left">
+	<b><font face="Arial" color="#800000">
+	<label for="upload_file">Select File</label></font><font color="#800000"> : 
+<%= file_field 'upload', 'datafile' %></font></b></p>
+
+<p align="left">
+<font size="2" face="Arial" color="red"> Use Images with Max 1024 * 226 pixels size only.</font><br/>
+</p>
+
+<p align=left>
+
+
+<%= submit_tag "Upload" %>
+</p>
+<% end %>
+</body>
+</html>

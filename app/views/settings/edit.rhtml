@@ -1,0 +1,36 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+<!-- version DQMS_ROR_ver1.0.2 -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+
+<body> 
+<center>
+<table  align="center" width="569" height="352" border="5"  bordercolor="#800000" >
+<tr><td bgcolor="#FFFFFF" align="center" width="559" height="348">
+<table align="center"  width="362" height="173">
+<tr><td width="344" height="167">
+
+<h3 align=center>
+<font color="#990000" face="Zurich BT" size="3"> Edit Settings</font></h3>
+
+<p>&nbsp;</p>
+<% form_tag :action => 'update', :id => @setting do %><font color="#990000">
+  <%= render :partial => 'form' %> </font>
+<p>&nbsp;</p>
+<p align="center"><font color="#990000"><%= submit_tag 'Save', :style=>"font-family: Zurich BT; font-size: 8pt" %>  <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'settings',:action => "back" }),:id=>'Back', :style=>"font-family: Zurich BT; font-size: 8pt" -%>
+<p>&nbsp;</p>
+<% end %> </font>
+
+</td></tr></table>
+   </td></tr></table>
+   </center>
+</body>
+</html>

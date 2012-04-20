@@ -1,0 +1,110 @@
+<meta http-equiv="Content-Language" content="en-us">
+<div align="center">
+  <center>
+  <table border="1" cellpadding="3" cellspacing="0" style="border-collapse: collapse; border: 5px solid #336699; " bordercolor="#111111" width="200%" height="437">
+    <tr>
+      <td width="100%" height="437" align="center" bordercolor="#336699" valign="top">
+      <div align="center">
+        <center>
+        <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#336699" width="100%" height="427">
+          <tr>
+            <td width="100%" height="427" align="center" valign="top">
+            <div align="center">
+              <center>
+              <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="103%" height="325">
+                <tr>
+                  <td width="100%" height="59" colspan="11">
+                  <p align="center"><font size="5" color="#336699">Day Wise 
+                  Breakup Of Services</font></td>
+                </tr>
+                <tr>
+                  <td width="100%" height="14" colspan="11"><font size="4">Date:<%= params[:startdate]%></font></td>
+                </tr>
+                <tr>
+                <% if params[:startdate].to_date == Date.today and params[:enddate].to_date == Date.today %>
+
+				<% @t = Service.find_by_sql("select distinct(serviceid) as a1
+						from transact
+						where transdate>='#{params[:startdate]}' order by counterno")  %>
+				<% @t.each do|a| %>
+						<%= a.a1 %>
+						<% end %>	
+			   <% else %>
+
+
+						<% @t = Service.find_by_sql("select distinct(serviceid) as a1
+						from transactmaster
+						where transdate>='#{params[:startdate]}' order by counterno")  %>
+				<% @t.each do|a| %>
+				<% @serviceid = a.a1 %>
+			
+				<%	@data=Service.find_by_sql("select tokenno,ctypeid,generatedtime,calledtime,servicedtime,login,counterno,waittime,timetaken,tokenstatus 
+											   from transactmaster
+											   where  serviceid='#{@serviceid}'
+		                                         and  transdate='#{params[:startdate]}' ") %>
+                         
+                  <td width="100%" height="18" colspan="11"><font size="4">For:
+                   <% Service.find(:all, :conditions => ["serviceid=?",@serviceid ]).each do |d| %>
+
+				 <%=d.servicename%>
+				 <% end %></font></td>
+                </tr>
+                
+                <tr>
+                  <td width="5%" height="7"><font size="4">sr no.</font></td>
+                  <td width="10%" height="35"><font size="4">Token No.</font></td>
+                  <td width="11%" height="39"><font size="4">Customer Type</font></td>
+                  <td width="12%" height="39"><font size="4">Generated Time</font></td>
+                  <td width="11%" height="39"><font size="4">Called Time</font></td>
+                  <td width="9%" height="39"><font size="4">Served Time</font></td>
+                  <td width="9%" height="39"><font size="4">Teller Name</font></td>
+                  <td width="6%" height="39"><font size="4">Counter</font></td>
+                  <td width="8%" height="39"><font size="4">Wait Time</font></td>
+                  <td width="9%" height="39"><font size="4">Time Taken</font></td>
+                  <td width="10%" height="39"><font size="4">Token Status</font></td>
+                </tr>
+                <tr>
+                <% @count = 0%>
+					
+                    <% @data.each do |c|%>
+
+                  <td width="5%" height="71"><%= @count=@count+1%></td>
+                  <td width="10%" height="43"><%= c.tokenno %></td>
+                  <td width="11%" height="39"> <% Customertype.find(:all, :conditions => ["ctypeid=?", c.ctypeid]).each do |d| %>
+
+                 <%= d.ctypedesc %>
+                 <%end%></td>
+                  <td width="12%" height="39"><%= c.generatedtime %></td>
+                  <td width="11%" height="39"><%= c.calledtime %></td>
+                  <td width="9%" height="39"><%= c.servicedtime %></td>
+                  <td width="9%" height="39"><%= c.login %></td>
+                  <td width="6%" height="39"><%= c.counterno%></td>
+                  <td width="8%" height="39"><%= c.waittime %></td>
+                  <td width="9%" height="39"><%= c.timetaken %></td>
+                   <% if c.tokenstatus.to_i == 1 %> 
+                        <td width="10%" height="39"><%= "SERVED" %></td>
+                   <% else %>  
+                        <td width="10%" height="39">In&nbsp;Q&nbsp;</td>
+                   <% end %>        
+                </tr>
+                <% end %>
+
+                 <% end %>
+                <% end %>
+              </table>
+             
+              <p>&nbsp;</p>
+             
+              </center>
+            </div>
+           
+            </td>
+          </tr>
+        </table>
+        </center>
+      </div>
+      </td>
+    </tr>
+  </table>
+  </center>
+</div>

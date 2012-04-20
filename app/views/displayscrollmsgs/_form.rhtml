@@ -1,0 +1,46 @@
+
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+
+</head>
+
+<%= error_messages_for 'displayscrollmsg' %>
+
+<!--[form:teller]-->
+
+<p align=left><label for="scrollmsg_scrollmsg">
+<font face="Arial" size="2" color="#800000">Edit 
+The Text For Display Scroll Message</font></label></br>
+
+<%= text_field 'displayscrollmsg', 'scrollmsg',:size=>50, :style=>"font-family: Arial; font-size: 8pt" %>
+<p align=left>&nbsp;</p>
+<p align=left> &nbsp;<font face="Arial" size="2"><p align=left>
+<font face="Arial"><label for="msgstatus">
+<font size="2" color="#800000">Scroll Message Status</font></label></font></font><font face="Arial" size="2" color="#336699"><font face="Arial" color="#336699"><b><font size="2"><br/>
+<% @a= Displayscrollmsg.find(params[:id])%>
+<% @b=@a.status %>
+<% if @b.to_i== 1 %> </font>
+<input type="radio" id="scrollmsg_status" name="displayscrollmsg[status]" value="1" checked="checked"  /></b></font></font><font face="Arial"><font size="2" color="#800000" face="Arial">Active</font><font face="Arial" size="2" color="#336699"> <b>&nbsp;&nbsp;&nbsp; </b>
+<b><font color="#336699" face="Arial">
+
+<input type="radio" id="scrollmsg_status" name="displayscrollmsg[status]" value="0" unchecked/></font></b></font><font size="2" color="#800000" face="Arial">Inactive</font><font face="Arial" size="2" color="#336699"><b><br/>
+
+<% else %> </b>  <b><font color="#800000" face="Arial">
+
+<input type="radio" id="scrollmsg_status" name="displayscrollmsg[status]" value="1" unchecked/></font></b></font><font size="2" color="#800000" face="Arial">Active</font><font face="Arial" size="2" color="#336699"><b>
+</b> 
+<font color="#800000" face="Arial">
+
+<b>
+
+<input type="radio" id="scrollmsg_status" name="displayscrollmsg[status]" value="0" checked="checked"/></b></font><b></b></b><font size="2" color="#800000" face="Arial">Inactive</font></font></font><font face="Arial" size="2" color="#336699"><b><br/>
+</b></font>
+
+<% end %><!--[eoform:scrollmsg]-->

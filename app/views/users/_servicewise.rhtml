@@ -1,0 +1,115 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<html>
+ 
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<STYLE type="text/css"> 
+  
+/* Div container to wrap the datagrid */
+div#divList {
+width: 420px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #800000;
+color: white;
+border-right: 1px solid silver;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+top: expression(document.getElementById("divList").scrollTop-2);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+th.locked {z-index: 99;}
+
+</STYLE> 
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+<body>
+
+<table height="42" width="466" align=center>
+       <tr>
+           <td height="256" width="292">	
+ 		       <table border=5 width="485" height="321" bordercolor="#800000" align=center> 
+ 		       <tr>
+                    <td bgcolor="#FFFFFF" height="315" width="492">
+ 		                <table border=0 width="436" height="332">
+ 		                       <tr>
+ 		                            <td height="17"><p align=center>
+      		                        <b><font face="Zurich BT" size="4" color="#800000">Service Wise Pending Token Count </font></b>
+      		                        </p>
+      		                        </td>
+      		                   </tr>
+ 		                       <tr>
+ 		                           <td  width="430" height="307" align=center> 
+      		                            <div class=clsDataGrid id=divList bgcolor=white style="width: 872; height: 250"> 			
+ 		                                     <table border="1" width ="736" cellpadding="0"  cellspacing="0"  bordercolor="#111111" align=center   id="AutoNumber1"  height="41" style="border-collapse: collapse">
+                                             <tr  bgcolor="#800000">
+      					                          <th   width="155"  nowrap><font color=white face="Zurich BT" size="2" align=center>Service Name</th> 
+                                                  <th   width="137"  nowrap><font color=white face="Zurich BT" size="2" align=center>Privilege Customer</th>  
+                                                  <th   width="120"  nowrap><font color=white face="Zurich BT" size="2" align=center>Customer</th>     	
+                                                  <th   width="130"  nowrap><font color=white face="Zurich BT"  size="2" align=center>&nbsp;&nbsp;</font><font color=white face="Zurich BT" size="2" align=center>Representative</th>
+						                          <th  width="180"  nowrap><font color=white face="Zurich BT" size="2" align=center>Pending Token Count</font></th>
+					                        </tr>
+					                        <%@count_privilage=0
+					                          @count_customer=0
+					                          @count_representative=0
+					                        %>
+					                        <%@s=Service.find(:all,:conditions=>["servicestatus=?",'1'])%>
+                                            <% @s.each do |g| %>
+					                        <tr bgcolor="#FFFFFF">
+						                        <td  bgcolor="#FFFFFF" align=left width="117"><font face="Zurich BT"  size="2"><%= g.servicename %> </font>&nbsp;</td>
+			                                    <td  bgcolor="#FFFFFF" align=center width="145">
+				                                    <% @gold=Transact.count(:select=>'distinct tokenno',:conditions=>["tokenstatus=0 and ctypeid=1 and serviceid=?",g.serviceid]) %>
+                                                    <%@count_privilage=@count_privilage+@gold%>
+						                            <font face="Zurich BT"  size="2"><%= @gold %> </font>&nbsp;</td>
+                                               <td  bgcolor="#FFFFFF"  align=center width="123">
+				                                    <% @customer=Transact.count(:select=>'distinct tokenno',:conditions=>["tokenstatus=0 and ctypeid=2 and serviceid=?",g.serviceid]) %>					
+						                            <%@count_customer=@count_customer+@customer%>
+						                            <font face="Zurich BT"  size="2"><%= @customer %> </font>&nbsp;</td>
+                                              <td  bgcolor="#FFFFFF"  align=center width="164">
+				                                    <% @nc=Transact.count(:select=>'distinct tokenno',:conditions=>["tokenstatus=0 and ctypeid=3 and serviceid=?",g.serviceid]) %>					
+						                            <%@count_representative=@count_representative+@nc%>
+						                            <font face="Zurich BT"  size="2"><%= @nc %> </font>&nbsp;</td>
+						                      <td  bgcolor="#FFFFFF"  align=center width="175">
+						                            <font face="Zurich BT"  size="2"><%= @gold+@customer+@nc %> </font>&nbsp;</td>
+                                          </tr>
+					                      <% end %>
+					                      <tr bgcolor="#800000" >
+						                      <td nowrap bgcolor="#800000" align=left width="117">
+						                           <font face="Zurich BT" size="2" color=white>Total</font><font face="Zurich BT" size="2"> </font>
+						                      </td>
+			                                  <td nowrap align=center width="145">
+						                          <font face="Zurich BT"  size="2" color=white><%=@count_privilage%> </font>&nbsp;</td>
+                                              <td nowrap align=center width="123">					
+						                          <font face="Zurich BT"  size="2" color=white><%=@count_customer%> </font>&nbsp;</td>
+                                              <td nowrap align=center width="164">				
+						                          <font face="Zurich BT"  size="2" color=white><%=@count_representative%> </font>&nbsp;</td>
+						                      <td nowrap align=center width="175">
+						                          <font face="Zurich BT"  size="2" color=white><%= @count_privilage+@count_customer+@count_representative %> </font>&nbsp;</td>
+                                         </tr>
+                                         </table>
+			                          </div>  		
+			                    </td>
+		                     </tr>
+		                </table>	
+ 		             </td>
+ 	                </tr>
+
+</table></td></tr></table>
+</table>
+</table>
+</body>
+</html>

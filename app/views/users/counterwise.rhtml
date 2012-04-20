@@ -1,0 +1,78 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<html>
+ 
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 740px; 
+HEIGHT:250px;
+} 
+</STYLE> 
+<%= javascript_include_tag "prototype","effects","backButton",:defaults %>
+
+</head>
+<body onunLoad="back()">
+<table height="42" width="466" align=center><tr><td height="256" width="292">	
+ 		<table border=5 width="432" height="321" bordercolor="#FF6600" align=center> 		<tr>
+            <td bgcolor="#FFFFFF" height="315" width="439">
+ 		<table border=0 width="436" height="315"><tr>
+ 		
+      		<td  width="430" height="311"> 
+ 			<div align="center">
+   			<center>
+   			<div class=clsDataGrid id=divList bgcolor=white style="width: 700; height: 250"> 			
+ 			<form id="form1" name="form1" method="POST" action="updatetoken" align="center">
+ 			<p>
+          <font face="Arial" size="4" color="#990000">Counter wise Pending Token Count</font></p>
+ 			<p>
+          &nbsp;</p>
+			<table border="1" width ="294" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="41">
+
+				
+					<tr  bgcolor="#800000">
+      					<th nowrap bgcolor="#FF6600" width="146" >
+                        <font color=white face="Arial" size="2" align=left>
+                        Counter no.</th>      	
+						<th nowrap bgcolor="#FF6600" width="246" >
+                        <font color=white face="Arial" size="2" align=left>Pending Token Count</font></th>
+					</tr>
+					<% @s = Counter.find_by_sql("select * from counters where loginstatus='Y'") %>
+
+					<% @s.each do |g| %>
+					<tr bgcolor="#FFFFFF">
+						<td nowrap bgcolor="#FFFFFF" width=146 align=left>
+						<font face="Arial" size="2"><%= g.counterno %> </font>
+                        <font face="Arial" size="2">&nbsp; </font>
+						</td>
+			
+						<td nowrap bgcolor="#FFFFFF" width=246 align=center>
+						<% @r= Transact.count(["counterno = ? and tokenstatus=0",g.counterno]) %><font face="Arial" size="2">
+						<%= @r %> </font><font face="Arial" size="2">&nbsp;
+                        </font>
+					</tr>
+					<% end %>
+				</table>
+			
+			 </div>  		
+			</td>
+		</tr>
+		
+		</table>	
+ 		</form>
+ 	</td>
+ 	
+ 	
+</tr>
+</table></td></tr></table>
+</table>
+</body>
+</html>

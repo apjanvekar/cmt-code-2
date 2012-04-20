@@ -1,0 +1,87 @@
+
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<html>
+ 
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+ <%= javascript_include_tag "prototype","effects","application",:defaults %>
+ 
+<STYLE type="text/css"> 
+  
+/* Div container to wrap the datagrid */
+div#divList {
+width: 420px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #800000;
+color: white;
+border-right: 1px solid silver;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+top: expression(document.getElementById("divList").scrollTop-2);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+th.locked {z-index: 99;}
+
+</STYLE> 
+
+</head>
+<body>
+	<table height="42" width="466" align=center><tr><td height="256" width="292">	
+ 		<table border=5 width="446" height="321" bordercolor="#800000" align=center> 		
+ 		<tr>
+            <td bgcolor="#FFFFFF" height="315" width="453">
+ 		<table border=0 width="876" height="315">
+ 		<tr><td height="17" width="870"><p align=center>
+      		<font face="Zurich BT" size="4" color="#800000">User Wise Completed Token Count </font>
+      		</p>
+      		</td></tr>
+
+ 		<tr>
+ 		
+      		<td  width="870" height="311"> 
+ 			<center><div class=clsDataGrid id=divList bgcolor=white style="width: 320; height: 250"> 			
+ 			<table border="1" align=center width ="300" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="41">
+                <tr align=center bgcolor="#800000" >
+      					<th nowrap  height="11" width="100">
+                        <font color=white face="Zurich BT" size="2">User</font></th>      	
+						<th nowrap height="11" width="200">
+                        <font color=white face="Zurich BT" size="2">Completed Token Count</font></th>
+				</tr>
+					                       <%@s =Transact.find_by_sql("select distinct login from transacts where tokenstatus=1")%>
+					                       <% @s.each do |g| %>
+					              	<tr bgcolor="#FFFFFF">
+						               		<td nowrap  bgcolor="#FFFFFF" width="100" align="center"> <font face="Zurich BT" size="2"> <%= g.login %> </font>&nbsp;</td>
+			                           		<td nowrap  bgcolor="#FFFFFF" width="200" align="center"><font face="Zurich BT" size="2"><% @r= Transact.count(["login = ? and  tokenstatus=1  ",g.login]) %><%= @r %> </font>&nbsp;</td>
+					                </tr>
+					             			<% end %>
+				                 </table></div></center>
+ 
+  		
+			</td>
+		</tr>
+		
+		</table>	
+ 		
+ 	</td>
+ 	
+ 	
+</tr>
+</table></td></tr></table>
+</table>
+
+</body>
+</html>

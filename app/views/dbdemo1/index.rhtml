@@ -1,0 +1,24 @@
+<html>
+<body style="margin:5px 0px 0px 5px">
+<div style="font-size:18pt; font-family:verdana; font-weight:bold">
+    Database Integration Demo (1)
+</div>
+<hr style="border:solid 1px #000080" />
+<div style="font-size:10pt; font-family:verdana; margin-bottom:20px">
+<%= link_to "Source Code Listing", :controller => "cddemo", :action => "viewsource",
+    :ctrl_file => @ctrl_file, :view_file => File.expand_path(__FILE__) %>
+<br />
+<br />
+<form>
+    I want to obtain the revenue data for the year
+    <%= select_year(((params["date"] && params["date"]["year"]) || 2001).to_i,
+        :start_year => 1992, :end_year => 2001) %>
+    <input type="submit" value="OK">
+</form>
+</div>
+
+<img src="<%= url_for(:action => 'getchart',
+    :year => ((params["date"] && params["date"]["year"]) || 2001)) %>">
+
+</body>
+</html>

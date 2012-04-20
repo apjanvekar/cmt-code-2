@@ -1,0 +1,128 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+/* Div container to wrap the datagrid */
+div#divList {
+width: 420px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #800000;
+color: white;
+border-right: 1px solid silver;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+top: expression(document.getElementById("divList").scrollTop-2);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+th.locked {z-index: 99;}
+
+</STYLE> 
+
+</head>
+
+<body>
+<table border=0  align="center" width="100%"><tr>
+  <td bgcolor="#FFFFFF" width="848" >
+<table align=center border=5 bordercolor="#800000"><tr><td>
+   
+<p>
+<h1 align="center"><font color="#800000" face="Arial" size="5">Listing Users</font></h1>
+<p>&nbsp;</p>
+<div class=clsDataGrid id=divList bgcolor=white style="width: 930; height: 193">
+<table border="1" width ="80%" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="24"  align=center >  
+<tr  bgcolor="#336699" align=center>
+  
+      	<th nowrap width="54" height="22" >
+        <font color=white face="Arial" size="2">Login</font></th>
+      	<th  nowrap  width="77" height="22" >
+        <font color=white face="Arial" size="2">User Type </font></th>
+		<th  nowrap width="91" height="22">
+        <font color=white face="Arial" size="2">User Status </font></th>
+		<th  nowrap width="100" height="22" >
+        <font color=white face="Arial" size="2">Login Status </font></th>
+		 <th  nowrap width="97" height="22">
+         <font color=white face="Arial" size="2">Counter No </font></th>
+		<th  nowrap  width="99" height="22" >
+        <font color=white face="Arial" size="2">First Name </font></th>
+		<th nowrap width="83" height="22">
+        <font color=white face="Arial" size="2">Last Name </font></th>
+		<th nowrap width="92" height="22" >
+        <font color=white face="Arial" size="2">Created On </font></th>
+		<th nowrap width="99" height="22" >
+        <font color=white face="Arial" size="2">Updated On </font></th>
+		<th nowrap width="65" height="22" >&nbsp;</th>
+		 <% if session['user']['usertype']=="SuperAdmin" %>    	
+		<th nowrap width="65" height="22" >&nbsp;</th>
+			<% end %>
+
+ </tr>
+ 
+
+ <% @t = User.find_by_sql("select * from users" ) %>
+<% @t.each do |c| %>
+  <tr>
+  
+	<td nowrap align="left"><font face="Arial"  size="2"><%= c.login %>&nbsp;</td>	
+	<td nowrap align="left"><font face="Arial" size="2"><%= c.usertype %>&nbsp;</td>
+	<td nowrap align="center">
+<% @b=c.userstatus %><font face="Arial"  size="2">
+<% if @b.to_i== 1 %> </font><font face="Arial" size="2">Active
+<%else%>
+Inactive
+<%end%>
+
+</td>
+	<td nowrap align="center"><font face="Arial"  size="2"><%= c.loginstatus %>&nbsp;</td>
+	<td nowrap align="center"><font face="Arial"  size="2">
+	<% if c.counterno==0 %>
+	-
+	<%else%>
+	<%= c.counterno %>
+	<%end%>
+	&nbsp;</td>
+	<td nowrap align="left"><font face="Arial"   size="2"><%= c.firstname %>&nbsp;</td>
+	<td nowrap align="left"><font face="Arial"  size="2"><%= c.lastname %>&nbsp;</td>
+	<td nowrap align="left"><font face="Arial" size="2"><%= c.created_on.strftime("%d/%m/%y") %>&nbsp;</td>
+	<td nowrap align="left"><font face="Arial"  size="2"><%= c.updated_on.strftime("%d/%m/%y") %>&nbsp;</td>
+
+	
+	<td align="center"><font face="Arial" size="2"><%= link_to 'Edit', :action => 'edit', :id => c.id %>&nbsp;</font></td>
+    <% if session['user']['usertype']=="SuperAdmin" %>    	
+		  		<!--<td align="center"><font face="Arial" size="2"><%= link_to 'Delete', :action => 'destroy1', :id => c.id %>&nbsp;</font></td>-->
+		  			<% end %>
+
+   
+
+</tr><% end %>	
+</table></div>
+<br/>
+<div id=link>
+<p align="center">
+<font face="Arial" size="3"><b><%= link_to 'Add new User', :controller => 'users', :action => 'new' %></div></b></font>
+<p>&nbsp;</p>
+ </tr>
+         	                            	
+</table>
+
+</td></tr></table>
+</td></tr></table>
+</body>
+</html>

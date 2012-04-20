@@ -1,0 +1,137 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+
+
+ <%= javascript_include_tag "prototype"%>
+
+<script type="text/javascript">
+!--
+history.forward();
+
+-->
+</script>
+
+<script type="" language="JavaScript">
+function disable()
+{
+	document.form1.submit.disabled=true;
+ } 
+ 
+ function enabled()
+{
+	document.form1.nonstp.disabled=false;
+ } 
+
+</script>
+
+<%= stylesheet_link_tag "style" %>
+
+
+</head>
+<body>
+<table height="351" cellspacing="0" cellpadding="0"  width="95%" align="center">
+	<tr><td height="388" align="center" width="95%">
+		<table border=0 cellspacing="0" cellpadding="0" height="199" align="center" width="100%" >			
+			<tr><td height="402" align="center" width="100%">
+				<table cellspacing="0" cellpadding="0" align="center" width="100%" height="385">
+				<tr><td height="122" width="100%">
+				<table  cellspacing="0" cellpadding="0" width="100%" height="127"><tr>
+  					<td id=banner style="background-repeat:no-repeat" width="75%" height="100%" ></td>
+  			
+  					<td id=client style="background-repeat:no-repeat" width="35%" height=122  > </td>
+                    </tr></table>
+                    </td>
+                    </tr>
+  					
+  				<tr>
+  					<td  height="21" bgcolor="#FF6600" width="100%" >
+  					 					
+  					</td>
+  				</tr>
+  				
+  				<tr><td width="100%" height="230">
+  				<table cellspacing="0" cellpadding="0" width="100%" height="1"><tr>
+  					
+  					<td width="100%" height="19" >
+  						<table align=right cellspacing="0" cellpadding="0" height="20"><tr>  					
+  					<td  height="1" >
+  					<font color="#FFFFFF" face="Arial" size="2"><b><%= link_to "Back", :controller=> "client", :action => 'transact' %></b></font>
+  					</td>
+  					<td height="1"><p>&nbsp;&nbsp;</p></td>
+  					<td  height="1" >
+  					<font color="#FFFFFF" face="Arial" size="2"><b></b></font>
+  					</td>
+  				
+  					</tr></table></td></tr>
+                  <tr>
+                    <td align="center" height="115" width="100%">
+                    <p align="center"><b><font size="4">Displaying Missing Tokens
+                          </font></b></p>
+  						<table border=5 bordercolor="#FF6600"><tr>
+  						<td>  						
+ 							<table border="1" width ="329" cellpadding="0"  cellspacing="0"  bordercolor="#111111"  id="AutoNumber1" bgcolor=white height="41">
+ 							<form id="form1" name="form1" align="center">
+							<tr >
+								
+								<th nowrap width="101" bgcolor="#FF6600" >
+       							 <font color="#FFFFFF" face="Arial" size="2"><b>Token No</b </font></th>
+								<th nowrap width="113"  bgcolor="#FF6600">
+      							  <font color="#FFFFFF" face="Arial" size="2">&nbsp;<b>Service Name</b>&nbsp; </font></th>      	
+   								 <th  bgcolor="#FF6600" >&nbsp;</th>
+    				    	</tr>
+    				    	<% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+							<% @t1=Transact.find_all(["tokenstatus=3"]) %>
+							<% @t=Transact.find_by_sql("select * from transacts where tokenstatus=3 group by tokenno") %>
+							
+							<% @t.each do |c| %>
+							<tr>
+								
+
+								<td height="19" bgcolor=white width="101"><%= c.tokenno %></td>
+								<td width="113" height="19" bgcolor=white>					
+								<% @b= Service.find_first(["serviceid = ? ",c.serviceid]) %>
+								<%= @b.servicename -%> &nbsp;</td>							
+								<td align=center ><font color="#000000" face="Arial" size="2"><%= link_to 'CALL', :action => 'callmissingtoken', :id => c.id %>
+&nbsp;</td>
+							</tr>	
+							<% end %>
+							
+						</table></td></tr>
+						</table>
+						</td>
+                  </tr>
+                  <tr>
+  					
+  					<td width="664" height="30" align="center" >
+  						&nbsp;</td></tr><tr>
+  					
+  					<td width="664" height="140" align="center" >
+  						&nbsp;</td></tr></table>
+						</td>
+						
+						</tr></table>
+						</td></tr></table>
+						</td></tr>
+						<tr>
+						<td height="1"> 
+						
+						</td>
+						</tr>
+						
+						
+						
+						</table>
+
+
+
+
+
+</body>
+
+</html>

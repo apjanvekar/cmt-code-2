@@ -1,0 +1,33 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+ <html>
+ 
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<%= javascript_include_tag "prototype","effects","backButton",:defaults %>
+</head>
+<body onunLoad="back()">
+<table width="100%"><tr><td width="1000">
+    <table height="42" width="1002">
+    	<tr>
+ 				<td height="38" width="4">	
+ 					&nbsp;<td height="38" width="988">	
+ 					<p align="center"><b><font face="Zurich BT"><a href="javascript: window.location.reload()">Refresh</a> <%#= button_to_function 'Refresh',remote_function(:url => {:controller=>'users',:action => "refresh_onlineservice" }),  :id=>'updatetoken'%>
+                    </font></b>
+					<tr>
+ 						<td height="256" width="4">		
+ 							&nbsp;
+ 						</td>
+ 						<td height="256" align=left width="1000">		
+ 							<div class=online id=onlineinfo bgcolor=white>
+ 							<%= render :partial => 'servicewise' %>
+ 							</div>
+ 						</td>
+ 					</tr>
+ 				</td>
+ 		</tr>
+ 	</table>
+</td></tr></table>	
+</body>
+</html>

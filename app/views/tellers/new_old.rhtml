@@ -1,0 +1,136 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH:390px; 
+HEIGHT:100px;
+} 
+</STYLE> 
+<%= javascript_include_tag "prototype","effects",:defaults %>
+<script>
+function Validate()
+{
+	
+	
+	alert("in validate");
+	var stp=document.getElementById("csmapping_serviceid");
+	var v_stp = stp.options[stp.selectedIndex].value;
+	
+	
+
+	if(v_stp=="")
+	{
+	alert('Please Select Stp Service! ')
+	stp.focus();
+	return(false);
+	}
+	return(true);
+	}
+</script>
+</head>
+
+<body><table border=0 width="758" ><tr><td bgcolor="#FFFFFF" width="752">
+<table align="center" border=5 bordercolor="#FF66000" width="743" height="1"><tr>
+  <td width="725" align="center" height="1">
+  <font face="Arial" size="4" color="#990000">Add New Counter</font></td>
+</tr>
+  <tr>
+  <td width="725" align="center" height="255">
+<table width="726" height="205"><tr>
+    <td width="329" rowspan="5" height="201">
+<form id="form1" name="form1" method="post" action="new" align="center" >	
+  
+<%= error_messages_for 'counter' %>
+<p align=left>
+<label for="counter_counterno"><font size="2" face="Arial" color="#990000">Counter No:</font></label></br>
+&nbsp;<!--<%= text_field 'counter', 'counterno' %> -->
+<input  type=text id="counter_counterno" name="counter[counterno]" size="20">
+<p align=left>
+<label for="counter_status"><font color="#990000" face="Arial" size="2">Status:</font></label><br/>
+&nbsp;<input type="radio" id="counter_status" name="counter[counterstatus]" value="1" checked="checked"  />
+<font face="Arial" color="#990000" size="2">Active &nbsp;
+<input type="radio" id="counter_status" name="counter[counterstatus]" value="0"/>
+<font face="Arial" color="#990000" size="2">In Active</font></font></p>
+
+<p align=left>
+<font face="Arial" color="#990000" size="2"><br/></p>
+
+<p align=left><label for="counter_loginstatus">
+<font color="#990000" face="Arial" size="2">Login Status:</font></label><br/>
+<input type="radio" id="counter_loginstatus" name="counter[loginstatus]" value="Y"   />
+<font face="Arial" color="#990000" size="2">Login
+<input type="radio" id="counter_loginstatus" name="counter[loginstatus]" value="N" checked="checked"/><font face="Arial" color="#990000" size="2">Log Out</font></font></p>
+
+</tr>
+<td width="391" height="3">
+</td>
+
+</tr>
+<tr>
+<td width="391" height="115">
+<p align=left>
+<font face="Arial" size="2" color="#990000"><label for="counter_countertype">Customer Type:</label> </font><br>
+<input type="checkbox" name="type1" value="1">
+<font color="#990000" face="Arial" size="2">Gold Customer</input></font>
+<p align=left>
+<input type="checkbox" name="type2" value="2"><font size="2" face="Arial" color="#990000">Customer</input></font>
+<p align=left>
+<input type="checkbox" name="type3" value="0"><font size="2" face="Arial" color="#990000">Non Customer</input>
+</font>
+
+
+</td>
+
+</tr>
+<tr><td width="391" height="6">
+<p align="left">
+<font face="Arial" color="#990000">
+<b>
+Select Services for this Counter:</b></tr>
+<tr>
+<td width="391" height="18">
+<p align="left">
+
+
+<div  id=rep align=left >
+		<%= render :partial=>"rep" %>
+</div> 
+</td></tr></table>
+
+
+ 
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td align="center" width="725" height="37">
+<font color="#990000"><font size="2" face="Arial" color="#990000">
+<input type="submit" value="Create Counter &#187;" class="primary" style="font-family: Arial; font-size: 14px" />&nbsp;
+&nbsp;
+<%= submit_to_remote 'Create', 'Create' , :url=> {:controller=>'tellers',:action => "create" }, :style=>"font-family: Arial; font-size: 10pt" %>
+
+ <!--<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'tellers',:action => "back" }),:id=>'list', :style=>"font-family: Arial; font-size: 10pt" %>-->
+
+<%= submit_to_remote 'Cancel', 'Cancel' , :url=> {:controller=>'tellers',:action => "back" }, :style=>"font-family: Arial; font-size: 10pt" %>
+
+</td></tr>
+</table></td></tr></table>
+
+</td></tr></table></form> </body>
+</html>

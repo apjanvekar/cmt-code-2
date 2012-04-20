@@ -1,0 +1,201 @@
+*{ margin:0;
+	padding:0;
+}
+
+body{
+	 
+	 width:auto;
+	 height:auto;
+	 
+	 
+	 background-repeat:repeat;
+	 background-position: center 50% 
+	 
+	 
+	
+	
+}
+ table{
+ 
+ }
+
+a:link, a:active, a:visited{
+	 	color: #336699;
+	 	font-style:bold;
+}
+
+a:hover{
+		color:#E5DBH9;
+		background-color:white;
+		font-style:bold;
+}
+
+input { margin-bottom:5px;}
+
+p{
+	line-height:150%;
+}
+
+div#container{
+width:760px;
+margin:0 auto;
+}
+
+div#header{
+
+text-align:left;
+padding-bottom:15px;
+}
+
+div#content{
+float:center;
+width:450px;
+padding:10px;
+
+}
+
+div#content h3{
+margin-top:15px;
+}
+
+div#sidebar{
+width:200px;
+margin-left:480px;
+}
+.fieldWithErrors {
+  padding: 2px;
+  background-color:#990000 ;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid #990000;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color:#990000;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #990000;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+div.uploadStatus {
+  margin: 5px;
+}
+
+div.progressBar {
+  margin: 5px;
+}
+
+div.progressBar div.border {
+  background-color: #fff;
+  border: 1px solid grey;
+  width: 100%;
+}
+
+div.progressBar div.background {
+  background-color: #333;
+  height: 18px;
+  width: 0%;
+ 
+}
+
+#banner {
+background: url('images/banner_contact.JPG');
+
+}
+
+#logo_accounts {
+background: url('images/logo.gif');
+background-repeat:no-repeat;
+width:200;
+height:73;
+
+}	
+
+#logo_accounts1 {
+background: url('images/icici_logo_apb.gif');
+background-repeat:no-repeat;
+width:200;
+height:73;
+
+}	
+#logo {
+background: url('../images/Baroda-logo.gif');
+
+}
+#logobob {
+background: url('../images/bob.gif');
+
+}	
+	
+#login {
+background: url('images/login_visual.jpg');
+background-repeat:no-repeat;
+	
+}
+#client {
+background: url('../images/bob.gif');
+
+}	
+
+	
+#transact_client {
+background: url('../images/bob_transact.gif');
+align:right;
+background-repeat: no-repeat;
+}	
+
+#back {
+background: url('images/Rock_lightblue.jpg');
+align:right;
+background-repeat:repeat-x;
+}
+
+
+#logout {
+background: url('images/logout.jpg');
+
+}
+links a:link{
+	 	
+	 	font-style:bold;
+	 	}
+	 	
+links a:visited{
+	 	
+	 	font-style:bold;
+	 	}
+	 	
+	 	
+links a:active{
+	 	
+	 	font-style:bold;
+	 	}
+
+#notice{
+color:#1F3F5F;
+font-weight:bold;
+}
+	 	
+	 	
+	 	

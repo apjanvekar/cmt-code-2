@@ -1,0 +1,131 @@
+<!-- version DQMS_ROR_ver1.0.2 -->
+<html>
+
+<head>
+<title> Edit Configurations</title>
+<%= javascript_include_tag "backButton",:defaults %>
+</head>
+
+<body onunLoad="back()">
+<% @t = Service.find_by_sql("select * from settings" ) %>
+<% @t.each do |c| %>
+
+
+              
+ <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="58%" id="AutoNumber1" height="515" align="center">
+  <center> 
+  <tr>
+    <td width="100%" height="1"></td>
+  </tr>
+  <tr>
+    <td width="100%" height="442">
+    <table border="0" cellpadding="0" cellspacing="10" style="border-collapse: collapse" bordercolor="#800000" width="526" id="AutoNumber2" height="296" align="left">
+      <tr>
+        
+        <td width="1159" height="296">
+        <div align="center">
+          <center>
+        <table border="5" cellpadding="10" cellspacing="10" style="border-collapse: collapse" bordercolor="#800000" width="100%" id="AutoNumber3" height="187">
+          <tr>
+            <td width="100%" height="187">
+            <table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="113%" id="AutoNumber4" height="158">
+              <tr>
+                <td width="100%" height="20" ></td>
+              </tr>
+              <tr>
+                <td width="100%" height="18"></td>
+              </tr>
+              <tr>
+                <td width="100%" height="140">
+
+                  
+<h3 align="center"><span style="font-weight: 400">
+<font color="#990000" face="Zurich BT">Configuration Settings</font></span></h3><p>&nbsp;</p>
+<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="89%" id="AutoNumber6" height="71">
+                    <tr>
+                      <td width="43%">
+                      <p align="right"><font face="Zurich BT">Missing 
+                      Count:</font></td>
+                      <td width="45%">
+                      &nbsp;
+                     <font face="Zurich BT"> <input type="text" name="T1" value="<%= c.missingcount %>" size="15" disabled></font></td>
+                    </tr>
+                    <tr>
+                      <td width="43%" >
+                      <p align="right"><font face="Zurich BT">Missing 
+                      Time: </font></td>
+                      <td width="45%" >
+                      &nbsp;
+                      <font face="Zurich BT"><input type="text" name="T1" value="<%= c.missingtime %>" size="15" disabled></font></td>
+                    </tr>
+                   
+                    <tr>
+                      <td width="43%">
+                      <p align="right"><font face="Zurich BT"> &nbsp;Screen Timeout
+                    :</font></td>
+                      <td width="45%">
+                      &nbsp;
+                      
+                      <font face="Zurich BT"><input type="text" name="T1" value="<%= c.returntime %>" size="15" disabled></font></td>
+                    </tr>
+                   
+                    <tr>
+                      <td width="43%">
+                      <p align="right"><font face="Zurich BT">Branch 
+                      Name:</font></td>
+                      <td width="45%">
+                      &nbsp;
+                      <font face="Zurich BT"><input type="text" name="T1" value="<%= c.branchname %>" size="15" disabled></font></td>
+                    </tr>
+                    <tr>
+                      <td width="43%">
+                      <p align="right"><font face="Zurich BT">Branch SoleID:</font></td>
+                      <td width="45%">
+                      &nbsp;
+                      <font face="Zurich BT"><input type="text" name="T1" value="<%= c.soleid %>" size="15" disabled></font></td>
+                    </tr>
+
+
+					<!--<tr>
+                      <td width="28%" height="49"><font face="Zurich BT">Account Screen Time:</font></td>
+                      <td width="72%" height="49">
+                      &nbsp;
+                      <input type="text" name="T1" value="<%= c.accountscreentime %>" size="15" disabled></td>
+                    </tr>-->
+
+                  </table>
+             
+&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="100%" height="25">
+               <center><font face="Zurich BT">
+                <%= link_to 'Edit', :action => 'edit', :id => c.id %></font>
+<%#=link_to 'Back', :controller=>'backup', :action => 'settings' %>
+
+<%end%></center>
+                </td>
+              </tr>
+            </table>
+            </td>
+          </tr>
+        </table>
+          </center>
+          </div>
+        </td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  </center>
+  </table>
+
+      <% if flash[:notice] -%>
+      
+<div id="notice"><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+<%end%>
+
+
+</body>
+
+</html>

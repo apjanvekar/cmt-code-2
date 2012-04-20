@@ -1,0 +1,149 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+<head>
+<%= stylesheet_link_tag "style" %>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+ <script type="text/javascript">
+!--
+history.forward();
+
+-->
+</script>
+
+</head>
+<body topmargin="0" leftmargin="0" align=center>
+<table  border="0" cellspacing="0" cellpadding="0"  width="698" height="546" align=center>
+
+<tr>
+<form id="form1" name="form1" method="post" action="updateteller" align="center">
+<td height="546" width="716"><% session[:gvar]=0%><% session[:b]=0%>
+		<table align="center" width="699" height="560">
+    
+    <tr>
+    <td width="696" height="115">
+    <table height="126" ><tr>
+  			<td id=banner width="636" height="100%" ></td>
+  			
+  			<td id=logo style="background-repeat:no-repeat" width=221 height=122  > </td>
+  			
+  		</tr></table>
+  		</td></tr>
+  		<tr>
+  			<td width="709" height="19" bgcolor="#800000" colspan="3" bordercolor="#800000">&nbsp;</td>
+  		</tr>
+  		<tr>
+  		<td height="25">
+  		<table width="693"><tr>
+  			<td width="597" height="22" colspan="2">&nbsp;</td>
+  			<td width="86" height="22" align="right" ><p align="right"> <b>
+            <font face="Arial" color="#800000"><%= link_to "Log Out", :controller=> "account", :action => 'logout' %></font></b></td>
+  		</tr></table>
+  		</td></tr>
+  		<tr>
+  		<td width="696" height="124">
+  		<table><tr>
+  			
+  			<td align=center width="755" height="118"><%= error_messages_for 'teller' %>
+        <table border=0 >
+          <tr>
+	<td width="307" height="89">
+	<table border=5 bordercolor="#800000"><tr><td>
+			<table width="308" height="5">
+				<tr>
+					<td width="303" height="24">
+					</td>
+				</tr>
+				<tr>
+					<td width="303" height="28">  <% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+
+   <% @a= Transact.find_first(["counterno = ? AND tokenstatus=0",@counter.counterno]) %>
+	<% if @a==nil %>
+	<% redirect_to :action=>'transact' %>
+		<% else %>
+
+
+			
+<%@t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>? ",@a.tokenid,@counter.counterno]) %>
+                            	
+                            	<% @t.each do |c| %>
+                            	   <% c.tokenstatus=4 %>
+                            	    <%c.save %>
+                            	    <%end%>
+                            	    
+                            	
+                            	
+                            	<%@x=Transact.find_all(["tokenstatus=0 and tokenid=? and counterno=? and serviceid<>?",@a.tokenid,@counter.counterno,@a.serviceid])%>
+                            	<% @x.each do |x| %>
+                            	<% x.tokenstatus=4 %>
+                            	<% x.save %>
+                            	<% end %> 
+                            	
+                            	
+                            	<% if @a.calledtime==nil %>
+                            	<% calledtime= Time.now().strftime("%H:%M:%S") %>
+                            	<%call="00:00:00"%>
+                            	<%else%>
+                            	<% calledtime=@a.calledtime %>
+                            	<% call= Time.now().strftime("%H:%M:%S") %>
+				<% end %>
+				 
+                            	<% @gwaittime=User.time_diff_in_minutes(@a.generatedtime,Time.now()) %>
+                            	
+                            	
+                            	<% @update=Transact.update(@a.id,{:call1=>call,:calledtime => calledtime,:waittime => @gwaittime, :login=> @session['user']['login'], :tokenstatus=>2}) %>
+
+                            	
+                            	
+                            	<% @d=Tokendisplay.find_first(["counterno=?",@a.counterno]) %>
+                            	<% Tokendisplay.update(@d.counterno,{:tokenno=>@a.tokenno})  %>
+
+						<font face="Zurich Ex BT"><font color="#800000">Token No. :</font><b>&nbsp;<font color="#0000FF"> <%= @a.tokenno -%> 
+
+</font></b></font>
+					</td>
+				</tr>
+				<tr>
+					<td width="303" height="31">
+							<font face="Zurich Ex BT" color="#800000">Service Name : </font><b>
+							<font face="Zurich Ex BT" color="#0000FF"><% @s= Service.find_first(["serviceid = ? ",@a.serviceid]) %>
+								<%= @s.servicename %><% end %>
+</font></b>
+					</td>
+				</tr>
+				<tr>
+    				<td width="303" height="5" align=center>
+  						<br />
+  						<%= button_to_function 'Arrived',remote_function(:url => {:controller=>'client',:action => "arrived" }),  :id=>'arrived'%>
+&nbsp;
+  						<%= button_to_function 'Missing',remote_function(:url => {:controller=>'client',:action => "missed" }),  :id=>'missed '%>
+
+
+					</td>
+				</tr>
+				</table>
+				</td></tr></table>
+</td>
+            </tr>
+            <tr>
+ 					<td bgcolor="#FFFFFF" align="center">
+ 						&nbsp;</td>
+				</tr>
+				</table>
+ 				
+ 			</td>
+ 			
+ 		</tr></table>
+ 		</td></tr>
+ 		<tr>
+  			<td width="709" height="257" colspan="3">&nbsp;</td>
+  			</tr>
+ </table>
+ </form>
+ 
+ </td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+<html>
+<head>
+
+</head>
+<body style="margin:5px 0px 0px 5px">
+
+<img src="<%= url_for(:action => 'getchartmodi', :user => ((params[:employeescore] && params[:employeescore][:login])), :date1 => params[:startdate], :date2  => params[:enddate] )  %>">
+
+
+</body>
+</html>

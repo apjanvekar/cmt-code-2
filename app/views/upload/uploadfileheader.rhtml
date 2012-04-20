@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>file upload</title>
+<%= javascript_include_tag "backButton",:defaults %>
+</head>
+<body onunLoad="back()">
+<table width="100%" height="100%">
+<tr><td width="503" height="384" rowspan="2" align="left" > 
+
+<h1 align="left"><font face="Arial" color="#800000" size="5">Upload DQMS Header 
+Image</font></h1>
+<br/>
+<%= start_form_tag ({:action => 'uploadFile1'}, 
+                        :multipart => true) %>
+<p align="left">
+	<b><font face="Arial" color="#800000">
+	<label for="upload_file">Select File</label></font><font color="#800000"> :<%= file_field 'upload', 'datafileheader' %></font></b><font color="#800000">
+    </font>
+</p>
+<p align="left">
+<font size="2" face="Arial" color="red">* Use images with 200 * 83 size only.</font><br/>
+</p>
+<p align=left>
+<%= submit_tag "Upload" %>
+</p>
+<%= end_form_tag %>
+</td>
+</tr>
+  <tr>
+<td id=upload width="254" height="338">&nbsp;</td>
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+<head>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 522px; 
+HEIGHT:120px;
+} 
+</STYLE> 
+</head>
+<body>
+
+<div class=clsDataGrid id=divList bgcolor=white>
+
+<table width="403" align="left" height="62"> <tr>
+            	                            <td  height="58" width="400">	
+            	                            
+            	                            	<table border="1" width ="80%" cellpadding="0"  cellspacing="0"  bordercolor="#111111"  id="AutoNumber1" bgcolor=white height="41">
+            	                            	
+            	                            								
+            	                            	<tr bgcolor="#800000">    								 
+    												<th nowrap  >
+                                                    <font color=white face="Arial" size="2">&nbsp; Counter Number &nbsp;</font></th>
+      												<th nowrap >
+                                                    <font color="#FFFFFF" face="Arial" size="2">&nbsp; Active Request Number &nbsp; </font></th>
+      												<th nowrap >
+                                                    <font color="#FFFFFF" face="Arial" size="2">&nbsp; Pending Count &nbsp;</font></th>
+                                                    <th nowrap >
+                                                    <font color="#FFFFFF" face="Arial" size="2">&nbsp; View Details &nbsp;</font></th>										
+    											</tr>
+    											
+    											<% @t=Counter.find_by_sql("select * from counters where counterstatus=1 and loginstatus='Y'") %> 
+            	                            	
+            	                            	<%    @t.each do |c| %> 
+            	                            	
+    											<tr>
+    												
+      												<td align=center height="19" width="119">
+													<%= c.counterno -%>&nbsp;</td>
+      												<td align=center height="19" width="168">
+      													<% @x= Transact.find_first(["counterno = ? and tokenstatus=2",c.counterno]) %> 
+      													<% if @x==nil %> 
+      														<b><font size="2" face="Arial" color="#FF0000">NIL 
+      													<%else %> 
+      														<%= @x.tokenno -%> 
+      													<% end %> 
+      													</font>
+      													</b>
+      												</td>
+      												<td align=center height="19" width="107"><% @c =Transact.count(["tokenstatus=0 and counterno=?",c.counterno]) %> <%= @c -%>
+      												
+
+      												
+      													
+      												</td>
+      												<td><%= link_to 'Details', :action => 'token', :id => c.id %> &nbsp;</tr>
+												<% end %> 
+												</table>
+											</td>
+										</tr>
+										</table>
+									</div>
+					</body>
+						</html>

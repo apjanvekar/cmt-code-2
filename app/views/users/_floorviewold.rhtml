@@ -1,0 +1,132 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 765px; 
+HEIGHT:200px;
+} 
+</STYLE> 
+ <%= javascript_include_tag "prototype","effects","application",:defaults %>
+
+</head>
+
+<body>
+  							    	
+
+<table  height="344"><tr><td height="340" >
+<table border=5 bordercolor="#990000"><tr>
+  <td bgcolor="#FFFFFF" height="236">
+   <div class=clsDataGrid id=divList bgcolor=white style=" height: 237">
+<table align=center border=0 bordercolor="#800000"><tr><td>
+ <table border="1"  cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="26" >
+<caption><h3 align="center"><span style="font-weight: 400">
+<font face="Zurich BT" color="#990000">Service Area Floorview</font></span></h3>
+</caption>
+<tr align=center bgcolor="#800000">
+      	<th height="11"  bgcolor="#990000" width="56">
+        <font color=white face="Zurich BT" size="2">&nbsp;Counter&nbsp;</font></th>
+      	<th nowrap height="11" bgcolor="#990000" width="35">
+        <font color=white face="Zurich BT" size="2">&nbsp;CounterStatus&nbsp;</font></th>
+		<th nowrap height="11"  bgcolor="#990000" width="45">
+        <font color=white face="Zurich BT" size="2">&nbsp;ActiveToken</font></th>
+		<th nowrap height="11"  bgcolor="#990000" width="20">
+        <font color=white face="Zurich BT" size="2">&nbsp;ServiceName</font></th>
+		<th nowrap height="11"  bgcolor="#990000" width="56">
+        <font color=white face="Zurich BT" size="2">&nbsp;CustomerType</font></th>
+		<th nowrap height="11"  bgcolor="#990000" width="56">
+        <font color=white face="Zurich BT" size="2">&nbsp;ThresholdValue&nbsp;</font></th>
+		<th  height="11"  bgcolor="#990000" width="10">
+        <font color=white face="Zurich BT" size="2">&nbsp;WaitTime</font></th>
+</tr>
+<% @t = Counter.find_by_sql("select * from counters where counterstatus=1 order by counterno" ) %><font size="1" face="Zurich BT">
+<% @t.each do |c| %> </font>
+<tr align=center>
+<td nowrap  height="11" align=center ><font size="2" face="Zurich BT">
+<%= c.counterno %></font></td>
+
+<td nowrap  height="11" align=left >
+	<% if c.loginstatus=='Y'%>
+	<font size="2" face="Zurich BT">
+		<% @pause=Transact.find_first(["counterno=?",c.counterno])%>
+		<% if @pause!=nil %> 
+				<% if @pause.pauseflag==1  %>
+				<font size="2" face="Zurich BT" color=red><b>
+
+				<%= @pause.reasons %></b>
+				<% else %>
+				Logged In 
+				<% end%>
+		<% end %>
+	<%else%><font size="2" face="Zurich BT">
+		Logged Out</font>
+	<%end%>
+
+</td>
+<% if c.loginstatus=='Y'%>
+<% @a= Transact.find_first(["counterno = ? and tokenstatus=2",c.counterno]) %>
+<% if @a==nil %>
+<%else %>
+
+<td nowrap height="11"  width="111" align=center>
+<font size="2" face="Zurich BT">
+
+<font size="2" face="Zurich BT">
+<%= @a.tokenno -%> </font></td>
+
+<td nowrap height="11" align=left width="120">
+
+<% @b= Service.find_first(["serviceid = ? ",@a.serviceid]) %><font size="2" face="Zurich BT">
+
+<%= @b.servicename -%> </font><font size="2" face="Zurich BT">&nbsp; </font>
+</td>
+
+<td nowrap  height="11" align=left width="116">
+<% @c= Customertype.find_first(["ctypeid = ? ",@a.ctypeid]) %><font size="2" face="Zurich BT">
+<%= @c.ctypedesc -%> </font><font size="2" face="Zurich BT">&nbsp; </font>
+</td>
+<td nowrap height="11" align=left width="116">
+<% @d= Service.find_first(["serviceid = ? ",@a.serviceid]) %><font size="2" face="Zurich BT">
+<%= @d.thresholdtime.strftime("%H:%M:%S") -%> </font>
+<font size="2" face="Zurich BT">&nbsp; </font>
+</td>
+
+
+<td nowrap  height="11" align=left width="107">
+<%= @a.waittime.strftime("%H:%M:%S") -%><font size="2" face="Zurich BT"> </font>
+<font size="2" face="Zurich BT">&nbsp;
+</td>
+
+
+<% end %>
+<%end%>
+
+</tr>
+<% end %>
+ </font>
+</table></div>
+   </center>
+ </div></td></tr></table>
+ 
+ </td></tr></table>
+ 
+<p>&nbsp;</p>
+</form>&nbsp;</td>
+  </tr>
+  </table>
+</table>
+</td></tr></table>
+</body>
+
+</html>

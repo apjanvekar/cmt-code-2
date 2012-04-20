@@ -1,0 +1,114 @@
+
+
+<head>
+<%= javascript_include_tag "backButton",:defaults %>
+</head>
+<body onunLoad="back()">
+<% @master=Transact.find_by_sql("select distinct serviceid,tokenno,transdate,generatedtime,login,calledtime,counterno,waittime,servicedtime,timetaken,tokenstatus
+						                                         from transacts
+						                                         where transdate= CURDATE() and (tokenstatus=0 or tokenstatus=1 or tokenstatus=3 )") %>						
+<%if @master!=[]%>
+<table>
+       <tr>
+           <td><%= button_to "Export To CSV", :controller => 'users', :action => "Masterreporth1"%></td>
+           
+</table>
+<table height="42" width="466" align=center>
+       <tr>
+           <td height="256" width="292">	
+ 		   <table border=5 width="432" height="321" bordercolor="#800000" align=center> 		
+ 		   <tr>
+                <td bgcolor="#FFFFFF" height="315" width="439">
+ 		        <table border=0 width="436" height="315">
+ 		        <tr>
+ 		            <td height="17" style="border-style: solid; border-width: 1">
+                        <p align=center>
+      		            <b><font face="Zurich BT" size="4" color="#800000">Detailed Master Report For Todays Date</font><font color="#800000"></font></b><br/>
+      		             <%@tim=Time.now%>
+      		            <p align="left"><font face="Zurich BT">Generated On: <%=@tim1=@tim.strftime("%d/%m/%Y")  %>
+                        </font> 
+      		            <h4 align="right"><font face="Zurich BT">From:<%= Date.today %> To: <%= Date.today  %></font></h5> </p><p>
+                        <font face="Zurich BT">Branch Name:<% @t = Service.find_by_sql("select branchname as b1 from settings" )%><%= @t[0].b1 %></font></p></p>
+      		       </td>
+      		    </tr>
+ 		        <tr>
+      		        <td  width="430" height="311"> 
+ 			        <div class=clsDataGrid id=divList bgcolor=white style="width: 700; height: 250"> 			
+ 			             <div align="center">
+                         <center> 			
+ 			                     <table border="1" width ="1334" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="41" style="border-collapse: collapse">
+                                 <tr align=center bgcolor="#800000">
+                                     <th height="15"   width="1"><font color=white face="Zurich BT" size="2">Sr.No</font></th>
+                                     <th height="15"   width="70"><font color=white face="Zurich BT" size="2">Token&nbsp;No&nbsp;</font></th>
+                                     <th height="15"   width="68"><font color=white face="Zurich BT" size="2">&nbsp;&nbsp;Date</font></th>
+                                     <th height="15"   width="82"><font color=white face="Zurich BT" size="2">Teller&nbsp;Name&nbsp;</font></th>
+                                     <th height="15"   width="351"><font color=white face="Zurich BT" size="2">&nbsp;Service&nbsp;Name</font></th>
+                                     <th height="15"   width="98"><font color=white face="Zurich BT" size="2">&nbsp;Generated&nbsp;Time&nbsp;</font></th>
+		                             <th height="15"   width="117"><font color=white face="Zurich BT" size="2">&nbsp;Called&nbsp;Time&nbsp;</font></th>
+		                             <th height="15"   width="71"><font color=white face="Zurich BT" size="2">&nbsp;Counter&nbsp;</font></th>
+		                             <th height="15 "   width="69"><font color=white face="Zurich BT" size="2">&nbsp;Wait&nbsp;Time</font></th>
+                                     <th height="15"   width="96"><font color=white face="Zurich BT" size="2">&nbsp;Serviced&nbsp;Time</font></th>
+                                     <th height="15"   width="79"><font color=white face="Zurich BT" size="2">&nbsp;Time&nbsp;Taken</font></th>
+		                             <th height="15"   width="86"><font color=white face="Zurich BT" size="2">&nbsp;Token&nbsp;Status</font></th>
+                                 </tr>
+                                <% @count=0 %>
+                                <% @master=Transact.find_by_sql("select distinct serviceid,tokenno,transdate,generatedtime,login,calledtime,counterno,waittime,servicedtime,timetaken,tokenstatus
+						                                         from transacts
+						                                         where transdate= CURDATE() and (tokenstatus=0 or tokenstatus=1 or tokenstatus=3 )") %>						
+                                <%if @master!=[]%>
+                                     <% @master.each do |player|%>
+                                     <tr align=center>
+                                         <td nowrap  height="11" align=center width="50" ><font size="2" face="Zurich BT"><%= @count=@count+1 %></font></td>
+                                         <td nowrap  height="11" align=center width="70" ><font size="2" face="Zurich BT"><%= player.tokenno %></font></td>
+                                         <td nowrap  height="11" align=center width="68" ><font size="2" face="Zurich BT"><%= player.transdate.strftime("%d/%m/%Y") %></font></td>
+                                         <td nowrap  height="11" align=center width="82" ><font size="2" face="Zurich BT"><%= player.login %></font></td>
+                                         <% @service= player.serviceid
+                                            @a=Service.find(:first,:conditions=>["serviceid=?",@service]) %>
+                                         <td nowrap  height="11" align=left width="351" ><font size="2" face="Zurich BT"><%= @a.servicename %></font></td>
+                                         <td nowrap  height="11" align=center width="98" ><font size="2" face="Zurich BT"><%= player.generatedtime.strftime("%H:%M:%S") %></font></td>
+                                         <% if(player.calledtime!=nil) %>
+                                            <td nowrap  height="11" align=center width="117" ><font size="2" face="Zurich BT"><%= player.calledtime.strftime("%H:%M:%S") %> </font></td>
+                                         <% end %>
+                                         <td nowrap  height="11" align=center width="71" ><font size="2" face="Zurich BT"><%= player.counterno %></font></td>
+                                         <% if(player.waittime!=nil) %>
+                                            <td nowrap  height="11" align=center width="69" ><font size="2" face="Zurich BT"><%= player.waittime.strftime("%H:%M:%S") %></font></td>
+                                         <% end %>
+                                         <% if(player.servicedtime!=nil) %>
+                                           <td nowrap  height="11" align=center width="96" ><font size="2" face="Zurich BT"><%= player.servicedtime.strftime("%H:%M:%S") %></font></td>
+                                         <% end %>
+                                         <% if(player.timetaken!=nil) %>
+                                           <td nowrap  height="11" align=center width="79" ><font size="2" face="Zurich BT"><%= player.timetaken.strftime("%H:%M:%S") %></font></td>
+                                         <% end %>
+                                         <td nowrap  height="11" align=center width="86" ><font size="2" face="Zurich BT">
+                                         <% @status= player.tokenstatus %>
+                                         <% if(@status=="0") %>
+                                               InQueue
+                                         <% elsif(@status=="1") %>
+                                               Served
+                                         <% elsif(@status=="3") %>
+                                               Missed
+                                         <% end %>
+                                         </font></td>
+                                    </tr>
+                                    <%end%>
+                              <%else%>
+                             <%end%>
+                             </table>
+                             </center>
+                        </div>
+                    </div>
+ <% @time = Transact.find_by_sql("select SEC_TO_TIME(AVG(TIME_TO_SEC(timetaken))) as AverageServicedTime from transactmaster
+                                  where transdate = CURDATE() and (tokenstatus=0 or tokenstatus=1 or tokenstatus=3 )") %>
+</td>                               
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<%else%>
+<%=flash[:notice]="Data Not Present"%>
+<%end%>
+</body>

@@ -1,0 +1,14 @@
+<%= error_messages_for 'setting' %>
+
+<!--[form:setting]-->
+
+
+<p><label for="setting_branchname">Branch Name</label><br/>
+<%= text_field 'setting', 'branchname',:size=>10  %></p>
+
+<p><label for="setting_Branch_ID">Branch ID</label><br/>
+<%= text_field 'setting', 'Branch_ID', :size=>3, :onblur=> "checkField(this)", :id=>"Branch_ID" %></p><br/>
+
+
+
+<!--[eoform:setting]-->

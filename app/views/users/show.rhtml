@@ -1,0 +1,36 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin : Users List</title>
+</head>
+
+<body>
+<table border=0><tr><td>
+<table align="left" border=5 bordercolor="#FF6600"><tr><td bgcolor="#FFFFFF">
+<h3> <font color="#800000"><u>Edited Teller</u></font> </h3>
+<p>&nbsp;</p>
+
+<div class="form">
+<% for column in User.content_columns %>
+<p align=left>
+    <font color="#800000"><b>&nbsp;<%= column.human_name %>:</b></font>&nbsp;<b> <%=h @user.send(column.name) %></b>&nbsp;
+</p>
+<% end %>
+<p>&nbsp;</p>
+
+<%= link_to 'Edit', :action => 'edit', :id => @user.id %> |
+<%= link_to 'Back', :action => 'list' %>
+<p>&nbsp;</p>
+</div>	
+	</td>
+   
+  </tr>
+  
+</table>
+</td><tr></table>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+ 
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<STYLE type="text/css"> 
+  
+/* Div container to wrap the datagrid */
+div#divList {
+width: 420px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #800000;
+color: white;
+border-right: 1px solid black;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+top: expression(document.getElementById("divList").scrollTop-2);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+th.locked {z-index: 99;}
+
+</STYLE> 
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+<body>
+<table height="42" width="466" align=center><tr><td height="256" width="292">	
+ 		<table border=5 width="432" height="321" bordercolor="#800000" align=center> 		<tr>
+            <td bgcolor="#FFFFFF" height="315" width="439">
+ 		<table border=0 width="436" height="315">
+ 		<tr><td height="17"><p align=center>
+      		<b>
+      		<font face="Zurich BT" size="4" color="#800000">Counter Wise Pending Token Count </font>
+            </b>
+      		</p>
+      		</td></tr>
+
+ 		<tr>
+ 		
+      		<td  width="430" height="311"> 
+ 			<div class=clsDataGrid id=divList bgcolor=white style="width: 700; height: 250"> 			
+ 			<table border="1" align=center width ="644" cellpadding="0"  cellspacing="0"  bordercolor="#000000" height="68">
+
+				
+					<tr  bgcolor="#800000">
+      					<th width="89" height="27" border="1"  bordercolor="#000000" >
+                        <font color=white face="Zurich BT" size="2" align=center>
+                        Counter No.</th>      	
+						<th  width="148" height="27" border="1"  bordercolor="#000000">
+                        <font color=white face="Zurich BT" size="2" align=left>Privilege Customer</font></th>
+                        <th  width="73" height="27" border="1"  bordercolor="#000000">
+                        <font color=white face="Zurich BT" size="2" align=left>Customer</font></th>
+						<th  width="165" height="27" border="1"  bordercolor="#000000">
+                        <font color=white face="Zurich BT" size="2" align=left>Representative</font></th>
+
+                        <th  width="157" height="27" border="1"  bordercolor="#000000">
+                        <font color=white face="Zurich BT" size="2" align=left>Pending Token Count</font></th>
+
+					</tr>
+					 <%@count_privilage=0
+					   @count_customer=0
+					   @count_representative=0
+					 %>
+                    <%@s=Counter.find(:all,:conditions=>["loginstatus=? or counterstatus=?",'Y','1'])%>
+					<% @s.each do |g| %>
+					<tr bgcolor="#FFFFFF">
+						<td nowrap bgcolor="#FFFFFF"  align=center width="89" height="16">
+						     <font face="Zurich BT" size="2"><%= g.counterno %> </font>
+						</td>
+						<td nowrap bgcolor="#FFFFFF" align=center width="148" height="16">
+
+						       <% @privilege= Transact.count(["counterno = ? and tokenstatus=0 and ctypeid=1",g.counterno]) %><font face="Zurich BT" size="2">
+						       <%= @privilege %> 
+						       <%@count_privilage=@count_privilage+@privilege%>
+						       </font>
+					    </td>
+			            <td nowrap bgcolor="#FFFFFF"  align=center width="73" height="16">
+						       <% @customer= Transact.count(["counterno = ? and tokenstatus=0 and ctypeid=2",g.counterno]) %><font face="Zurich BT" size="2">
+						       <%= @customer %> 
+						       <%@count_customer=@count_customer+@customer%>
+						       </font>
+						</td>
+                        <td nowrap bgcolor="#FFFFFF"  align=center width="165" height="16">
+						       <% @reprensentative= Transact.count(["counterno = ? and tokenstatus=0 and ctypeid=3",g.counterno]) %><font face="Zurich BT" size="2">
+						       <%= @reprensentative %>
+						       <%@count_representative=@count_representative+@reprensentative%> 
+						       </font>
+						</td>
+
+						<td bgcolor="#FFFFFF"  align=center width="157" height="16">
+
+						       <font face="Zurich BT" size="2">
+						       <%= @privilege+@customer+@reprensentative %> 
+						       </font>
+					    </td>
+
+					<% end %>
+					
+					<tr bgcolor="#800000">
+						<td nowrap bgcolor="#800000"  align=center width="89" height="19">
+						
+                        <b>
+						
+                        <font face="Zurich BT" size="2" color=white>TOTAL</font></b>
+						</td>
+						<td nowrap bgcolor="#800000" align=center width="148" height="19">
+
+						<font face="Zurich BT" size="2" color=white><%= @count_privilage %> </font></td>
+
+						<td nowrap bgcolor="#800000"  align=center width="73" height="19">
+						<font face="Zurich BT" size="2" color=white><%=@count_customer %> </font></td>
+
+
+						<td nowrap bgcolor="#800000" align=center width="165" height="19" >
+
+						<font face="Zurich BT" size="2" color=white><%= @count_representative %></td>
+
+
+						<td bgcolor="#800000" align=center width="157" height="19">
+
+						<font face="Zurich BT" size="2" color=white><%=@count_privilage+@count_customer +@count_representative %> </font></td>
+
+					</tr>
+				</table>
+			
+			 </div>  		
+			</td>
+		</tr>
+		
+		</table>	
+ 		
+ 	</td>
+ 	
+ 	
+</tr>
+</table></td></tr></table>
+</table>
+</body>
+</html>

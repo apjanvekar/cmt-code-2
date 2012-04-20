@@ -1,0 +1,74 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 400px; 
+HEIGHT:150px;
+} 
+</STYLE> 
+
+</head>
+
+<body>
+<body>
+<table border=1 width="70%" height="343" bordercolor="#800000" align=center><tr>
+  <td bgcolor="#FFFFFF" width="704" height="305">
+  <table width="702" height="239"><tr><td width="107" height="272">
+&nbsp;</td><td width="473" height="272">
+<table align=center border=5 bordercolor="#800000" width="421"><tr>
+  <td width="457">
+<h1 align="center"><font color="#800000" face="Zurich BT" size="4">Events</font></span></h1>
+<p>&nbsp;</p>
+<div class=clsDataGrid id=divList bgcolor=white style="width: 455; height: 100">
+<table border="1" width ="323" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="40">                 	
+ 		 	 <tr bgcolor="#800000">  
+      			<th nowrap width="72" height="17" ><span style="font-weight: 400">
+                <font color=white face="Zurich BT" size="2">Sr.No</font></span></th>
+      			<th nowrap width="219" height="17" ><span style="font-weight: 400">
+                <font color=white face="Zurich BT" size="2">Events</font></span></th>
+				<th nowrap width="62" height="17" ></th>
+
+      		</tr>
+ 			<% @t = Ad.find_by_sql("select * from ads" ) %>
+			<% @t.each do |c| %>
+  <tr>
+  
+	<td nowrap align="center" width="72" height="20"><font  face="Zurich BT" size="2"><%= c.id %></td>	
+	<td nowrap align="center" width="219" height="20">    
+      <font  face="Zurich BT" size="2"><%= c.adtext %></td>
+	
+<td align="center" width="1" height="20"><font  face="Zurich BT" size="2"><b><%= link_to 'Edit', :action => 'edit_ad', :id => c.id %></b></font></td>
+</tr><% end %>	
+</table></div>			
+		
+<%= link_to 'Previous page', { :page => @ad_pages.current.previous } if @ad_pages.current.previous %>
+<%= link_to 'Next page', { :page => @ad_pages.current.next } if @ad_pages.current.next %> 
+
+<br />
+
+<!--<p align=center> <font  face="Zurich BT" size="2"><b><%= link_to 'Add New Event', :action => 'ad' %> </p></b></font>-->
+
+<p>&nbsp;</p>
+</td></tr></table>
+</td>
+<td width="108">&nbsp;</td>
+
+
+</tr></table>
+</td></tr></table>
+
+</body>
+</html>

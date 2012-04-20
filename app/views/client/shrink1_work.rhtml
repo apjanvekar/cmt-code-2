@@ -1,0 +1,265 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Counter No: <% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+                              		<%= @counter.counterno %>
+                              
+</title>
+ <%= javascript_include_tag "prototype","effects",:defaults %>
+ 
+ 
+<script type="" language="JavaScript">
+function show() {
+var div_ref = document.all("id_div");
+  div_ref.style.visibility = "visible";
+var div_ref = document.all("bulk_div");
+  div_ref.style.visibility = "visible";
+}
+
+	function Pause()
+  	{
+	  	a=confirm("Taking Pause will end the current Service Request.Do you want to continue?");
+  		if(a==1)
+  		{
+  		var div_ref = document.all("aux_div");
+        div_ref.style.visibility = "visible";
+  		
+  		var div_ref = document.all("time_div");
+        div_ref.style.visibility = "hidden";
+
+		disable();     
+		
+   		}
+  	}
+
+function disable()
+{
+	document.form1.submit.disabled=true;
+	document.form1.pause.disabled=true;
+} 
+  
+function Release()
+{
+
+ document.form1.submit.disabled=false;
+ document.form1.pause.disabled=false;
+ var div_ref = document.all("aux_div");
+ div_ref.style.visibility = "hidden";
+
+  		var div_ref = document.all("time_div");
+        div_ref.style.visibility = "visible";
+        
+        
+        
+} 
+ function full()
+ {
+ win=window.open('transact', 'Script','width=1500,height=750,resizable=yes,location=yes, status=yes, left=120, top=80');
+ win.moveTo(0,0);
+  return false
+ }
+
+</script>
+
+
+ 
+ 
+</head>
+
+<body topmargin="0" leftmargin="0" rightmargin="0">
+<table border=0 align="left" height="302" width="190">
+	<tr>
+	<form id="form1" name="form1" method="post" action="updateshrink" align="center">	
+		<td height="296" width="310" >
+			<table height="295" width="121">
+				<tr>
+					<td  width="252" height="20" >
+						<table width="227" >
+						<tr>
+						
+						<td width="193" >
+						 <font face="Arial" size="3" color="#800000"><b>
+							<div id='pending_div' >
+															  
+  							    	<%= periodically_call_remote :update => 'pending_div', :url => {:controller =>'users',:action => 'pending'}, :complete => visual_effect(:pulsate, 'pending_div'), :frequency =>3.0 %></font>
+								</b>
+							</div>					 		
+					 		
+                        </td>
+						
+						<td width="24" >
+						<a href="javascript:;" onClick="full(),self.close()" >Full</a></td>
+                         </tr>
+                         </table>
+                    </td>
+				</tr>
+				<tr>
+					<td height="267" width="252" >
+						<table width="195" height="260">
+							<tr>
+							<td width="220" height="22">
+							<table width="221"><tr>
+							
+							<td width="99" height="16">
+							<b><font face="Arial" size="2" color="#800000">Active Service:</font></b></td>
+							
+							<td width="88" height="16"><b><font face="Arial" size="2" color="#800000">
+							<% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+
+							<% @a= Transact.find_first(["counterno = ? AND (tokenstatus=0 || tokenstatus=2)",@counter.counterno]) %>
+							<% if @a==nil %>
+							<% else %>
+							
+							
+							<% @t=Service.find_first(["serviceid=?",@a.serviceid]) %> 
+							<%= @t.servicename %>
+							<% end %>
+							</font></b>
+							
+							</td>
+							</tr></table>
+							</td>
+							</tr>
+							
+							<tr>
+							<td width="220" height="25">
+							<table width="221"><tr>
+							<td width="104" height="20">
+							<font color="#800000"><b>
+                            					<font face="Arial" size="2">Serving Token</font> :</b></font>							</td>
+                              <td width="107" height="20" colspan="3">
+                              		<p align="left"> 
+                            					
+                            					<% @a= Transact.find_first(["counterno = ? and (tokenstatus=0 ||tokenstatus=2)",@counter.counterno]) %> <% if @a==nil %>
+                            					 <font color="#0000FF" face="Arial" size="2">
+                            					 <b>No Token <% else %>
+                            					  <!--#***********find records whose tokenid is same as serving on current counter***********-->
+                            					  <% @t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>?",@a.tokenid,@counter.counterno]) %> 
+                            					  <!-- #updating tokenstatus to be 1 for same token pending at others counters-->
+                            					  <%    @t.each do |c| %> <%   c.tokenstatus=4 %> 
+                            					  <%    c.save %> <%    end %>
+                            					   <!--#***************end*********************************-->
+                            					   <!-- Code for updating calledtime in Transact table -->
+                            					   <% $calledtime= Time.now().strftime("%H:%M:%S") %>
+                            					   <% @gwaittime=User.time_diff_in_minutes(@a.generatedtime,Time.now())%>
+                            					    
+                 					   
+                            					   <% @update=Transact.update(@a.id,{:calledtime => $calledtime,:waittime => @gwaittime, :login=> @session['user']['login'], :tokenstatus=>2}) %>
+                            					   <!--  End --><!--
+                            					   Code for updating Tokendisplay table -->
+                            					   <%@d=Tokendisplay.find_first(["counterno=?",@a.counterno]) %> 
+                            					   <% Tokendisplay.update(@d.counterno,{:tokenno=>@a.tokenno}) %> 
+                            					   <!--  End --><!-- Displaying the current tokenno on that counter--></b>
+                            					   <label><b><%= @a.tokenno -%> </b></label><% end %>
+                            					   
+                            					   </font>
+							</td>
+							</tr></table>
+							</td>
+							</tr>
+							
+							<tr>
+							<td width="220" height="29">
+							<table width="221"><tr>
+							
+							<td width="102" height="25">
+							<b><font face="Arial" size="2" color="#800000">Account No</font></b></td>
+                              <td width="109" height="25" colspan="3">
+								<input type=text id="transact_accno" name="transact[accno]" size="12">
+								
+								</td>
+								</tr></table>
+							</td>
+
+								</tr>
+							<tr>
+							<td width="220" height="27">
+							<table width="220"><tr>
+							<td width="105" colspan="2" height="22">
+							 </td>
+                              <td width="105" height="22" colspan="2">
+                              <input type="checkbox" name="missed" unchecked>
+							<b><font color="#800000" face="Arial" size="2">Missing</font></b></td>
+							</tr></table>
+							</td>
+							</tr>
+						
+							<tr>
+							<td width="220" height="33">
+							<table width="220"><tr>
+							
+							
+							<td width="69" height="27" colspan="2">
+								<p align="center">							
+								<input type="submit" name="submit" id="submit" value="   Next   ">						
+							</td>
+                            <td width="57" height="27">
+								<p align="center">							
+								<%= button_to_function 'Pause',remote_function(:url => {:controller=>'users',:action => "shrinkpause" }),  :id=>'pause'%>
+							</td>	
+							 <td width="80" height="27">							
+								<p align="center">							
+								<%= button_to_function 'Release',remote_function(:url => {:controller=>'users',:action => "shrinkrelease" }),  :id=>'Release'%>
+							</td>
+							</tr></table>
+							</td>
+							
+							</tr>
+							<tr>
+							<td width="220" height="27">
+							<div id="aux_div" style="visibility:hidden; width: 216;
+  									border: 2px solid blue;  									
+  									margin-bottom: 20px;
+  									background-color: #f0f0f0; height:27;">
+                                   <table width="180" ><tr>
+                                    <td width="174" >Please select Pause Reason :                       
+									</td></tr>
+                                     <tr>
+                                    <td width="174" >
+                                     <% @auxs=Auxreason.find(:all, :order => "reasons").map { |u| [u.reasons] } %>
+                                     <%= select(:auxreason, :reasons, @auxs) -%>		
+   									<%= button_to_function 'Go',remote_function(:url => {:controller=>'client',:action => "save_pause" }), :disabled=>false, :id=>'go'%>
+                                    </td></tr>
+                                    </table> 
+                                     </div>
+							</td></tr>
+							
+							<tr>
+							
+							<% if @a==nil %>
+                            <% else %>
+							<td width="207" height="32">
+								 <b><font color="#800000" face="Arial" size="2">								 
+                                 STP : <br />
+                                 <% @stps=Stp.find(:all,:conditions=>["serviceid=? and status=1",@a.serviceid], :order=> "stpname").map { |u| [u.stpname] } %>
+      							 <%= select(:shrink1, :stpname, @stps) -%> 
+                                 </font></b>
+                             </td>
+                             
+							</tr>
+							<tr>
+								<td width="207" height="32">
+									<b><font size="2" face="Arial" color="#800000">Non STP:<br />
+							
+									<% @nonstps=Nonstp.find(:all, :order => "nonstpname").map { |u| [u.nonstpname] } %> 
+      								<%=select(:shrink1, :nonstpname, @nonstps) -%>
+									</font></b>
+								</td>
+							</tr>
+						</table>					
+					</td><% end %>
+				</tr>
+			</table>		
+		</td></form>
+	</tr>
+</table>
+</body>
+</html>

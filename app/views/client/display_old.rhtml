@@ -1,0 +1,117 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+
+</head>
+ <%= javascript_include_tag "prototype"%>
+
+<script type="" language="JavaScript">
+function disable()
+{
+	document.form1.submit.disabled=true;
+ } 
+ 
+ function enabled()
+{
+	document.form1.nonstp.disabled=false;
+ } 
+
+</script>
+
+<body>
+<table height="119" align="center">
+	<tr><td height="86" align="center">
+		&nbsp;</td></tr>
+	<tr><td height="35" align="center">
+		<table border=10 height="143" align="center" width="693" >			
+			<tr><td height="346" align="center" width="836">
+				<table align="center" width="792" height="383">
+				<tr>
+  					<td width="568"  colspan="2" height="106" rowspan="2" ><img id=banner border="0"  width="638" height="163"></td>
+  					<td width="170" height="94" ><img id=logo border="0" width="147" height="160"> 
+  					<tr>
+  					</tr><tr>
+  					<td width="84" height="1" align=right ></td>
+  				</tr>
+  				<tr>
+  					<td width="763" height="21" bgcolor="#800000" colspan="3" align=right>
+  					<table align=right cellpadding=10><tr>  					
+  					<td  height="12" >
+  					<font color="#FFFFFF" face="Arial" size="2"><b><%= link_to "LOG OUT", :controller=> "account", :action => 'logout' %></b></font>
+  					</td>
+  					<td><p>&nbsp;</p></td>
+  					<td  height="12" >
+  					<font color="#FFFFFF" face="Arial" size="2"><b><%= link_to "BACK", :controller=> "client", :action => 'transact' %></b></font>
+  					</td>
+  				
+  					</tr></table> 					
+  					</td>
+  				</tr>
+  				
+  				<tr>
+  					<td width="187" height="217"></td>
+  					<td width="457" height="217" >
+  						<table border=10><tr><td>
+  						<table border=5 bordercolor="#800000"><tr><td>Token pulling
+ 							<table border="1" width ="329" cellpadding="0"  cellspacing="0"  bordercolor="#111111"  id="AutoNumber1" bgcolor=white height="41">
+ 							<form id="form1" name="form1" method="POST" action="updatetoken" align="center">
+							<tr bgcolor="#800000">
+								<th nowrap width="101"  >
+       							 <font color="#FFFFFF" face="Arial" size="2"><b>Service Name</b </font></th>
+								<th nowrap width="113"  >
+      							  <font color="#FFFFFF" face="Arial" size="2">&nbsp;<b>Customertype</b>&nbsp; </font></th>      	
+   								 <th nowrap width="107"  >
+        						<font color="#FFFFFF" face="Arial" size="2">&nbsp;Pending Count</font></th>
+
+   								 <th nowrap width="107"  >
+        						<font color="#FFFFFF" face="Arial" size="2">&nbsp;</font></th>
+    				    	</tr>
+							<% @t = Transact.find_by_sql("select * from transacts where tokenstatus=0 order by serviceid where counterno=1" ) %>
+							<% @t.each do |c| %>
+							<tr >
+								<td height="19" bgcolor="#FFCC66" width="101">
+								<% @b= Service.find_first(["serviceid = ? ",c.serviceid]) %>
+								<%= @b.servicename -%> &nbsp;</td>
+								<td width="113" height="19" bgcolor="#FFCC66">					
+								<% @b= Customertype.find_first(["ctypeid = ? ",c.ctypeid]) %>
+								<%= @b.ctypedesc -%> &nbsp;</td>
+								<td width="113" height="19" bgcolor="#FFCC66">					
+								<% @c =Transact.count(["tokenstatus=0 and counterno=?",c.counterno]) %> 
+								<%= @c -%>
+								&nbsp;</td>
+								
+
+
+							
+								<td height="19" bgcolor="#FFCC66" width="107" align=center> 
+								
+								
+								
+								<% @b= Transact.find_all(["counterno = ?  and tokenstatus=0",$counterno])%> 
+								<% @d=0 %> <% @b.each do |c|  %> <% @d=1+@d %> <% end %> 
+								<% if @d=0 %>
+								<% Transact.update(c.id,{:tokenstatus=>0}) %> <b>
+								<%= link_to 'Call', :action => 'updatetransact' %></b>
+								<% end %>	
+								<% end %>&nbsp;	
+								</td>
+							</tr>	
+						</table></td></tr>
+						</table>
+						</td></tr></table>	
+						</td></tr></table>
+						</td></tr></table>
+						</td></tr></table>
+
+
+
+
+
+</body>
+
+</html>

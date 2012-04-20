@@ -1,0 +1,151 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+
+
+ <%= javascript_include_tag "prototype"%>
+
+<script type="text/javascript">
+  javascript:window.history.forward(1);
+  function back()
+    {
+	    window.history.forward(-1);
+    }
+</script>
+
+<script type="" language="JavaScript">
+function disable()
+{
+	document.form1.submit.disabled=true;
+ } 
+ 
+ function enabled()
+{
+	document.form1.nonstp.disabled=false;
+ } 
+
+</script>
+
+<%= stylesheet_link_tag "style" %>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 530px; 
+HEIGHT:270px;
+} 
+</STYLE> 
+
+
+</head>
+<body topmargin=0 bottommargin=0 leftmargin=0 rightmargin=0 onunload="back()" >
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#000080" width="100%" id="AutoNumber1" height="588" bgcolor="#ffffff">
+    <tr> 
+      <td width="100%" height="434" align=center>
+      
+      	<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="90%" id="AutoNumber2" height="482" bgcolor="#800000">
+	<tr><td height="385" align="center" width="95%">
+					<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="95%" id="AutoNumber3" height="436" bgcolor="#FFFFFF">
+			<tr><td height="385" align="center" width="100%">
+				<table cellspacing="0" cellpadding="0" align="center" width="100%" height="135">
+				 					
+  				<tr><td width="100%" height="1">
+  				<table cellspacing="0" cellpadding="0" width="100%" height="301"><tr>
+  					
+  					<td width="100%" height="19" >
+  						<table align=right cellspacing="0" cellpadding="0" height="20"><tr>  					
+  					<td  height="1" >
+  					<font color="#FFFFFF" face="Zurich BT" size="2"><b><%= link_to "Back", :controller=> "client", :action => 'transact' %></b>&nbsp;</font>
+  					</td>
+  					
+  				
+  					</tr></table></td></tr>
+                  <tr>
+                    <td align="center" height="415" width="100%">
+
+                    <p align="center"><b><font size="4" face="Zurich BT">Displaying Missing Tokens
+                          </font></b></p>
+  						<table border=5 bordercolor="#800000" width="345"><tr>
+
+  						<td width="431">  	
+  						                     <div class=clsDataGrid id=divList bgcolor=white style="width: 538; height: 261">
+					
+ 							<table border="1" width ="520" cellpadding="0"  cellspacing="0"  bordercolor="#111111"  id="AutoNumber1" bgcolor=white height="41">
+
+ 							<form id="form1" name="form1" align="center">
+
+<tr bgcolor="#800000">    									
+								<th width="260" bgcolor="#8000000"  align="center">
+       							 <font face="Zurich BT" size="2" color="#FFFFFF">&nbsp;<b> Token Number</b </font></font></th>
+								<th width="260"  bgcolor="#8000000">
+      							  <font color="#FFFFFF" face="Zurich BT" size="2">&nbsp;<b>Service Name</b>&nbsp; </font></th>      	
+   								 
+    				    	</tr>
+    				    	</table>
+
+                    <table style="width: 520;" cellpadding="0" cellspacing="0" border="1 ">
+    											
+
+    				    	<% @counter=User.find_first(["login=?",@session['user']]) %>
+							<% @t1=Transact.find_all(["tokenstatus=3"]) %>
+							<% @t=Transact.find_by_sql("select * from transacts where tokenstatus=3 group by tokenno") %>
+							<% if @t==[]%>
+							<tr >
+							<td colspan=2 align=center>
+							<font face="Zurich BT" size="2">No Missing Token(s)</font><font face="Zurich BT">
+                            </font>
+							</td>
+							</tr >
+
+							<%else%>
+							
+							<% @t.each do |c| %>
+							<tr >
+								
+
+								<td height="19" bgcolor=white width="260"><%= c.tokenno %></td>
+								<td width="260" height="19" bgcolor=white>					
+								<% @b= Service.find_first(["serviceid = ? ",c.serviceid]) %>
+								<%= @b.servicename -%> &nbsp;</td>							
+								
+							</tr>	
+							<% end %>
+							<% end %>
+
+						</table></div></td>
+						
+						</tr>
+						</table>
+						
+						</td>
+                  </tr>
+                 </table>
+						</td>
+						
+						</tr></table>
+						</td></tr></table>
+						</td></tr>
+						
+						
+						
+						
+						</table>
+
+</td></tr></table>
+
+
+
+
+</body>
+
+</html>

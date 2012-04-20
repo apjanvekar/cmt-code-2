@@ -1,0 +1,119 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 740px; 
+HEIGHT:200px;
+} 
+</STYLE> 
+
+</head>
+
+<body>
+<table width="760" height="344"><tr><td height="340" width="999">
+<table border=5 bordercolor="#FF6600" width="719"><tr>
+  <td bgcolor="#FFFFFF" width="1000" height="236">
+   <div class=clsDataGrid id=divList bgcolor=white style="width: 946; height: 237">
+<table align=left border=0 bordercolor="#800000"><tr><td>
+ <table border="1" width ="870" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="28">
+<caption><h3 align="center"><span style="font-weight: 400">
+<font color="#990000" face="Zurich BT" >Floor View</font></span></h3>
+</caption>
+<tr align=center bgcolor="#FF6600">
+      	<th nowrap height="10"  bgcolor="#FF6600" width="109" >
+        <font color=white face="Zurich BT" size="2">Counter</font></th>
+      	<th nowrap height="10" w bgcolor="#FF6600" width="145" >
+        <font color=white face="Zurich BT" size="2">Counter Status</font></th>
+      	<th nowrap height="10"  bgcolor="#FF6600" width="123" >
+        <font color=white face="Zurich BT" size="2">Pause Reason</font></th>
+		<th nowrap height="10"  bgcolor="#FF6600" width="117" >
+        <font color=white face="Zurich BT" size="2">Active Token</font></th>
+		<th nowrap height="10"  bgcolor="#FF6600" width="117" >
+        <font color=white face="Zurich BT" size="2">Service Name</font></th>
+		<th nowrap height="10"  bgcolor="#FF6600" width="117" >
+        <font color=white face="Zurich BT" size="2">Customer Type</font></th>
+		<th nowrap height="10"  bgcolor="#FF6600" width="117" >
+        <font color=white face="Zurich BT" size="2">Threshold Value</font></th>
+		
+		<th nowrap height="10"  bgcolor="#FF6600" width="115" >
+        <font color=white face="Zurich BT" size="2">Wait Time</font></th>
+
+</tr>
+<% @t = Counter.find_by_sql("select * from counters" ) %><font size="1" face="Zurich BT">
+<% @t.each do |c| %> </font>
+<tr align=center>
+<td nowrap width="109" height="14"><font size="2" face="Zurich BT">
+<%= c.counterno %></font></td>
+
+<td nowrap width="145" height="14" align=center>
+<% if c.loginstatus=='Y'%><font size="2" face="Zurich BT"> 
+<font size="2" face="Zurich BT">Logged In
+<%else%><font size="2" face="Zurich BT">
+Logged Out</font>
+<%end%>
+</td>
+
+<td nowrap width="123" height="14"></td>
+
+<td width="117" nowrap height="14">
+<% if c.loginstatus=='Y'%><font size="2" face="Zurich BT">
+
+<% @a= Transact.find_first(["counterno = ? and tokenstatus=2",c.counterno]) %>
+<% if @a==nil %>
+<%else %>
+<font size="2" face="Zurich BT">
+<%= @a.tokenno -%> </font></td>
+
+<td nowrap width="117" height="14">
+<% @b= Service.find_first(["serviceid = ? ",@a.serviceid]) %><font size="2" face="Zurich BT">
+
+<%= @b.servicename -%> </font><font size="2" face="Zurich BT">&nbsp; </font>
+</td>
+
+<td nowrap width="117" height="14">
+<% @c= Customertype.find_first(["ctypeid = ? ",@a.ctypeid]) %><font size="2" face="Zurich BT">
+<%= @c.ctypedesc -%> </font><font size="2" face="Zurich BT">&nbsp; </font>
+</td>
+<td nowrap width="117" height="14">
+<% @d= Service.find_first(["serviceid = ? ",@a.serviceid]) %><font size="2" face="Zurich BT">
+<%= @d.thresholdtime.strftime("%H:%M:%S") -%> </font>
+<font size="2" face="Zurich BT">&nbsp; </font>
+</td>
+
+
+<td nowrap width="115" height="14">
+<%= @a.waittime.strftime("%H:%M:%S") -%><font size="2" face="Zurich BT"> </font>
+<font size="2" face="Zurich BT">&nbsp;
+</td>
+
+
+<% end %>
+<%end%>
+</tr>
+<% end %> </font>
+</table></div>
+   </center>
+ </div></td></tr></table>
+ 
+ </td></tr></table>
+ 
+<p>&nbsp;</p>
+</form>&nbsp;</td>
+  </tr>
+  </table>
+</table>
+</td></tr></table>
+</body>
+
+</html>

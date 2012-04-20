@@ -1,0 +1,721 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+<script language=javascript>			
+   function virtualKey()
+			   {
+
+					 if(document.index2.virtualpassword.checked){
+
+						 var firstNewRowSplit   = document.index2.charFirstRowhidden.value;
+						 var secondNewRowSplit  = document.index2.charSecondRowhidden.value;
+						 var thirdNewRowSplit   = document.index2.charThirdRowhidden.value;
+						 var fourthNewRowSplit  = document.index2.numFirstRowhidden.value;
+						 var fifthNewRowSplit   = document.index2.numSecondRowhidden.value;
+						 var sixthNewRowSplit   = document.index2.numThirdRowhidden.value;
+						 var seventhNewRowSplit = document.index2.speFirstRowhidden.value;
+						 var eigthNewRowSplit   = document.index2.numFourthRowhidden.value;
+
+						 var ninthNewRowSplit   = document.index2.speSecondRowhidden.value;
+						 var tenthNewRowSplit   = document.index2.speThirdRowhidden.value;
+
+
+						 document.index2.user_password.readOnly=true;
+						 document.index2.user_password.value="";
+
+						 firstNewRow=firstNewRowSplit.split("|");
+
+						 for(i=0;i<firstNewRow.length-1;i++){
+						   document.index2.button1[i].className='type1';
+						 }
+
+						 secondNewRow =secondNewRowSplit.split("|");
+						  for(i=0;i<secondNewRow.length-1;i++){
+							   document.index2.button2[i].className='type1';
+						  }
+						 thirdNewRow =thirdNewRowSplit.split("|");
+						 for(i=0;i<thirdNewRow.length-1;i++){
+							   document.index2.button3[i].className='type1';
+						 }
+						 fourthNewRow =fourthNewRowSplit.split("|");
+						 for(i=0;i<fourthNewRow.length-1;i++){
+							   document.index2.number1[i].className='type1';
+						 }
+
+						 fifthNewRow =fifthNewRowSplit.split("|");
+						 for(i=0;i<fifthNewRow.length-1;i++){
+							  document.index2.number2[i].className='type1';
+						 }
+
+						 sixthNewRow =sixthNewRowSplit.split("|");
+						 for(i=0;i<sixthNewRow.length-1;i++){
+							   document.index2.number3[i].className='type1';
+						 }
+
+						 seventhNewRow =seventhNewRowSplit.split("|");
+						  for(i=0;i<seventhNewRow.length-1;i++){
+
+							document.index2.button4[i].className='type1';
+
+						  }
+						  eigthNewRow =eigthNewRowSplit.split("|");
+						  document.index2.number4.className='type1';
+
+						 ninthNewRow =ninthNewRowSplit.split("|");
+						 for(i=0;i<ninthNewRow.length-1;i++){
+
+							document.index2.button5[i].className='type1';
+						 }
+
+						 tenthNewRow =tenthNewRowSplit.split("|");
+						 for(i=0;i<tenthNewRow.length-1;i++){
+						   document.index2.button10[i].className='type1';
+						 }
+
+
+						document.index2.button6.className="type2";
+						document.index2.button7.className="type3";
+						document.index2.button8.className="type2";
+					   // document.index2.button9.className="type3 shift";
+
+
+
+
+						  for(var i=0;i<10;i++)
+						  {
+							  document.index2.button1[i].disabled=false;
+
+
+						  }
+
+						  for(var i=0;i<9;i++)
+						  {
+							  document.index2.button2[i].disabled=false;
+						  }
+
+						  for(var i=0;i<7;i++)
+						  {
+							 document.index2.button3[i].disabled=false;
+						  }
+
+						  for(var i=0;i<3;i++)
+						  {
+							 document.index2.number1[i].disabled=false;
+
+						  }
+						  for(var i=0;i<3;i++)
+						  {
+							document.index2.number2[i].disabled=false;
+
+						  }
+						  for(var i=0;i<3;i++)
+						  {
+							document.index2.number3[i].disabled=false;
+
+						  }
+
+						  for(var i=0;i<10;i++)
+						 {
+
+							document.index2.button4[i].disabled=false;
+						 }
+						  for(var i=0;i<11;i++)
+						 {
+
+							document.index2.button5[i].disabled=false;
+						 }
+						 for(var i=0;i<11;i++)
+						 {
+
+							document.index2.button10[i].disabled=false;
+						 }
+
+
+
+						document.index2.number4.disabled=false;
+						document.index2.button6.disabled=false;
+						document.index2.button7.disabled=false;
+						document.index2.button8.disabled=false;
+						//document.index2.button9.disabled=false;
+
+
+					 }
+					 else
+					 {
+
+
+			var test=confirm("Virtual keyboard is recommended to protect your password. Are you sure you want to use normal keyboard?");
+				if(test)
+				{
+
+
+						 var firstNewRowSplit   = document.index2.charFirstRowhidden.value;
+						 var secondNewRowSplit  = document.index2.charSecondRowhidden.value;
+						 var thirdNewRowSplit   = document.index2.charThirdRowhidden.value;
+						 var fourthNewRowSplit  = document.index2.numFirstRowhidden.value;
+						 var fifthNewRowSplit   = document.index2.numSecondRowhidden.value;
+						 var sixthNewRowSplit   = document.index2.numThirdRowhidden.value;
+						 var seventhNewRowSplit = document.index2.speFirstRowhidden.value;
+						 var eigthNewRowSplit   = document.index2.numFourthRowhidden.value;
+						 var ninthNewRowSplit   = document.index2.speSecondRowhidden.value;
+						 var tenthNewRowSplit   = document.index2.speThirdRowhidden.value;
+
+						 document.index2.user_password.value="";
+						 document.index2.user_password.readOnly=false;
+
+						 flag='false';
+						 firstNewRow=firstNewRowSplit.split("|");
+
+						 for(i=0;i<firstNewRow.length-1;i++){
+						   document.index2.button1[i].className='type1d';
+						 }
+
+						 secondNewRow =secondNewRowSplit.split("|");
+						  for(i=0;i<secondNewRow.length-1;i++){
+							   document.index2.button2[i].className='type1d';
+						  }
+						 thirdNewRow =thirdNewRowSplit.split("|");
+						 for(i=0;i<thirdNewRow.length-1;i++){
+							   document.index2.button3[i].className='type1d';
+						 }
+						 fourthNewRow =fourthNewRowSplit.split("|");
+						 for(i=0;i<fourthNewRow.length-1;i++){
+							   document.index2.number1[i].className='type1d';
+						 }
+
+						 fifthNewRow =fifthNewRowSplit.split("|");
+						 for(i=0;i<fifthNewRow.length-1;i++){
+							  document.index2.number2[i].className='type1d';
+						 }
+
+						 sixthNewRow =sixthNewRowSplit.split("|");
+						 for(i=0;i<sixthNewRow.length-1;i++){
+							   document.index2.number3[i].className='type1d';
+						 }
+
+						 seventhNewRow =seventhNewRowSplit.split("|");
+						  for(i=0;i<seventhNewRow.length-1;i++){
+
+							document.index2.button4[i].className='type1d';
+
+						  }
+
+						  eigthNewRow =eigthNewRowSplit.split("|");
+						  document.index2.number4.className='type1d';
+
+
+						 ninthNewRow =ninthNewRowSplit.split("|");
+						 for(i=0;i<ninthNewRow.length-1;i++){
+							document.index2.button5[i].className='type1d';
+						 }
+
+						 tenthNewRow =tenthNewRowSplit.split("|");
+						 for(i=0;i<tenthNewRow.length-1;i++){
+						   document.index2.button10[i].className='type1d';
+						 }
+
+						document.index2.button6.className="type2d";
+						document.index2.button7.className="type3d";
+						document.index2.button8.className="type2d";
+						
+
+
+
+						  for(var i=0;i<10;i++)
+						  {
+							 document.index2.button1[i].disabled=true;
+						  }
+						  for(var i=0;i<9;i++){
+							 document.index2.button2[i].disabled=true;
+						  }
+
+						   for(var i=0;i<7;i++){
+							 document.index2.button3[i].disabled=true;
+						  }
+
+						  for(var i=0;i<3; i++)
+						  {
+							document.index2.number1[i].disabled=true;
+
+						  }
+						  for(var i=0;i<3;i++)
+						  {
+							document.index2.number2[i].disabled=true;
+						  }
+						  for(var i=0;i<3;i++)
+						  {
+							document.index2.number3[i].disabled=true;
+						  }
+						  for(var i=0;i<10;i++)
+						  {
+						   document.index2.button4[i].disabled=true;
+
+						 }
+						  for(var i=0;i<11;i++)
+						 {
+							 document.index2.button5[i].disabled=true;
+
+						 }
+						   for(var i=0;i<11;i++)
+						 {
+
+							 document.index2.button10[i].disabled=true;
+
+						 }
+
+						   document.index2.number4.disabled=true;
+						   document.index2.button6.disabled=true;
+						   document.index2.button7.disabled=true;
+						   document.index2.button8.disabled=true;
+						   //document.index2.button9.disabled=true;
+					  }else{
+
+						   document.index2.virtualpassword.checked=true;
+
+					  }
+
+				}
+
+			}
+
+
+
+
+			   var flag ='false';
+			   function func_clear()
+			   {
+				   document.index2.user_password.value="";
+			   }
+
+			   function func_capslock(obj)
+			  {
+
+					var firstRowSplit  = document.index2.charFirstRowhidden.value;
+					var secondRowSplit = document.index2.charSecondRowhidden.value;
+					var thirdRowSplit = document.index2.charThirdRowhidden.value;
+
+					if( flag=='true' ){
+						flag='false';
+					   obj.className ='type2';
+						firstRow = firstRowSplit.split("|");
+
+						for(i=0;i<firstRow.length-1;i++){
+						   document.index2.button1[i].value=firstRow[i].toLowerCase();
+						}
+						secondRow =secondRowSplit.split("|");
+						  for(i=0;i<secondRow.length-1;i++){
+							   document.index2.button2[i].value=secondRow[i].toLowerCase();
+						  }
+						thirdRow =thirdRowSplit.split("|");
+						for(i=0;i<thirdRow.length-1;i++){
+							   document.index2.button3[i].value=thirdRow[i].toLowerCase();
+						 }
+				}else{
+
+						  flag='true';
+
+						  obj.className='type2caps';
+
+						  firstRow = firstRowSplit.split("|");
+						  for(i=0;i<firstRow.length-1;i++){
+							   document.index2.button1[i].value=firstRow[i];
+						  }
+
+						  secondRow =secondRowSplit.split("|");
+						  for(i=0;i<secondRow.length-1;i++){
+							   document.index2.button2[i].value=secondRow[i];
+						  }
+
+						  thirdRow =thirdRowSplit.split("|");
+						  for(i=0;i<thirdRow.length-1;i++){
+							   document.index2.button3[i].value=thirdRow[i];
+						  }
+
+					   }
+
+			  }
+
+			 function func_back(){
+				 var j=document.index2.user_password.value;
+				 document.index2.user_password.value=j.substring(0,j.length-1);
+
+			}
+
+			var isSpace=true;
+			function func_spaceBarProhibit(event)
+			{
+
+				var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+				
+				if((keyCode=="32") || (keyCode=="13"))
+				{
+						alert("Please use mouse only for virtual keybord!!!");
+						 isSpace=false;
+						 return false;
+				}
+					isSpace=true;
+					return true;
+			}
+
+
+
+
+
+
+
+
+
+			function func_click(obj)
+			{
+				if(obj=='sQuot'){
+				   obj=obj.replace(/sQuot/,'\'');
+				}
+				if(obj=='dQuot'){
+				   obj=obj.replace(/dQuot/,'\"');
+				}
+				if(obj=='bslash'){
+				   obj=obj.replace(/bslash/,'\\');
+
+				}
+
+
+				var i= obj;
+				
+				if(flag=='true' ){
+				   var j = document.index2.user_password.value+i.toUpperCase();
+				   document.index2.user_password.value=j;
+
+
+					
+
+
+				}else{
+
+				   var j = document.index2.user_password.value+i.toLowerCase();
+				   document.index2.user_password.value=j;
+
+				 }
+
+			}
+
+			</script>
+</head>
+
+<body>
+<form id="index2" name="index2" method="post" action="login">
+<table align="left" height="241" ><tr ><td width="272" height="1"></td></tr><tr>
+  <td  id=login width="272" height="233">
+  </td>
+
+
+
+<table border="0" bordercolor="#800000" style="border-collapse: collapse" cellpadding="2" cellspacing="10" align="center" width="302" height="65" ><tr>
+  <td width="212" height="51">
+
+<h1 align="left"><font color="#800000">Please Login</font></h1>
+<div title="Account login" id="loginform" class="form" style="width: 300; height: 242">
+<p>&nbsp;</p>
+      
+<h3><font color=red>
+  <% if @message %>
+      
+    
+    <div id="message" style="width: 300;border: 2px solid blue;padding-bottom: 12px; margin-bottom: 20px;
+ background-color: #f0f0f0; height:22; padding-left:7px; padding-right:7px; padding-top:7px"><%= @message %></div>
+    <% end %></h3></font>
+<p>
+	
+    <label for="user_login">Login</label><br />
+    <input type="text" name="user_login" id="user_login" size="30" value=""/></p>
+<p>
+    <label for="user_password">Password</label><br />
+    <input type="password" name="user_password" id="user_password" size="32" onClick="showRegret()" oncopy="return false" ondrag="return false" ondrop="return false" onpaste="return false"/>
+
+    <br/>
+			Virtual keyboard <input type="checkbox"  name="virtualpassword" onClick="virtualKey()" value="checkbox">
+
+		<br>
+		<br>
+
+		
+
+		  <table width="300" border="2" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td><table width="290" border="2" cellpadding="0" cellspacing="1" bgcolor="#ded7bd">
+                      <tr>
+                        <td align="left" bgcolor="#FFFFFF"><table width="300" border="1" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td align ="center" style="padding-left:5px;font-family: Arial; font-size: 8pt; "><span style="font-family: Arial; font-size: 8pt; font-weight: bold; color:black">
+                              Virtual Keyboard</span></td>
+                            </tr>
+                            <tr>
+                              <td align="center" style="padding-top:10px;padding-bottom:5px"><table width="290" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td align="center"><table  border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+              <td >
+             <input type="button"  value="m" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('M');}"   disabled>
+           <input type="button"  value="q" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('Q');}" disabled >
+           <input type="button"  value="l" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('L');}"  disabled>
+           <input type="button"  value="o" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('O');}" disabled  >
+           <input type="button"  value="s" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('S');}"  disabled >
+           <input type="button"  value="u" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('U');}"  disabled >
+           <input type="button"  value="j" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('J');}" disabled  >
+           <input type="button"  value="d" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('D');}" disabled  >
+           <input type="button"  value="x" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('X');}"   disabled>
+           <input type="button"  value="h" name="button1" id="button1"  class="type1d"  onkeypress="return func_spaceBarProhibit(event);"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('H');}"  disabled >
+           </td><td style="width:10px"></td><td>
+		   <input type="button" value="7"  name="number1" id="number1"  class="type1d"
+		   onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('7');}"  disabled>
+          <input type="button" value="1"  name="number1" id="number1"  class="type1d"
+		   onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('1');}" disabled>
+          <input type="button" value="2"  name="number1" id="number1"  class="type1d"
+		   onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('2');}" disabled>
+          
+          </td>
+         </tr>
+          <tr >
+          <td>
+        
+    <input type="button"  value="r"  name="button2" id="button2" class="type1d" onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('R');}" disabled>
+    
+    <input type="button"  value="t"  name="button2" id="button2" class="type1d" onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('T');}" disabled>
+    
+    <input type="button"  value="e"  name="button2" id="button2" class="type1d" onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('E');}" disabled>
+    
+    <input type="button"  value="y"  name="button2" id="button2" class="type1d" onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('Y');}" disabled>
+    
+    <input type="button"  value="g"  name="button2" id="button2" class="type1d" onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('G');}" disabled>
+    
+    <input type="button"  value="n"  name="button2" id="button2" class="type1d" onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('N');}" disabled>
+    
+    <input type="button"  value="f"  name="button2" id="button2" class="type1d" onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('F');}" disabled>
+    
+    <input type="button"  value="c"  name="button2" id="button2" class="type1d" onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('C');}" disabled>
+    
+    <input type="button"  value="b"  name="button2" id="button2" class="type1d" onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('B');}" disabled>
+ </td><td style="width:10px"></td><td>
+ <input type="button"  value="8"  name="number2"  id="number2" class="type1d" 
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('8');}" disabled> 
+
+  <input type="button"  value="5"  name="number2"  id="number2" class="type1d" 
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('5');}"disabled> 
+
+  <input type="button"  value="0"  name="number2"  id="number2" class="type1d" 
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('0');}" disabled> 
+
+  
+ </td>
+ </tr>
+   <tr>
+  <td>
+     
+ <input type="button" value="k"  name="button3" id="button3" class="type1d"  onkeypress="return func_spaceBarProhibit(event)"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('K');}" disabled>
+
+    
+ <input type="button" value="a"  name="button3" id="button3" class="type1d"  onkeypress="return func_spaceBarProhibit(event)"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('A');}" disabled>
+
+    
+ <input type="button" value="w"  name="button3" id="button3" class="type1d"  onkeypress="return func_spaceBarProhibit(event)"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('W');}" disabled>
+
+    
+ <input type="button" value="i"  name="button3" id="button3" class="type1d"  onkeypress="return func_spaceBarProhibit(event)"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('I');}" disabled >
+
+    
+ <input type="button" value="p"  name="button3" id="button3" class="type1d"  onkeypress="return func_spaceBarProhibit(event)"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('P');}" disabled>
+
+    
+ <input type="button" value="z"  name="button3" id="button3" class="type1d"  onkeypress="return func_spaceBarProhibit(event)"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('Z');}" disabled>
+
+    
+ <input type="button" value="v"  name="button3" id="button3" class="type1d"  onkeypress="return func_spaceBarProhibit(event)"  onclick="func_spaceBarProhibit(event);if(isSpace){func_click('V');}"disabled >
+
+ </td><td style="width:10px"></td><td>
+  
+
+<input type="button"  value="9"  name="number3" id="number3"  class="type1d" 
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('9');}" disabled>
+ 
+
+<input type="button"  value="3"  name="number3" id="number3"  class="type1d" 
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('3');}" disabled >
+ 
+
+<input type="button"  value="6"  name="number3" id="number3"  class="type1d" 
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('6');}" disabled>
+ 
+
+ </td>
+ </tr>
+ <tr>
+  <td>
+    
+ <input type="button"  value="&#34;"  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('dQuot');}"disabled >
+    
+ <input type="button"  value=")"  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click(')');}" disabled >
+    
+ <input type="button"  value=";"  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click(';');}" disabled>
+    
+ <input type="button"  value="&"  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('&');}" disabled>
+    
+ <input type="button"  value="{"  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('{');}" disabled>
+    
+ <input type="button"  value=","  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click(',');}" disabled>
+    
+ <input type="button"  value="["  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('[');}" disabled >
+    
+ <input type="button"  value="*"  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('*');}" disabled>
+    
+ <input type="button"  value="_"  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('_');}"disabled >
+    
+ <input type="button"  value="+"  name="button4" id="button4" class="type1d"  
+ onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('+');}" disabled>
+ </td><td style="width:10px"></td><td style="padding-left:22px">
+
+  
+<input type="button"  value="4"  name="number4" id="number4"  class="type1d" 
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('4');}" disabled >  
+ 
+
+ </td>
+  </tr>
+   <tr>
+   <td colspan="3">
+    
+<input  type="button"  value="~"  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('~');}"  disabled >
+    
+<input  type="button"  value="'"  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('sQuot');}" disabled>
+    
+<input  type="button"  value="("  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('(');}" disabled>
+    
+<input  type="button"  value="."  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('.');}" disabled>
+    
+<input  type="button"  value="#"  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('#');}" disabled>
+    
+<input  type="button"  value="$"  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('$');}"disabled >
+    
+<input  type="button"  value="<"  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('<');}" disabled >
+    
+<input  type="button"  value=">"  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('>');}" disabled>
+    
+<input  type="button"  value="}"  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('}');}" disabled>
+    
+<input  type="button"  value="?"  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('?');}" disabled >
+    
+<input  type="button"  value="@"  name="button5" id="button5"  class="type1d"
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('@');}" disabled>
+ 
+
+ </td>
+  </tr>
+ <tr>
+ <td colspan="3">
+    
+<input  type="button" value="-"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('-');}" disabled>
+    
+<input  type="button" value="%"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('%');}" disabled>
+    
+<input  type="button" value="="  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('=');}"disabled >
+    
+<input  type="button" value="/"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('/');}" disabled>
+    
+<input  type="button" value="`"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('`');}" disabled>
+    
+<input  type="button" value="^"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('^');}" disabled>
+    
+<input  type="button" value=":"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click(':');}"disabled >
+    
+<input  type="button" value="|"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('|');}" disabled>
+    
+<input  type="button" value="!"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('!');}" disabled >
+    
+<input  type="button" value="\"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click('bslash');}"disabled >
+    
+<input  type="button" value="]"  name="button10" id="button10"  class="type1d"  
+onkeypress="return func_spaceBarProhibit(event)" onclick="func_spaceBarProhibit(event);if(isSpace){func_click(']');}" disabled >
+ 
+
+ </td>
+  </tr>
+                                   <tr>
+                                    <td colspan="3">
+  
+  <input type="button"  name="button6" id="button6"  class="type2d" value="Back Space"  onclick="func_back()"disabled>
+  
+  <input type="button"  name="button7" id="button7"  class="type3d" value="Clear" onclick="func_clear()" disabled >
+ 
+
+  <input type="button"   name="button8" id="button8" class="type2d" value="Caps Lock" onclick="func_capslock(this)" disabled>
+
+ <input type="hidden" name="test" value="false" >
+
+ <input type="hidden" name="test" value="false" >
+ <input type="hidden" name="charFirstRowhidden" value='M|Q|L|O|S|U|J|D|X|H|'>
+ <input type="hidden" name="numFirstRowhidden" value='7|1|2|'>
+ <input type="hidden" name="charSecondRowhidden" value='R|T|E|Y|G|N|F|C|B|'>
+ <input type="hidden" name="numSecondRowhidden" value='8|5|0|'>
+ <input type="hidden" name="charThirdRowhidden" value='K|A|W|I|P|Z|V|'>
+ <input type="hidden" name="numThirdRowhidden" value='9|3|6|'>
+ <input type="hidden" name="speFirstRowhidden" value='type1 spe_dquot|type1 spe_rcb|type1 spe_semico|type1 spe_amp|type1 spe_cob|type1 spe_comma|type1 spe_sob|type1 spe_asterix|type1 spe_underscore|type1 spe_plus|'>
+ <input type="hidden" name="numFourthRowhidden" value='4|'>
+ <input type="hidden" name="speSecondRowhidden" value='type1 spe_tilde|type1 spe_squot|type1 spe_rob|type1 spe_fs|type1 spe_hash|type1 spe_dol|type1 spe_lt|type1 spe_gt|type1 spe_ccb|type1 spe_qm|type1 spe_at|'>
+ <input type="hidden" name="speThirdRowhidden" value='type1 spe_hyphen|type1 spe_per|type1 spe_equal|type1 spe_fslash|type1 spe_ep|type1 spe_exp|type1 spe_co|type1 spe_pipe|type1 spe_ex|type1 spe_bslash|type1 spe_scb|'>
+
+<!-- <input type="button"   name="button9" id="button9" class="type3 shiftl"   onclick="func_shift(this)" > -->
+  </td>
+                                  </tr>
+                                    </table></td>
+                                  </tr>
+                              </table></td>
+                            </tr>
+                        </table></td>
+                      </tr>
+                  </table></td>
+
+    <input type="submit" name="login" value="Login &#187;" class="primary"  align="middle"/><br>
+   
+	</td></tr></table>
+</div>
+
+    <p>&nbsp;</td></tr></table>
+
+</form>
+</table>
+</body>
+</html>

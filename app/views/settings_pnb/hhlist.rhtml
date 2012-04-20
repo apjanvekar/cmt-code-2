@@ -1,0 +1,128 @@
+<html>
+
+<head>
+<title> Edit Configurations</title>
+</head>
+
+<body>
+
+<% @t = Service.find_by_sql("select * from settings" ) %>
+<% @t.each do |c| %>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="50%" id="AutoNumber1" height="462">
+  
+  <tr>
+    <td width="100%" height="442">
+                  <table border="5" cellpadding="10" cellspacing="10" style="border-collapse: collapse" bordercolor="#336699" width="100%" id="AutoNumber3" height="107">
+          <tr>
+            <td width="100%" height="107">
+            <table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber4" height="114">
+              <tr>
+                <td width="100%" height="96" align="center">
+              
+ <fieldset style="padding: 2; width:293; height:174">
+
+                  <legend><font face="Arial" size="4" color="#336699">
+                  Configurable settings</font></legend>
+&nbsp;<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber6" height="1">
+                    <tr>
+                      <td width="44%" height="22"><font face="Arial">IP Address:</font></td>
+                      <td width="56%" height="22">
+                      &nbsp;
+                      <input type="text" name="T1" value="<%= c.IP_ADD %>" size="15" disabled></td>
+                    </tr>
+                    <tr>
+                      <td width="44%" height="25"><font face="Arial">Database 
+                      Name:</font></td>
+                      <td width="56%" height="25">
+                      &nbsp;
+                      <input type="text" name="T1" value="<%= c.DBNAME %>" size="15" disabled></td>
+                    </tr>
+                   
+                    <tr>
+                      <td width="44%" height="23"><font face="Arial">User Name:</font></td>
+                      <td width="56%" height="23">
+                      &nbsp;
+                       <input type="text" name="T1" value="<%= c.UNAME %>" size="15" disabled></td>
+                    </tr>
+                   
+                    <tr>
+                      <td width="44%" height="23"><font face="Arial">Password:</font></td>
+                      <td width="56%" height="23">
+                      &nbsp;
+                       <input type="text" name="T1" value="<%= c.Password %>" size="15" disabled></td>
+                    </tr>
+                   
+                    <tr>
+                      <td width="44%" height="23"><font face="Arial">View Name:</font></td>
+                      <td width="56%" height="23">
+                      &nbsp;
+                      
+                      <input type="text" name="T1" value="<%= c.VIEW_NAME %>" size="15" disabled></td>
+                    </tr>
+                   <tr>
+                      <td width="44%" height="19"><font face="Arial">HH_No:</font></td>
+                      <td width="56%" height="19">
+                      &nbsp;
+                      <input type="text" name="T1" value="<%= c.HH_NO %>" size="15" disabled></td>
+                    </tr>
+
+                   
+
+                   <tr>
+                      <td width="44%" height="19"><font face="Arial">Last Name:</font></td>
+                      <td width="56%" height="19">
+                      &nbsp;
+                       <input type="text" name="T1" value="<%= c.LAST_NAME %>" size="15" disabled></td>
+                    </tr>
+
+                   
+
+                   <tr>
+                      <td width="44%" height="19"><font face="Arial">First Name:</font></td>
+                      <td width="56%" height="19">
+                      &nbsp;
+                       <input type="text" name="T1" value="<%= c.FIRST_NAME %>" size="15" disabled></td>
+                    </tr>
+
+                   
+
+                   <tr>
+                      <td width="44%" height="13"><font face="Arial">Middle Name:</font></td>
+                      <td width="56%" height="13">
+                      &nbsp;                
+                      <input type="text" name="T1" value="<%= c.MID_NAME %>" size="15" disabled></td>
+                    </tr>
+
+                   <tr>
+                      <td width="44%" height="13"><font face="Arial">SEX:</font></td>
+                      <td width="56%" height="13">
+                      &nbsp;                
+                      <input type="text" name="T1" value="<%= c.SEX %>" size="15" disabled></td>
+                    </tr>
+
+                  </table>
+                </fieldset>
+</td>
+              </tr>
+              <tr>
+                <td width="100%" height="25" align=center>
+               
+                <%= link_to 'Edit', :action => 'hhedit', :id => c.id %>
+
+<%end%>
+                </td>
+              </tr>
+            </table>
+            </td>
+          </tr>
+        </table>
+          
+        </td>
+      </tr>
+    </table>
+  
+
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<%= button_to "Export To Excel", :controller => 'users', :action => "Servicebenchmark" ,:startdate => "#{params[:startdate]}", :enddate => "#{params[:enddate]}"   %>
+
+<table height="42" width="424" align=center>
+<tr>
+
+	<td height="256" width="294">	
+ 		<table border=5 width="1" height="221" bordercolor="#336699" align=center> 		
+ 		<tr>
+            <td bgcolor="#FFFFFF" height="315" width="471">
+ 		<table border=0 width="818" height="297">
+ 		<tr><td height="17" width="1048">
+          
+          <p align=center>
+      		<font face="Arial" size="4" color="#336699">Counter wise Report </font>
+      		</p>
+      		</td></tr>
+
+ 		<tr>
+ 		
+      		<td  width="1048" height="293"> 
+ 			<div class=clsDataGrid id=divList bgcolor=white style="width: 700; height: 250"> 			
+ 			<div align="center">
+              <center> 			
+ 			<table border="0" width ="987" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="1" style="border-collapse: collapse" bgcolor="#FFFFFF">
+
+
+
+
+
+<% if params[:startdate].to_date == Date.today  %>
+
+<% @t = Service.find_by_sql("select distinct(counterno) as a1
+						from transact
+						where transdate='#{params[:startdate]}' order by counterno")  %>
+		<% @t.each do|a| %>
+			<%= a.a1 %>
+		<% end %>	
+<% else %>
+
+
+<% @t = Service.find_by_sql("select distinct(counterno) as a1
+						from transactmaster
+						where transdate='#{params[:startdate]}' order by counterno")  %>
+		<% @t.each do|a| %>
+			<% @counterno = a.a1 %>
+			
+		<%	@data=Service.find_by_sql("select tokenno,transdate,generatedtime,calledtime,servicedtime,login,serviceid,waittime,timetaken,tokenstatus
+										from transactmaster
+										where transdate='#{params[:startdate]}' and counterno='#{@counterno}' ") %>
+	
+		<tr align=center>
+			<td width="135" height="19" colspan="2" >
+				<p align="left"><font size="1">Counter 
+
+
+			    No.<%= @counterno %></font></td>
+		</tr>
+			
+	<tr  bgcolor="#336699">
+	
+		<th height="16"  bgcolor="#336699" width="68" border="1">
+        <p align="left">
+        <font color=white face="Arial" size="1">Sr.No</font></th>
+      	<th height="16"  bgcolor="#336699" width="67" border="1">
+        <p align="left">
+        <font color=white face="Arial" size="1">TokenNo</font></th>
+      	<th nowrap height="16" bgcolor="#336699" width="60">
+        <p align="left">
+        <font color=white face="Arial" size="1">&nbsp;Date</font></th>
+		<th  height="16"  bgcolor="#336699" width="78">
+        <p align="left">
+        <font color=white face="Arial" size="1">Generated&nbsp;Time</font></th>
+		<th nowrap height="16"  bgcolor="#336699" width="226" align="left">
+        <font color=white face="Arial" size="1">CalledTime</font></th>
+		
+	</tr>
+		
+					<% @count = 0%>
+					<% @data.each do |c| %>
+						
+						
+						
+						<tr border=0>
+							<td width="68" height="10"><font size=1> <%= @count=@count.to_i+1 %></font></td>
+							<td width="67" height="10"><font size="1" face="Arial"><%= c.tokenno %></font>&nbsp;</td>
+							 <td   height="10" align=left width="60" ><font size="1" face="Arial">
+							<%= c.transdate %></font></td>
+							<td width="78" height="10" align="center"><font size="1" face="Arial">
+<%= c.generatedtime %>&nbsp;</font></td>
+							<td width="226" height="10"><font size="1" face="Arial">
+<%= c.calledtime %>&nbsp;</font></td>
+							<td width="9" height="10"><font size="1" face="Arial">
+<%= c.servicedtime %>&nbsp;</font></td>
+							<td width="25" height="10"><font size="1" face="Arial">
+<%= c.login %>&nbsp;</font></td>
+								
+								<% Service.find(:all, :conditions => ["serviceid=?", c.serviceid]).each do |d| %>
+							<td width="158" height="10" ><font size="1" face="Arial">
+<%= d.servicename %>&nbsp;</font></td>
+								 <% end %>
+								 
+							<td width="90" height="10"><font size="1" face="Arial">
+<%= c.waittime %>&nbsp;</font></td> 
+							<td width="107" height="10"><font size="1" face="Arial">
+<%= c.timetaken %>&nbsp;</font></td>
+							<% if c.tokenstatus.to_i == 1 %> 
+								<td width="285" height="10"><font size="1" face="Arial">
+<%= "SERVED" %>&nbsp;</font></td> 
+							<% else %>															
+								<td width="19" height="10"><font size="1" face="Arial">
+In&nbsp;Q&nbsp;</font></td> 
+							<%end%>	
+
+							
+						</tr>
+						<% end %> 
+						
+						<!--<tr align=center bgcolor="#336699">
+      	<th height="1" width="48" bgcolor="#FFFFFF" >
+        <p align="left">
+        <font color=black face="Arial" size="1">Token&nbsp;Served</font></th>
+        <td width="124" height="1" bgcolor="#FFFFFF"></td>
+        <td width="205" height="1" bgcolor="#FFFFFF"></td>
+
+      	
+      	<td  bgcolor=white width="117" height="1" ><font size="1"> <%@abc=Service.find_by_sql("select count(tokenno) as tokenno
+										from transactmaster
+										where transdate='#{params[:startdate]}' and counterno='#{@counterno}' and tokenstatus=1") %>
+										
+										<%= @abc[0].tokenno  %></font>
+										
+										</td>
+										<td width="144" height="1" bgcolor="#FFFFFF"></td>
+        <td width="71" height="1" bgcolor="#FFFFFF"><font size="2">Avg&nbsp;Mean&nbsp;Time&nbsp;to&nbsp;Serve:</font></td>
+        <td width="115" height="1" bgcolor="#FFFFFF"></td>
+
+
+
+										
+										
+	<td  bgcolor=white width="151" height="1"> <font size="1"><%@abc=Service.find_by_sql("select avg(time_to_sec(timetaken)) as timetaken
+														from transactmaster
+														where transdate='#{params[:startdate]}' and counterno='#{@counterno}'") %>
+
+								<% seconds   =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - seconds.to_i) / 60
+								minutes    =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - minutes.to_i) / 60
+								hours      =  @abc[0].timetaken.to_i % 24 %>
+								
+								<% if(hours<10)
+									hours="0#{hours}"
+								end
+
+								if(minutes<10)
+									minutes="0#{minutes}"
+								end
+
+								if(seconds<10)
+									seconds="0#{seconds}"
+								end %>
+								
+								<%= "#{hours}:#{minutes}:#{seconds}"  %>
+								
+
+								&nbsp;</font></td>
+
+      	</tr>-->
+      	<tr>
+      	<th width="68"><font color="#336699"><font size="1">Tokens&nbsp;Served</font>:</font></th>
+        <td width="67"></td><td width="60"></td>
+        <td width="78"></td>
+      	<td width="226"><font size="1"> <%@abc=Service.find_by_sql("select count(tokenno) as tokenno
+										from transactmaster
+										where transdate='#{params[:startdate]}' and counterno='#{@counterno}' and tokenstatus=1") %>
+										
+										<%= @abc[0].tokenno  %></font></td>
+										<td width="9"></td>
+										<td width="25"></td>
+										
+										
+		<th width="158">
+        <p align="left"><font size="1" color="#336699">Average Mean Time To Serve:</font></th>
+		<td width="90"></td><td width="107"></td>
+		<td width="285"><font size="1"><%@abc=Service.find_by_sql("select avg(time_to_sec(timetaken)) as timetaken
+														from transactmaster
+														where transdate='#{params[:startdate]}' and counterno='#{@counterno}'") %>
+
+								<% seconds   =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - seconds.to_i) / 60
+								minutes    =  @abc[0].timetaken.to_i % 60
+								@abc[0].timetaken = (@abc[0].timetaken.to_i - minutes.to_i) / 60
+								hours      =  @abc[0].timetaken.to_i % 24 %>
+								
+								<% if(hours<10)
+									hours="0#{hours}"
+								end
+
+								if(minutes<10)
+									minutes="0#{minutes}"
+								end
+
+								if(seconds<10)
+									seconds="0#{seconds}"
+								end %>
+								
+								<%= "#{hours}:#{minutes}:#{seconds}"  %>
+								
+
+								&nbsp;</font></td>
+</tr> 								
+
+
+					
+	
+			<% end %>	
+		
+		<% end %>
+	
+	</table>
+              </center>
+            </div>
+</div>
+</tr>
+</table>
+</table>
+</table>
+</body>
+
+</html>

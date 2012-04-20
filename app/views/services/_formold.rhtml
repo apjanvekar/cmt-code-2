@@ -1,0 +1,43 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+<!-- version DQMS_ROR_ver1.0.2 -->
+
+<html>
+<head>
+
+</head>
+<body>
+
+<!--[form:service]-->
+
+<p align=left><b>&nbsp;<label for="service_serviceid"> </label></b><label for="service_serviceid">
+<font size="2" face="Zurich BT" color="#800000">Service ID</font></label><b><font size="2" face="Zurich BT" color="#800000"><br/>
+&nbsp;<%= text_field 'service', 'serviceid', :size =>10, :disabled=>true  %></font></b></p>
+
+<p align=left><font face="Zurich BT" size="2" color="#800000"><b>&nbsp;</b><label for="service_servicename">Service Name</label><b><br/>
+&nbsp;<%= text_field 'service', 'servicename', :size => 20, :disabled=>true %></b></font></p>
+
+</b></font>
+
+<p align=left><font face="Zurich BT" color="#800000"><b><font size="2">&nbsp;</font></b><label for="service_servicestatus"><font size="2"> Service Status</font></label><b><font size="2"><br/>
+<% @a= Service.find(params[:id])%>
+<% @b=@a.servicestatus %>
+<% if @b.to_i== 1 %>
+&nbsp;</font><input type="radio" id="service_servicestatus" name="service[servicestatus]" value="1" checked="checked"  /></b></font><font face="Arial"><font size="2" color="#800000" face="Zurich BT">Active<b> &nbsp;&nbsp;&nbsp; </b>
+</font><b><font face="Zurich BT" color="#800000"><font size="2">&nbsp;</font><input type="radio" id="service_servicestatus" name="service[servicestatus]" value="0" unchecked/></font></b><font size="2" color="#800000" face="Zurich BT">In Active<b><br/>
+
+<% else %> </b>
+</font><b><font face="Zurich BT" color="#800000"><font size="2">&nbsp; </font> <input type="radio" id="service_servicestatus" name="service[servicestatus]" value="1" unchecked/></font><font size="2" color="#800000" face="Zurich BT"> </b>
+Active &nbsp;<b>&nbsp;&nbsp; </b>
+</font><b><font face="Zurich BT" color="#800000"><font size="2">&nbsp;</font><input type="radio" id="service_servicestatus" name="service[servicestatus]" value="0" checked="checked"/></font></b><font size="2" color="#800000" face="Zurich BT">In Active<b><br/>
+<% end %> </b>
+</font></font>
+<p>&nbsp;</p>
+<p align=left><font face="Zurich BT" size="2" color="#800000"><b>&nbsp;</b><label for="service_buttonno">Buttons Configured</label></font><b><font face="Arial" size="2" color="#800000"><br/>
+&nbsp;<%= text_field 'service', 'buttonno', :size =>10%></font></b></p>
+
+
+
+<!--[eoform:service]-->
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<body>
+<select id="services0" multiple size=8>
+    				<% @t=Csmapping.find_all(["counterno=?",@session['editcounter']]) %> 
+    				<% @t.each do |c| %>
+	      				   <b>
+	      					<% @s= Service.find_first(["serviceid = ? ",c.serviceid]) %>
+	      					<font face="Arial" size="2"> <option id=<%= "service_#{c.id}" %>><b>
+	      					<%= @s.servicename -%></font></b></option>
+                    </b>      					
+      		 			<% end %>			
+ </select>
+</body>

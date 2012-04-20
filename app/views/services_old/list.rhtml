@@ -1,0 +1,125 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+/* Div container to wrap the datagrid */
+div#divList {
+width: 420px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #336699;
+color: white;
+border-right: 1px solid silver;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+top: expression(document.getElementById("divList").scrollTop-2);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+th.locked {z-index: 99;}
+
+</STYLE> 
+
+
+</head>
+
+<body>
+<table border=0 width="969" height="370"><tr>
+  <td bgcolor="#FFFFFF" width="971" height="366">
+<table align=center border=5 bordercolor="#336699" width="963"><tr>
+  <td width="966">
+   
+<p align="center">
+<h1 align="center"><span style="font-weight: 400">
+<font color="#336699" face="Arial" size="5">Listing services</font></span></h1>
+<p>&nbsp;</p>
+<div class=clsDataGrid id=divList bgcolor=white style="width: 930; height: 193">
+<table border="1" width ="80%" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="10" align=center>
+            	                            	
+
+
+  <tr bgcolor="#336699">
+ 
+      	<th nowrap height="4" width="119">
+        <font color=#FFFFFF face="Arial" size="2">Service ID</font></th>
+        
+      	<th nowrap height="4" width="119"  align="left" >
+        <p align="center">
+        <font color=#FFFFFF face="Arial" size="2">Service Name</font></th>
+        
+		<th  nowrap height="4" width="119"  >
+        <font color=#FFFFFF face="Arial" size="2">Threshold Time</font></th>
+        
+		<th  nowrap height="4" width="119">
+        <font color=#FFFFFF face="Arial" size="2">Service Status</font></th>
+        
+		<!-- <th  nowrap height="4" width="119" >
+        <font color=#FFFFFF face="Arial" size="2">Priority</font></th>
+         <th nowrap width="65" height="22" >&nbsp;</th>-->
+
+		<% if session['user']['usertype']=="Admin" %>    	
+		<th nowrap width="65" height="22" >&nbsp;</th>
+			<% end %>
+
+</tr>
+         
+<% @t = Service.find_by_sql("select * from services" ) %>
+<% @t.each do |c| %>
+  <tr>
+  
+	<td nowrap align="center" height="2"><font  face="Arial" size="2"><%= c.serviceid %></font><font  face="Arial" size="2">&nbsp;</font></td>	
+	<td nowrap align="left" height="2"><font  face="Arial" size="2"><%= c.servicename %></font><font  face="Arial" size="2">&nbsp;</font></td>
+	<td nowrap align="center" height="2"><font face="Arial" size="2"><%= c.thresholdtime.strftime("%H:%M:%S") %></font><font face="Arial" size="2">&nbsp;</font></td>
+	<td nowrap align="left" height="2">
+<% @b=c.servicestatus %><font face="Arial" size="2">
+<% if @b.to_i==1 %> </font><font face="Arial" size="2">Active</font><font size="2">
+<%else%> </font>
+<font face="Arial" size="2">
+Inactive
+<%end%> </font>
+</td>
+	
+	<!-- <td nowrap align="center" height="2"><font  face="Arial" size="2"><%= c.priority %></font><font  face="Arial" size="2">&nbsp;</font></td> -->
+	
+	<td align="center" height="2" ><div id=edit><font  face="Arial" size="2">
+	
+	<%= link_to 'Edit', :action => 'edit', :id => c.id %>
+	
+	
+	</font></div></td>
+	<% if session['user']['usertype']=="Admin" %>    	
+		  		<!--<td align="center"><font face="Arial" size="2"><%= link_to 'Delete', :action => 'destroy1', :id => c.id %>&nbsp;</font></td>-->
+		  			<% end %>
+
+
+    
+</tr><% end %>	
+</table></div>
+
+
+<br />
+
+&nbsp;<font  face="Arial" size="2"><b><p align=center><% link_to 'Add new Service', :controller => 'services', :action => 'new' %> </p>
+</b></font><font face="Arial">
+<p>&nbsp;</p>
+</td></tr></table>
+</td></tr></table>
+</body>
+</html>

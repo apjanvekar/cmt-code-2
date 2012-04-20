@@ -1,0 +1,2 @@
+module DisplayscrollmsgHelper
+end

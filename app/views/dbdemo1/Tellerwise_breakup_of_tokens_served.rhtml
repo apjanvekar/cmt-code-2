@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<%= javascript_include_tag 'jquery','rails','highcharts'%>
+
+ <script type="text/javascript"> 
+                
+			$(document).ready(function() 
+				{		
+                    var chart;
+                    var name;
+                    alert([<%= @dev %>]);
+                    <%
+                      alen=@main.length
+                        @e=[]
+                        @c=[] 
+                        @d=[]
+                         for i in 0..alen-1 do
+                            @c=[]%>
+                           @g= [<% @c=@c<<@main[i].to_s<<@main[i+1] %>]
+                            <% @d=@d<<@c
+                            i=i+2
+                         end %>
+                         
+                               
+                    alert( [ <%=@d=@d<<@g %>   ]);
+					chart = new Highcharts.Chart({
+						chart: 
+						{
+								renderTo: 'container',
+								defaultSeriesType: 'pie'
+						},
+						
+						title: 
+						{
+							text: 'Customerwise Employee Score',
+							x: -20 //center
+						},         
+                        plotArea: {
+                            shadow: null,
+                            borderWidth: null,
+                            backgroundColor: null
+                        },
+                        tooltip: {
+                            formatter: function() {
+                                return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+                            }
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                showInLegend: true
+                            }
+                        },
+ 		
+                        series: [{
+                            type: 'pie',
+                            name: 'Token Served',
+                            data: [['a',20],['d',50],['c',40],['b',30]]
+                        }]					
+					
+				}
+				);
+				
+				
+			});
+				
+		</script>
+		
+	</head>
+	<body>
+		<% session[:values] %>
+		<!-- 3. Add the container -->
+		
+		<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+		
+				
+	</body>
+</html>

@@ -1,0 +1,36 @@
+<!-- version DQMS_ROR_ver1.0.2 -->
+<%= error_messages_for 'setting' %>
+
+<!--[form:setting]-->
+
+<table width="360">
+<tr>
+<td align="right" width="164"><font face="Zurich BT"><label for="setting_missingcount">Misssing Count &nbsp; &nbsp; :</label></font></td>
+<td width="186"><font face="Zurich BT"><%= text_field 'setting', 'missingcount',:style=>"font-family: Zurich BT; font-size: 10pt" %>&nbsp;</font></td>
+</tr>
+
+<tr>
+<td align="right" width="164"><font face="Zurich BT"><label for="setting_missingtime">Missing Time&nbsp; &nbsp; &nbsp; :</label></font></td>
+<td width="186"><font face="Zurich BT"><%= time_select 'setting', 'missingtime', :include_seconds => true   %></font></td>
+</tr>
+
+<tr>
+<td align="right" width="164"><font face="Zurich BT"><label for="setting_returntime">Screen Timeout&nbsp; :</label></font></td>
+<td width="186"><font face="Zurich BT"><%= text_field 'setting', 'returntime' ,:style=>"font-family: Zurich BT; font-size: 10pt"  %></font></td>
+</tr>
+
+<tr>
+<td align="right" width="164"><font face="Zurich BT"><label for="setting_branchname">Branch Name&nbsp;&nbsp;&nbsp; &nbsp; :</label></font></td>
+<td width="186"><font face="Zurich BT"><%= text_field 'setting', 'branchname' ,:style=>"font-family: Zurich BT; font-size: 10pt" %></font></td>
+</tr>
+<tr>
+<td align="right" width="164"><font face="Zurich BT"><label for="setting_branchname">Branch SoleID&nbsp;&nbsp;&nbsp; &nbsp; :</label></font></td>
+<td width="186"><font face="Zurich BT"><%= text_field 'setting', 'soleid' ,:style=>"font-family: Zurich BT; font-size: 10pt" %></font></td>
+</tr>
+
+<!--<tr>
+<td><label for="setting_accountscreentime">Account Screen Time</label></td>
+<td><%= text_field 'setting', 'accountscreentime' ,:size=>15 %></td>
+</tr>-->
+</table>
+<!--[eoform:setting]-->

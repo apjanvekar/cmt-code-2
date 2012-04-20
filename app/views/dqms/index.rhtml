@@ -1,0 +1,55 @@
+<html>
+<head>
+           <%= javascript_include_tag "backButton",:defaults %>
+
+           <%= stylesheet_link_tag 'style' -%>
+</head>
+<body>
+           <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#000080" width="100%" id="AutoNumber1" height="588" bgcolor="#ffffff">
+ 	      <tr> 
+                 <td width="100%" height="434" align=center>
+      	                        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="90%" id="AutoNumber2" height="482" bgcolor="#004B97">
+          	                  <tr>
+            		                    <td width="100%" height="482" bgcolor="#800000" align=center>
+                                                         <%= start_form_tag :action=> 'login' %>
+                                                         <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="95%" id="AutoNumber3" height="436" bgcolor="#FFFFFF">
+                			                           <tr>
+                  				                            <td id=login width="50%" height="436" bgcolor="#FFFFFF">
+                  				                                       <center><%=image_tag("icici_bank.jpg",:width =>'400',:height=>'200') %></center>
+                  				                            </td>
+                 	 			                            <td width="50%" height="436" bgcolor="#FFFFFF" >	
+								                                 <table border="0" bordercolor="#800000" style="border-collapse: collapse" align="center" width="302" height="65" >
+									                            <tr>
+ 										                             <td width="212" height="51" >
+											                              <h1 align="left"><font color="#800000" face="Zurich Ex BT" size="5">Sign In</font></h1>
+											                              <div title="Account login" id="loginform" class="form" style="width: 300; height: 242" align=left>
+											                              <p>&nbsp;</p>      
+											                              <h3><font color=red size="4">
+											                                      <%#=flash[:notice]="User is already logged in..." %>
+											                                      <%#= puts "#{@msg}"%>
+										   	                                      <% if flash[:notice] %>
+    												                                 <div id="message" style="width: 300;border: 2px solid blue;padding-bottom: 12px; margin-bottom: 20px; background-color: #f0f0f0; height:22; padding-left:7px; padding-right:7px; padding-top:7px">
+						 							                                <%=flash[:notice] %>
+						 						                                 </div>
+    											                                      <% end %>
+    											                              </h3></font>
+											                              <p><font size="4" color="#800000" face="Zurich Ex BT"><label>Username :</label></font><br/>
+											                              <%= text_field 'login', '', :autocomplete => 'off'%></p>
+                                                                                      <p><font color="#800000" size="4" face="Zurich Ex BT"><label>Password :</label></font><br/>
+                                                                                      <%= password_field 'password', '', :autocomplete => 'off'%></p>
+                                                                                      <%= submit_tag "Login" %>
+                                                                               </td>
+                                                                          </tr>
+                                                                          </table>
+                                                                 </td>
+                                                          </tr> 
+                                                          </table>     
+                                                          <%= end_form_tag %>
+                                   </td>
+					   </tr>
+					   </table>
+			     </td>	
+		   </tr>	   		
+            </table>
+   </body>
+</html>

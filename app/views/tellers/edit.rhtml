@@ -1,0 +1,43 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+<body>
+<table border=0 align=center width="755">
+<tr>
+<td bgcolor="#FFFFFF" align="center" width="749">
+<table align="center" border=5 bordercolor="#800000" width="735">
+<tr><td width="717">
+<h3 align=center>
+<font color="#800000" face="Zurich BT">Edit Counter</font></h3>
+<%= error_messages_for 'counter' %><font color="#336699"> </font>
+<% form_tag :action => 'update', :id => @counter do %><font color="#336699">
+  <%= render :partial => 'form' %> </font>
+ </font> 
+</td>
+</tr>
+<tr>
+<td width="717">
+<p>&nbsp;</p>
+<p align=center>
+<!--<%= submit_tag ' Save ',  :style=>"font-family: Arial; font-size: 10pt" %> -->
+<%= submit_to_remote ' Save ', ' Save ' , :url=> {:controller=>'tellers',:action => "update" }, :style=>"font-family: Zurich BT; font-size: 10pt" %></br>
+<font color="#800000" face="Zurich BT"><%=link_to 'Back' ,:controller=>'tellers',:action=>'newback'%></font>
+  <%#= button_to_function 'Back' , remote_function(:url=> {:controller=>'tellers',:action => "back1" }),:id=>'back1',  :style=>"font-family: Zurich BT; font-size: 10pt" %>
+</p> 
+</p> 
+</td>
+</tr>
+</table>
+   </td></tr></table>
+<% end %> 
+ </body>
+</html>

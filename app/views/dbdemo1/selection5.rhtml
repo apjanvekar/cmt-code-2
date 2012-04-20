@@ -1,0 +1,58 @@
+
+<head>
+<%= javascript_include_tag "prototype","effects","application","backButton",:defaults %> <%= stylesheet_link_tag 'calendar_date_select/silver.css' %>
+<%= javascript_include_tag 'calendar_date_select/calendar_date_select.js'%> <%= javascript_include_tag 'calendar_date_select/format_db.js'%>
+<script>
+function first()
+					{
+						alert("hi");
+						var div_ref = document.all("f_tiff_div");
+						div_ref.style.visibility = "visible";
+
+						
+		
+			}
+</script>
+</head>
+<body onunLoad="back()">
+<form action ="Employee_score">
+<p align=center>
+    <b>
+        <font face="Arial" size="5" color="#336699">
+       		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </font>
+        <font face="Arial" size="5" color="#800000">
+       		Employee Score</font><font face="Arial" size="5" color="#336699">
+       		</font></b>
+  </p>
+  <br>
+  <br>
+    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="50%" id="AutoNumber1" height="160">
+      <tr>
+        <td width="60%" height="34" align="right"><b>
+        <font face="Arial" size="2" color="#800000">FROM:</font><font face="Arial" size="2" color="#336699">&nbsp; </font></b></td>
+        <td width="40%" nowrap height="16"><%= calendar_date_select_tag :startdate , Date.today.to_s,  :popup => "force" %>
+        </td>
+      </tr>
+       <tr>
+        <td width="60%" height="34" align="right"><b>
+        <font face="Arial" size="2" color="#800000">TO:&nbsp; </font></b>
+        </td>
+        <td width="40%" nowrap height="16"><%= calendar_date_select_tag :enddate , Date.today.to_s,  :popup => "force" %></td>
+      </tr>
+        <tr>
+          <td width="60%" height="27">
+          &nbsp;
+          </td>
+          <td width="40%" height="27" align=left>
+          	<input type="submit" value="OK">
+          </td>
+
+        </tr>
+        <tr>
+          <td width="50%" height="19">&nbsp;</td>
+          <td width="50%" height="19">&nbsp;</td>
+        </tr>
+      </table>   
+      </form> 
+  	&nbsp;</body></html>

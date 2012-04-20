@@ -1,0 +1,165 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+</body>
+
+<%= button_to "Export To Excel", :controller => 'users', :action => "ServicewiseTokens"  %>
+
+<table height="42" width="466" align=center><tr>
+<td height="256" width="292">	
+ 		<table border=5 width="432" height="321" bordercolor="#336699" align=center> 		
+ 		<tr>
+            <td bgcolor="#FFFFFF" height="315" width="439">
+ 		<table border=0 width="436" height="315">
+ 		<tr><td height="17"><p align=center>
+      		<font face="Arial" size="4" color="#336699">Servicewise Breakup Of Tokens For Today's Date</font>
+      		</p>
+      		</td></tr>
+
+ 		<tr>
+ 		
+      		<td  width="430" height="311"> 
+ 			<div class=clsDataGrid id=divList bgcolor=white style="width: 700; height: 250"> 			
+ 			<table border="1" align=center width ="294" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="41">
+
+
+
+<tr align=center bgcolor="#336699">
+      	<th height="11"  bgcolor="#336699" width="10">
+        <font color=white face="Arial" size="2">Counter</font></th>
+      	<th nowrap height="11" bgcolor="#336699" width="35">
+        <font color=white face="Arial" size="2">&nbsp;&nbsp;Status</font></th>
+		<th nowrap height="11"  bgcolor="#336699" width="15">
+        <font color=white face="Arial" size="2">&nbsp;TokenNo&nbsp;</font></th>
+		<th nowrap height="11"  bgcolor="#336699" width="15">
+        <font color=white face="Arial" size="2">&nbsp;ServiceName</font></th>
+		<th nowrap height="11"  bgcolor="#336699" width="15">
+        <font color=white face="Arial" size="2">&nbsp;CustomerType</font></th>
+		<th nowrap height="11"  bgcolor="#336699" width="15">
+        <font color=white face="Arial" size="2">&nbsp;Threshold&nbsp;</font></th>
+		<th  height="11"  bgcolor="#336699" width="15">
+        <font color=white face="Arial" size="2">&nbsp;WaitTime</font></th>
+        <th  height="11"  bgcolor="#336699" width="10">
+        <font color=white face="Arial" size="2">&nbsp;TimeTaken</font></th>
+
+</tr>
+<% @t = Counter.find_by_sql("select * from counters where counterstatus=1 order by counterno" ) %><font size="1" face="Arial">
+<% @t.each do |c| %> </font>
+<tr align=center>
+<td nowrap  height="11" align=center ><font size="2" face="Arial">
+<%= c.counterno %></font></td>
+
+<td nowrap  height="11" align=left >
+	<% if c.loginstatus=='Y'%>
+	<font size="2" face="Arial">
+		<% @pause=Transact.find_first(["counterno=? and pauseflag=1",c.counterno])%>
+		<% if @pause!=nil %> 
+				<% if @pause.pauseflag==1  %>
+				<font size="2" face="Arial" color=red><b>
+
+				<%= @pause.reasons %></b>
+				<% else %>
+				Logged In 
+				<% end%>
+		<% else %>
+				Logged In 
+
+		<% end %>
+	<%else%><font size="2" face="Arial">
+		Logged Out</font>
+	<%end%>
+
+</td>
+<% if c.loginstatus=='Y'%>
+<% @a= Transact.find_first(["counterno = ? and tokenstatus=2",c.counterno]) %>
+
+<% if @a==nil %>
+<%else %>
+
+<td nowrap height="11"  width="" align=center>
+<font size="2" face="Arial">
+
+
+<%= @a.tokenno -%> </font></td>
+
+<td nowrap height="11" align=center width="100">
+
+<% @b= Service.find_first(["serviceid = ? ",@a.serviceid]) %><font size="2" face="Arial">
+
+<%= @b.servicename -%> </font>
+</td>
+
+<td nowrap  height="11" align=center width="116">
+<% @c= Customertype.find_first(["ctypeid = ? ",@a.ctypeid]) %><font size="2" face="Arial">
+<%= @c.ctypedesc -%> </font>
+</td>
+<td nowrap height="11" align=center width="80">
+<% @d= Service.find_first(["serviceid = ? ",@a.serviceid]) %><font size="2" face="Arial">
+<%= @d.thresholdtime.strftime("%H:%M:%S") -%> </font>
+</td>
+
+<% if(@a.waittime!=nil) %>
+<% if(@c.thresholdtime<@a.waittime) %>
+
+<td nowrap  height="11" align=center width="80" bgcolor=red>
+<font size="2" face="Arial" color=white>
+
+<%= @a.waittime.strftime("%H:%M:%S") -%></font></td>
+<% else %>
+<td nowrap  height="11" align=center width="80">
+<font size="2" face="Arial">
+
+<%= @a.waittime.strftime("%H:%M:%S") -%></font>
+</td>
+<%end%>
+
+ </font>
+</td>
+<td nowrap  height="11" align=center width="95">
+<font size="2" face="Arial">
+<div id="<%= @a.tokenno %>"></div>
+<div id='time'></div>
+<% @s= Service.find_first(["serviceid = ? ",@a.serviceid]) %>
+<script>				
+a='<%= @a.transdate.strftime("%d/%m/%y") %>'+" "+'<%= @a.calledtime.strftime("%H:%M:%S") %>';
+b='<%= @s.thresholdtime.strftime("%H:%M:%S") %>'
+c='<%= @a.tokenno %>'
+d='<%= @a.transdate.strftime("%d/%m/%y") %>'+" "+'<%= Time.now().strftime("%H:%M:%S") %>';
+
+difference(a,b,c,d)
+
+
+</script><%end%>
+</font>
+
+</td>
+
+<% end %>
+<%end%>
+
+</tr>
+<% end %>
+ </font>
+</table></div>
+ 
+  		
+			</td>
+		</tr>
+		
+		</table>	
+ 		
+ 	</td>
+ 	
+ 	
+</tr>
+</table></td></tr></table>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<%= javascript_include_tag 'jquery','rails','highcharts'%>
+
+ <script type="text/javascript"> 
+                
+			$(document).ready(function() 
+				{		
+                    var chart;
+                   		                
+					chart = new Highcharts.Chart({
+						chart: 
+						{
+								renderTo: 'container',
+								defaultSeriesType: 'line'													
+					             	
+						},
+						
+						title: 
+						{
+							text: '',
+							x: -20 //center
+						},         
+					
+						subtitle: 
+						{
+							x: -20
+						},
+						
+						xAxis: 
+						{
+							categories: ['10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'],
+							labels: {
+						        rotation: -45,
+						        align: 'right',
+						        style: {
+							        font: 'normal 13px times new roman, aril'
+						       }
+                            }
+							
+						},
+						
+						yAxis: 
+						{
+							title: 
+							{
+								text: 'Total Token Served'
+							},
+
+							plotLines: [{value: 0,width: 1,color: '#808080'}]
+						},
+	
+						tooltip: 
+						{
+							formatter: function() 
+							{
+					               	 return '<b>'+ this.series.name +'</b><br/>'+
+									this.x +': '+ this.y ;
+							}
+						},
+					
+						legend: 
+						{
+							layout: 'vertical',
+							align: 'right',
+							verticalAlign: 'top',
+							x: -10,
+							y: 100,
+							borderWidth: 0
+						},
+										
+						 		
+					series: [{
+					
+						name: 'Sum of Gold Customer',
+						data: [<%= @ctypeid1.join(',') %>]
+					   },{
+                        name: 'Sum of Customer',
+						data: [<%= @ctypeid2.join(',') %>]
+                       },{
+                        name: 'Sum of Non Customer',
+						data: [<%= @ctypeid3.join(',') %>]
+                       }                        
+                    ]					
+					
+				}
+				);
+				
+				
+			});
+				
+		</script>
+		
+	</head>
+	<body>
+		<% session[:values] %>
+		<!-- 3. Add the container -->
+		<table border=0 width="850" height="50">
+ 		<tr>
+          <td height="17" width="1048" style="border-style: solid; border-width: 1">
+          
+          <p align=center>
+      		<font face="Arial" size="4" color="#336699">Hourly Footfall Trends-Customer Type </font>
+      		</p>
+          <p><br/>
+      		 </p>
+      		 <p align="left"><b>Generated On: <%= Date.today %> </b> 
+      		 <h4 align="right">F0R: <%=  Date.today %> </h4>
+          <p></p>
+      		 <p><b>Branch Name:<% @t = Service.find_by_sql("select branchname as b1 from settings" )%><%= @t[0].b1 %></b></p>
+
+      		</td>
+      		</tr>
+
+        </table>
+
+		<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+		
+				
+	</body>
+</html>

@@ -1,0 +1,55 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--<title>Hinduja Hospital-Dynamic Queue Management System(DQMS)</title>-->
+<%= stylesheet_link_tag 'style' -%>
+<%= javascript_include_tag "backButton",:defaults %>
+
+</head>
+
+<body topmargin=0 bottommargin=0 leftmargin=0 rightmargin=0 >
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#000080" width="100%" id="AutoNumber1" height="588" bgcolor="#ffffff">
+    <tr> 
+      <td width="100%" height="434" align=center>
+      	<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="90%" id="AutoNumber2" height="482" bgcolor="#800000">
+          	<tr>
+            		<td width="100%" height="482" bgcolor="#800000" align="center">
+					<%= start_form_tag :action=> "login" %>	
+					<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="95%" id="AutoNumber3" height="436" bgcolor="#FFFFFF">
+                			<tr>
+                  				<td id=login width="50%" height="436" bgcolor="#FFFFFF">
+                  				 <center><%=image_tag("icici_bank.jpg",:width =>'400',:height=>'200') %></center>
+
+                  				</td>
+                 	 			<td width="50%" height="436" bgcolor="#FFFFFF" >	
+								<table border="0" bordercolor="#800000" style="border-collapse: collapse" align="center" width="302" height="65" >
+									<tr>
+ 										<td width="50%" height="373" align="left" >
+											
+											<div class="memo" style="width: 414; height: 81" align="left">  
+    											<p>
+                                                <font color="#800000" face="Zurich Ex BT"><h1 align="center">Thank You.</h1></font></p>
+											<p> <font face="Arial" size="5">&nbsp; </font> </p>
+											<p> &nbsp; </p>
+   											<font color="#FF6600" face="Zurich Ex BT" size="2"><b><h3 align="center"> <%= link_to "Sign In", :controller =>"dqms",:action=>"index"%></h3></b> </font> 
+											</div>
+										</td>									
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</body>
+</html>

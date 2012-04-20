@@ -1,0 +1,109 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+/* Div container to wrap the datagrid */
+div#divList {
+width: 420px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #800000;
+color: white;
+border-right: 1px solid silver;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+top: expression(document.getElementById("divList").scrollTop-2);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+th.locked {z-index: 99;}
+
+</STYLE> 
+<%= javascript_include_tag "backButton",:defaults %>
+</head>
+
+<body onunLoad="back()">
+<table border=0 width="70%" height="343" bordercolor="#800000" align=center><tr>
+  <td bgcolor="#FFFFFF" width="704" height="305">
+  <table width="702" height="239"><tr><td width="107" height="272">
+&nbsp;</td><td width="473" height="272">
+<table align=center border=5 bordercolor="#800000" width="421"><tr>
+  <td width="457">
+<h1 align="center"><font color="#800000" face="Arial" size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Scroll Message</font><font color="#800000"></span></font></h1>
+<p>&nbsp;</p>
+<div class=clsDataGrid id=divList bgcolor=white style="width: 530; height: 200">
+<table border="1" width ="323" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="40" align=center>                 	
+ 		 	 <tr bgcolor="#336699">  
+      			<th nowrap width="72" height="17" ><span style="font-weight: 400">
+                <font color=white face="Arial" size="2">Sr. No.</font></span></th>
+      			<th nowrap width="219" height="17" ><span style="font-weight: 400">
+                <font color=white face="Arial" size="2">Scroll Message</font></span></th>
+				
+				<th nowrap width="72" height="17" ><span style="font-weight: 400">
+                <font color=white face="Arial" size="2">Status</font></span></th>
+				<th nowrap width="62" height="17" >&nbsp;</th>
+				<!--<th nowrap width="62" height="17" >&nbsp;</th>-->
+
+      		</tr>
+ 			<% @t = Displayscrollmsg.find_by_sql("select * from displayscrollmsgs" ) %>
+			<% @t.each do |c| %>
+  <tr>
+  
+	<td nowrap align="center" width="72" height="20"><font  face="Arial" size="2"><%= c.id %></td>	
+	<td nowrap align="center" width="219" height="20">    
+      <font  face="Arial" size="2"><%= c.scrollmsg %></td>
+	<td nowrap align="center" width="72" height="20">    
+         
+     <% @b=c.status %><font face="Arial"  size="2">
+     <% if @b.to_i== 1 %> </font><font face="Arial" size="2">Active
+     <%else%>
+	Inactive
+	<%end%>
+
+      
+      </td>
+	
+<td align="center" width="1" height="20"><font  face="Arial" size="2"><b><%= link_to 'Edit', :action => 'edit', :id => c.id %></b></font></td>
+<!--<td align="center" width="1" height="20"><font  face="Arial" size="2"><b><%#= link_to 'Delete', {:action => 'destroy_scroll', :id => c.id}, :confirm =>"Are you sure?" %></b></font></td>-->
+
+</tr><% end %>	
+</table></div>			
+		
+
+<br />
+
+<!--<p align=center> <font  face="Arial" size="2"><b><%= link_to 'Add New Scroll Message', :action => 'new' %> </p></b></font>-->
+
+<p>&nbsp;</p>
+</td></tr></table>
+</td>
+<td width="108">&nbsp;</td>
+
+
+</tr></table>
+</td></tr></table>
+<% if flash[:notice] %>
+
+ <div id="notice"><%=image_tag 'flash-check.png'%><%= flash[:notice] -%></div>
+ <% end %>
+
+</body>
+</html>

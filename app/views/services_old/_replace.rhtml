@@ -1,0 +1,60 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+<form>
+<table width="353" height="172">
+	<tr>
+		<td width="347" height="168">
+		<table width="447"><tr>
+   <td width="172" align="center"><h4><font face="Arial">Master List</font></h4>
+<p align="right">
+    	<select id="service" multiple size=8 name="service[serviceid]">
+    				<% @s= Service.find_all(["servicestatus=0 "]) %>
+    				<% @s1=Service.find(:all) %>
+    				<% @s.each do |c| %>
+	      			
+	      					
+	      					<font face="Arial" size="2"> <option value="<%= c.serviceid %>"><b><%= c.servicename -%></font></b></option>
+                    </b>      <% end %>							
+                    
+      		 			</select>
+	 			
+    
+     </td>	
+<td width="89">      
+  <%= submit_to_remote 'Add', '  >  ' , :url=> {:controller=>'services',:action => "new_services" }, :style=>"font-family: Arial; font-size: 10pt" %><br/>
+  <%= submit_to_remote 'Add All', ' >> ' , :url=> {:controller=>'services',:action => "all_services" }, :style=>"font-family: Arial; font-size: 10pt" %><br/>
+   <%= submit_to_remote 'Remove', '  <  ' , :url=> {:controller=>'services',:action => "remove_services" }, :style=>"font-family: Arial; font-size: 10pt" %><br/>
+  <%= submit_to_remote 'Remove All', ' << ' , :url=> {:controller=>'services',:action => "remove_all" }, :style=>"font-family: Arial; font-size: 10pt" %><br/>
+</td>
+    <td width="159" height="60" align="left" > 	
+ 	<div id=services align=left >
+ 	<%= render :partial => 'newservice' %>
+		
+	</div> 	
+</td></tr></table>
+		</td>
+	</tr>
+</table>
+
+
+
+<p align=center>
+	<font color="#990000">
+	<%= link_to 'Back', :action => 'list' %></p>
+	<p>&nbsp;</p>
+</form>
+</body>
+
+</html>

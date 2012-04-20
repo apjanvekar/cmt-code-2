@@ -1,0 +1,63 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<table width="303" align=left><tr>
+  <td width="71" height="60" > 	<font face="Zurich BT" size="2">
+  <select id="services" multiple size=8 name="csmapping[serviceid]">
+    				<% @t=Service.find(:all,:conditions=>["servicestatus=1"]) %> 
+    				<% @t.each do |c| %>
+	      				   <b>
+	      					<% @s= Service.find_first(["serviceid = ? ",c.serviceid]) %>
+	      					<font face="Zurich BT" size="2"> <option value="<%= @s.serviceid %>"><b><%= @s.servicename -%></font></b></option>
+                    </b>      <% end %>					
+      		 			</select></font>
+
+
+     </td>
+<td width="45">      
+  <%= submit_to_remote 'Add', '  >  ' , :url=> {:controller=>'tellers',:action => "update_services" },  :style=>"font-family: Zurich BT; font-size: 10pt" %><br />
+  
+
+  <%= submit_to_remote 'Add All', ' >> ' , :url=> {:controller=>'tellers',:action => "all_eservices" }, :style=>"font-family: Zurich BT; font-size: 10pt" %><br />
+  
+
+   <%= submit_to_remote 'Remove', '  <  ' , :url=> {:controller=>'tellers',:action => "remove_eservices" }, :style=>"font-family: Zurich BT; font-size: 10pt" %><br />
+  
+
+  <%= submit_to_remote 'Remove All', ' << ' , :url=> {:controller=>'tellers',:action => "remove_eall" }, :style=>"font-family: Zurich BT; font-size: 10pt" %><br />
+  
+
+
+  
+</td>
+     <td width="71" height="60" > 	<font face="Zurich BT" size="2">
+ 	 <select id="servicesselected" multiple size=8 name="counter[serviceid]">
+    					  <% @session['editcounter'] %>
+    					 <% @t=Csmapping.find_all(["counterno=? and cstatus=?",@session['editcounter'],1])%>
+
+    				
+    				<% @t.each do |c| %>
+	      				   <b>
+	      					<% @s= Service.find_first(["serviceid = ? ",c.serviceid]) %>
+	      					<font face="Zurich BT" size="2"> <option value="<%= @s.serviceid %>"><b><%= @s.servicename -%></font></b></option>
+                    </b>      <% end %>					
+      		 			</select></font>
+
+
+
+</td></tr></table>
+</body>
+
+</html>

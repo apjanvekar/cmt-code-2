@@ -1,0 +1,39 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+
+</head>
+
+<body>
+<form id="form1" name="form1" method="POST" action="updatetoken" align="center">
+  <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+    <tr>
+      <td width="33%">ServiceName</td>
+      <td width="33%">Current Token</td>
+      <td width="34%">Totalpending</td>
+    </tr>
+    <% for counter in @csmappings %>
+    <tr>
+	
+      <td width="33%"><%= counter.counterno %>&nbsp;</td>
+      <td width="33%">&nbsp;</td>
+      <td width="34%">&nbsp;</td>
+    </tr>
+    <% end %>
+    <tr>
+      <td width="33%">&nbsp;</td>
+      <td width="33%">&nbsp;</td>
+      <td width="34%">&nbsp;</td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+  <p><input type="submit" value="Submit" name="B1"><input type="reset" value="Reset" name="B2"></p>
+</form>
+
+</body>
+
+</html>

@@ -1,0 +1,622 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title></title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+<script language="javascript">
+function checkField(object) {
+var ano=document.all("transact_accno");
+
+var regex = /^[a-z\A-Z\s\d]*$/;
+var space=/ /;
+if ((!regex.test(object.value)) || (space.test(object.value)))
+ {
+alert("please enter numeric or alphabetic values only")
+ano.focus();
+return(false);
+
+} 
+
+	
+	if(ano.value.length>0)
+	{
+		if(ano.value.length<12 || ano.value.length>12 && ano.value.length<17)
+		{
+		alert("Please enter 12 or 17 digit account number!")
+		ano.focus();
+		return(false);
+		}
+		if(ano.value.length>17)
+		{
+		alert("Please enter 12 or 17 digit account number!")
+		ano.focus();
+		return(false);
+		}
+		
+		
+	
+	}
+
+
+
+
+}
+</script>
+<script>
+ function Validate()
+{
+	
+	
+	var stp=document.getElementById("transact_stp");
+	var v_stp = stp.options[stp.selectedIndex].value;
+	if(v_stp=="")
+	{
+	alert('Please Select Stp Service! ')
+	stp.focus();
+	return(false);
+	}
+	
+	var ano=document.all("transact_accno");
+
+	var nstp=document.getElementById("transact_nonstp");
+	var v_nstp = nstp.options[nstp.selectedIndex].value;
+	if(v_nstp!="")
+	{
+	if(ano.value.length<1)
+	{
+		alert('Please Enter Account number')
+		ano.focus();
+		return(false);		
+	}
+	
+	
+
+	
+	}
+}
+</script>
+<script> 
+window.history.forward(1); 
+document.attachEvent("onkeydown", my_onkeydown_handler); 
+function my_onkeydown_handler() 
+{ 
+switch (event.keyCode) 
+{ 
+
+case 116 : // 'F5' 
+event.returnValue = false; 
+event.keyCode = 0; 
+window.status = "We have disabled F5"; 
+break; 
+} 
+} 
+</script>
+<script type="text/javascript">
+!--
+history.forward();
+
+-->
+</script>
+<script>
+ 
+var g1=0;
+var b1=0;
+ function pausetimer()
+ {
+ var div_ref1 = document.getElementById("show");
+ if(div_ref1.style.visibility == 'visible')
+	{
+	g1=g1+1;
+  }
+ else
+ {
+ }
+
+
+
+if(g1>60)
+{
+b1=b1+1;
+g1=0;
+window.status=g1;
+if(g1>=10)
+document.getElementById('show').innerHTML="00:0"+b1+":"+g1;
+else
+document.getElementById('show').innerHTML="00:0"+b1+":0"+g1;
+
+}
+else
+{
+if(g1>=10)
+document.getElementById('show').innerHTML="00:0"+b1+":"+g1;
+else
+document.getElementById('show').innerHTML="00:0"+b1+":0"+g1;
+}
+
+ setTimeout("pausetimer()",1000);
+
+
+ }
+ </script>
+<script LANGUAGE="javascript">
+
+
+
+ function addZero(vNumber){ 
+    return ((vNumber < 10) ? "0" : "") + vNumber 
+  } 
+        
+  function formatDate(vDate, vFormat){ 
+    var vDay              = addZero(vDate.getDate()); 
+    var vMonth            = addZero(vDate.getMonth()+1); 
+    var vYearLong         = addZero(vDate.getFullYear()); 
+    var vYearShort        = addZero(vDate.getFullYear().toString().substring(3,4)); 
+    var vYear             = (vFormat.indexOf("yyyy")>-1?vYearLong:vYearShort) 
+    var vHour             = addZero(vDate.getHours()); 
+    var vMinute           = addZero(vDate.getMinutes()); 
+    var vSecond           = addZero(vDate.getSeconds()); 
+    var vDateString       = vFormat.replace(/dd/g, vDay).replace(/MM/g, vMonth).replace(/y{1,4}/g, vYear) 
+    vDateString           = vDateString.replace(/hh/g, vHour).replace(/mm/g, vMinute).replace(/ss/g, vSecond) 
+    return vDateString 
+  } 
+  
+  function difference(a,b)
+ {
+alert("hi");
+var dateformat="dd/MM/yy hh:mm:ss";
+
+var today=formatDate(new Date(),dateformat);
+
+
+var z=new Date(a);
+var z1=new Date(b);
+
+
+	var sec=(z1.getTime()-z.getTime());
+	
+ 	var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
+	var hours = Math.floor(sec / hour);
+	if(hours<10)
+	hours="0"+hours;
+	sec -= hours * hour;
+	var minutes = Math.floor(sec / minute);
+	if(minutes<10)
+	minutes="0"+minutes;
+	
+	sec -= minutes * minute;
+	var seconds = Math.floor(sec / second);
+	if(seconds<10)
+	seconds="0"+seconds;
+	
+	var diff=hours+":"+minutes+":"+seconds;
+	return diff
+         
+
+}
+
+ function difference1(a,b)
+ {
+
+var dateformat="dd/MM/yy hh:mm:ss";
+
+var today=formatDate(new Date(),dateformat);
+
+
+var z=new Date(a);
+var z1=new Date(today);
+
+
+	var sec=(z1.getTime()-z.getTime());
+	
+ 	var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
+	var hours = Math.floor(sec / hour);
+	if(hours<10)
+	hours="0"+hours;
+	sec -= hours * hour;
+	var minutes = Math.floor(sec / minute);
+	if(minutes<10)
+	minutes="0"+minutes;
+	
+	sec -= minutes * minute;
+	var seconds = Math.floor(sec / second);
+	if(seconds<10)
+	seconds="0"+seconds;
+	
+	var diff=hours+":"+minutes+":"+seconds;
+	var s="0:0:12";
+			if(b<=diff)
+			document.getElementById('time').innerHTML="<FONT COLOR='red'>"+diff+"</font>";
+			else
+			document.getElementById('time').innerHTML=diff;
+           setTimeout("difference(a,b)",1000);
+
+}
+ </script>
+<script LANGUAGE="javascript">
+
+var no1,x,no2;
+ 
+function timediff(a,b,c)
+{
+var z=new Date(a);
+var z1=new Date(c);
+no1=(z1.getTime()-z.getTime());
+no2=b;
+showdiff(no1,no2);
+}
+
+var x=no1;
+var y=no2;
+var hours;
+var minutes;
+var seconds;
+function showdiff(no1,no2)
+{
+x=no1+1000;
+y=no2;
+var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
+	hours = Math.floor(no1 / hour);
+	if(hours<10)
+	hours="0"+hours;
+	no1 -= hours * hour;
+	minutes = Math.floor(no1 / minute);
+	if(minutes<10)
+	var minutes="0"+minutes;
+	
+	no1 -= minutes * minute;
+	seconds = Math.floor(no1 / second);
+	if(seconds<10)
+	seconds="0"+seconds;
+	
+	var diff=hours+":"+minutes+":"+seconds;
+
+			if(no2<diff)
+			document.getElementById('time').innerHTML="<FONT COLOR='red'>"+diff+"</font>";
+			else
+			document.getElementById('time').innerHTML=diff;
+            
+			setTimeout("showdiff(x,y)",1000);
+}
+
+ </script>
+<script type language="JavaScript">
+function show() {
+var div_ref = document.all("id_div");
+  div_ref.style.visibility = "visible";
+var div_ref = document.all("bulk_div");
+  div_ref.style.visibility = "visible";
+}
+
+	function Pause()
+  	{
+	  	a=confirm("Taking Pause will end the current Service Request.Do you want to continue?");
+  		if(a==1)
+  		{
+  		var div_ref = document.all("aux_div");
+        div_ref.style.visibility = "visible";
+  		
+  		var div_ref = document.all("time_div");
+        div_ref.style.visibility = "hidden";
+
+		disable();     
+		
+   		}
+  	}
+
+function disable()
+{
+	document.form1.submit.disabled=true;
+	document.form1.pause.disabled=true;
+} 
+  
+function Release()
+{
+
+ document.form1.submit.disabled=false;
+ document.form1.pause.disabled=false;
+ var div_ref = document.all("aux_div");
+ div_ref.style.visibility = "hidden";
+
+  		var div_ref = document.all("time_div");
+        div_ref.style.visibility = "visible";
+        
+        
+        
+} 
+ function full()
+ {
+ win=window.open('transact', 'Script','width=1024,height=768,toolbar=yes, menubar=yes,resizable=yes,scrollbars=yes,location=yes, status=yes, left=120, top=80');
+ win.moveTo(0,0);
+  return false
+ }
+
+</script>
+<script type="text/javascript">
+
+var myclose = false;
+
+function ConfirmClose()
+{
+if (event.clientY < 0)
+{
+event.returnValue = 'Are You Sure You Want to Quit?';
+
+setTimeout('myclose=false',100);
+myclose=true;
+}
+}
+
+function HandleOnClose()
+{
+if(myclose==true)
+{
+new Ajax.Request("<%= url_for :controller=> :account,:action=>:logout2 %>",{method:'get'})
+}
+}
+
+</script>
+<script language="VBScript">
+Dim oDW
+Set oDW = CreateObject("DynamicWrapper")      ' Instantiate dynawrap
+oDW.Register "USER32.dll", "SetWindowPos", "i=lllllll", "f=s", "r=l"
+oDW.Register "USER32.dll", "FindWindowA", "i=ss", "f=s", "r=l"
+
+Const SWP_HIDEWINDOW  = &H80
+Const SWP_SHOWWINDOW = &H40
+Const HWND_TOPMOST = -1
+ 
+Sub ShowWin()
+Dim Thwnd
+'Thwnd = oDW.FindWindowA(vbNullString, "http://132.147.160.199/client/shrink1 - Microsoft Internet Explorer")
+
+Thwnd = oDW.FindWindowA(vbNullString, self.location+" - Microsoft Internet Explorer")
+'MsgBox Thwnd
+strReturn=oDW.SetWindowPos(Thwnd, HWND_TOPMOST, "0", "0", "240", "480",  SWP_NOACTIVATE or SWP_SHOWWINDOW or SWP_NOMOVE or  SWP_NOSIZE)
+  'Thwnd = oDW.FindWindowA("ConsoleWindowClass", "C:\WINDOWS\system32\cmd.exe")
+  'Thwnd = oDW.FindWindowA(vbNullString, "sleep1 - WordPad")
+  'MsgBox Thwnd
+  'strReturn = oDW.SetWindowPos(Thwnd, 0, 0, 0, 0, 0, HWND_TOPMOST)
+  'strReturn=oDW.SetWindowPos(Thwnd, HWND_TOPMOST, "300", "300", "640", "300",  SWP_NOACTIVATE or SWP_SHOWWINDOW or SWP_NOMOVE or  SWP_NOSIZE)
+End Sub
+
+</script>
+</head>
+
+<body topmargin="0" leftmargin="0" rightmargin="0" onload="ShowWin()" onbeforeunload="ConfirmClose()" onunload="HandleOnClose()">
+
+<table border="0" align="left" height="296" width="1">
+  <tr>
+    <form id="form1" name="form1" method="post" action="updateshrink" align="center" onSubmit="return Validate()">
+      <td height="200" width="356">
+      <table height="146" width="1">
+        <tr>
+          <td width="342" height="20">
+          <table>
+            <tr>
+              <td>
+              <input type="submit" name="submit" id="submit" value="   Next   " style="font-family: Arial; font-size: 10pt; float:left">
+              </td>
+              <td><%= submit_to_remote 'pause','Pause',:url => {:controller=>'users',:action => "shrinkpause" },  :id=>'pause',:confirm=>'Taking pause will complete the current service!  Do you want to continue?'%>
+              </td>
+              <td><%= button_to_function 'Release',remote_function(:url=> {:controller=>'users',:action => "shrinkrelease" }), :disabled => true, :id=>'Release' %>
+              </td>
+            </tr>
+          </table>
+          </td>
+        </tr>
+        <tr>
+          <% @counter=User.find_first(["login=?",@session['user']['login']]) %></font><font face="Arial" size="1" color="#800000">
+          <% @a= Transact.find_first(["counterno = ? AND tokenstatus=2",@counter.counterno]) %>
+          <td width="342" height="24">
+          <table width="242" height="8">
+            <tr>
+              <td width="141" height="4"><b>
+              <font face="Arial" size="3" color="#004B97">
+              <div id="pending_div">
+                <%= periodically_call_remote :update => 'pending_div', :url => {:controller =>'users',:action => 'pending'}, :complete => visual_effect(:pulsate, 'pending_div'), :frequency =>2.0 %></font>
+                </b>
+              </div>
+              </td>
+              <td width="91" height="4"><font face="Arial" size="2">
+              <div id="shrinkfull" style="width: 48; height: 16">
+                <a href="javascript:;" onClick="full(),self.close()">Full</a>
+              </div>
+              </font></td>
+            </tr>
+          </table>
+          </td>
+        </tr>
+        <tr>
+          <td height="120" width="342">
+          <table width="45" height="117">
+            <tr>
+              <td width="191" height="1" colspan="2">
+              <table width="231" height="39" align="left">
+                <tr>
+                  <td width="114" height="17"><% if @a==nil %> <% else %> <% @t=Service.find_first(["serviceid=?",@a.serviceid]) %>
+                  <font color="#0000FF" face="Arial" size="3"><%= @t.servicename %>
+                  <% end %> </font></td>
+                  <td width="83" height="17">
+                  <p><font face="Arial" size="1"><% @a= Transact.find_first(["counterno = ? and tokenstatus=2",@counter.counterno]) %>
+                  <% if @a==nil %> </font></b>
+                  <font color="#0000FF" face="Arial" size="2">&nbsp;<% Tokendisplay.update(@counter.counterno,{:tokenno=>'0000'}) %>
+                  <script type="text/javascript">                            					 
+													{
+                            							document.form1.pause.disabled=true;
+                            		
+													}
+												</script>
+                  <% else %>
+                  <!--#***********find records whose tokenid is same as serving on current counter***********-->
+                  <% @t= Transact.find_all(["tokenstatus=0 and tokenid= ? and counterno<>?",@a.tokenid,@counter.counterno]) %>
+                  <!-- #updating tokenstatus to be 1 for same token pending at others counters-->
+                  <%    @t.each do |c| %> <%   c.tokenstatus=4 %> <%    c.save %>
+                  <%    end %>
+                  <!--#***************end*********************************-->
+                  <!-- Code for updating calledtime in Transact table --><% @calledtime= Time.now().strftime("%H:%M:%S") %>
+                  <% @gwaittime=User.time_diff_in_minutes(@a.generatedtime,Time.now())%>
+                  <% @update=Transact.update(@a.id,{:waittime => @gwaittime, :login=> @session['user']['login'], :tokenstatus=>2}) %>
+                  <!--  End -->
+                  <!--
+                            					   Code for updating Tokendisplay table -->
+                  <%@d=Tokendisplay.find_first(["counterno=?",@a.counterno]) %> <% Tokendisplay.update(@d.counterno,{:tokenno=>'0000'}) %>
+                  <!--  End -->
+                  <!-- Displaying the current tokenno on that counter--><label>
+                  <font color="#0000FF" face="Arial" size="3"><%= @a.tokenno -%>
+                  </label><% end %> </font></font></p>
+                  </td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+            <tr>
+              <td width="191" height="28" colspan="2">
+              <table width="231" height="20">
+                <tr>
+                  <% if @a==nil %> <% else %>
+                  <td width="54" height="16">
+                  <font face="Arial" size="2" color="#004B97">Acc. No</font></td>
+                  <td width="167" height="16" colspan="3">
+                  <font size="1" face="Arial"><b>
+                  <input type="text" id="transact_accno" name="transact[accno]" size="15" onblur="checkField(this);">
+                  </b></font></td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+            <tr>
+              <td width="191" height="1" colspan="2">
+              <table width="230" height="9">
+                <tr>
+                  <td width="52" colspan="2" height="5"></td>
+                  <td width="168" height="5" colspan="2">
+                  <!-- <input type="checkbox" name="missed" unchecked value="ON">
+                              <font color="#800000" face="Arial" size="2">Missing-->
+                  </font></td>
+                </tr>
+              </table>
+              <%end %> </td>
+            </tr>
+            <% if @a==nil %> <% else %>
+            <tr>
+              <td width="206" height="22">
+              <table width="235" height="13">
+                <tr>
+                  <td width="112" height="9">
+                  <div id="servicetime" style="width: 119; height: 16">
+                    <font face="Arial" size="2" color="#004B97">Serviced Time :</div>
+                  </font></td>
+                  <td width="113" height="9"><font face="Arial" size="2">
+                  <div id="time">
+                  </div>
+                  <% @s= Service.find_first(["serviceid = ? ",@a.serviceid]) %>
+                  <script>				
+X='<%= @a.call1.strftime("%H:%M:%S") %>';
+X1='<%= @a.calledtime.strftime("%H:%M:%S") %>';
+
+if(X=="00:00:00")
+{
+a='<%= @a.transdate.strftime("%d/%m/%y") %>'+" "+'<%= @a.calledtime.strftime("%H:%M:%S") %>';
+}
+else
+{
+a='<%= @a.transdate.strftime("%d/%m/%y") %>'+" "+'<%= @a.call1.strftime("%H:%M:%S") %>';
+
+}
+
+b='<%= @s.thresholdtime.strftime("%H:%M:%S") %>'
+
+c='<%= @a.transdate.strftime("%d/%m/%y") %>'+" "+'<%= Time.now().strftime("%H:%M:%S") %>';
+timediff(a,b,c);
+
+                            </script>
+                  </font></td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+            </font>
+          </table>
+          </td>
+        </tr>
+        <tr>
+          <td width="240" height="16">
+          <table width="241" height="13">
+            <tr>
+              <td width="122" height="9">
+              <font face="Arial" size="2" color="#004B97">&nbsp;Wait Time&nbsp;&nbsp;&nbsp;&nbsp; 
+              : </font></td>
+              <td width="109" height="9"><font face="Arial" size="2"><%= @update.waittime.strftime("%H:%M:%S") -%>
+              </font></td>
+            </tr>
+          </table>
+          </td>
+        </tr>
+        </font>
+      </table>
+      </td>
+      <% end %>
+    </form>
+  </tr>
+  <tr>
+    <td width="244" height="45">
+    <div id="aux_div" style="padding:0px; visibility:hidden; width:216;
+  									border: 2px solid blue;
+  									margin-bottom: 0px;
+  									background-color: #f0f0f0; height:37">
+      <table height="34" width="218">
+        <tr>
+          <td width="212" height="30"><font face="Arial" size="1">Please select 
+          Pause Reason :</font><br>
+          <%= puts ("hiiiiiiiiii am here ")%>
+                                    <% @auxs=Auxreason.find(:all, :order => "reasons").map { |u| [u.reasons] } %>
+                                    <%= select(:transact, :reasons, @auxs, :prompt=>'Please Select' ) -%> 
+									
+									<%= submit_to_remote 'Go','Go !',:url => {:controller=>'client',:action => "save_pause" }, :disabled=>true, :id=>'go'%>
+
+          </center></td>
+        </tr>
+      </table>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td width="246" height="22">
+    <table width="240" height="20">
+      <tr>
+        <td width="126" height="16">
+        <div id="pausetime" style="visibility:hidden; width:104; height:16">
+          <font face="Arial" size="2" color="red">&nbsp;Pause Time&nbsp;&nbsp; :
+          </font>
+        </div>
+        </td>
+        <td width="104" height="16"><font face="Arial" size="2" color="red">
+        <div id="show" style="visibility:hidden;">
+        </div>
+        <script>
+							pausetimer();
+						    </script>
+        </font></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  </font>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</form>
+</tr>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+</head>
+
+<body>
+<table border=0><tr><td bgcolor="#FFFFFF">
+<table align="left" border=5 bordercolor="#FF6600" width="330"><tr>
+  <td width="312" >
+   
+<h3 align="center"><u><font color="#990000">Add New STP Service</font></u></h3> 
+<p>&nbsp;</p>
+<%= start_form_tag :action => 'create_stp' %><font color="#990000"> 
+<%= error_messages_for 'service' %> </font>
+
+<p align=left><b><font face="Arial" size="2" color="#990000"><label for="stp_stpname">
+STP Name </label><br/>
+<%= text_field 'stp', 'stpname', :size =>10  %></font></b></p>
+<font color="#990000"><br>
+
+</font>
+
+<p align=left><font face="Arial"><b><font size="2" color="#990000">
+<label for="stp_serviceid">Service ID</label>&nbsp;
+</font>
+<font color="#990000">
+<select id="stp_serviceid" name="stp[serviceid]">
+
+<% @t = Service.find_by_sql("select * from services" ) %>
+<% @t.each do |c| %>
+
+<option ><%= c.serviceid %></option>
+<% end %>
+</SELECT></font><font size="2" color="#990000"> </font></b></font>
+<font color="#990000">
+<br /><br>
+
+</font>
+
+<p align=left><b><font face="Arial" size="2" color="#990000"><label for="stp_servicetime">Service 
+Time</label><br/>
+<%= time_select 'stp', 'servicetime', :include_seconds =>true %></font></b></p>
+<font color="#990000"></br>
+
+</font>
+
+<p align=left><font face="Arial"><b><font color="#990000"><label for="service_servicestatus">
+<font size="2">Status</font></label><font size="2"><br/>
+</font>
+<input type="radio" id="stp_status" name="stp[status]" value="1" checked="checked"  /></font><font size="2" color="#990000">Active &nbsp;&nbsp;&nbsp;
+</font><font color="#990000">
+ <input type="radio" id="stp_status" name="stp[status]" value="0" unchecked/></font><font size="2" color="#990000">In Active
+</font></b></font>
+</p><font color="#990000"><br/>
+
+	
+</font>
+
+	
+<p align=center>
+	<font color="#990000">
+	<%= submit_tag "Create" %> | <%= link_to 'Cancel', :action => 'list_stp' %></p>
+<%= end_form_tag %> </font> 
+</td></tr></table>
+  </td></tr></table>
+</body>
+</html>

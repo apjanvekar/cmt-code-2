@@ -1,0 +1,44 @@
+
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+
+</head>
+
+<%= error_messages_for 'scrollmsg' %>
+
+<!--[form:teller]-->
+
+<p align=left>&nbsp;<label for="ad_adtext">&nbsp;<font face="Arial" size="2" color="#800000">Enter 
+The Text For Display scroll message</font></label></br>
+&nbsp;
+<%= text_field 'scrollmsg', 'scrollmsg',:size=>50, :readOnly=>true, :style=>"font-family: Arial; font-size: 8pt" %>
+<p align=left>&nbsp;</p>
+<p align=left> &nbsp;<font face="Arial" size="2" color="#800000"><p align=left><font face="Arial" color="#800000"><label for="msgstatus">
+<font size="2">Msg Status</font></label><b><font size="2"><br/>
+<% @a= Scrollmsg.find(params[:id])%>
+<% @b=@a.status %>
+<% if @b.to_i== 1 %> </font>
+<input type="radio" id="scrollmsg_status" name="scrollmsg[status]" value="1" checked="checked"  /></b></font><font face="Arial"><font size="2" color="#800000" face="Arial">Active <b>&nbsp;&nbsp;&nbsp; </b>
+</font><b><font color="#800000" face="Arial">
+
+<input type="radio" id="scrollmsg_status" name="scrollmsg[status]" value="0" unchecked/></font></b><font size="2" color="#800000" face="Arial">In Active<b><br/>
+
+<% else %> </b>  </font><b><font color="#800000" face="Arial">
+
+<input type="radio" id="scrollmsg_status" name="scrollmsg[status]" value="1" unchecked/></font></b><font size="2" color="#800000" face="Arial">Active<b>
+</b> 
+</font><font color="#800000" face="Arial">
+
+<b>
+
+<input type="radio" id="scrollmsg_status" name="scrollmsg[status]" value="0" checked="checked"/></b></font><b></b></b><font size="2" color="#800000" face="Arial">In Active</font></font><font face="Arial"><b><br/>
+</b></font>
+</font>
+<% end %><!--[eoform:scrollmsg]-->

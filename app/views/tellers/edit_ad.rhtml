@@ -1,0 +1,43 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<%= javascript_include_tag "prototype","effects","backButton",:defaults %>
+
+</head>
+
+<body onunLoad="back()">
+<table border=0 align=center width="734" height="352" bordercolor="#800000">
+<tr><td bgcolor="#FFFFFF" align="center" width="728" height="348">
+<table align="center" border=5 bordercolor="#800000" width="451" height="173">
+<tr><td width="433" height="167">
+
+<h3 align=center><span style="font-weight: 400">
+<font color="#800000" face="Zurich BT">Edit Footer Messages</font></span></h3>
+
+<p>&nbsp;</p>
+<% form_tag :action => 'update_ad', :id => @ad do %><font color="#990000">
+<%= error_messages_for 'ad'%>
+  <table><tr><td>
+  <%= render :partial => 'formad' %> </font>
+</td></tr></table>
+<br>
+<p align="center"><font color="#990000">&nbsp;<%= submit_tag 'Save', :style=>"font-family: Zurich BT; font-size: 10pt" %>  <%= button_to_function 'Back' , remote_function(:url=> {:controller=>'tellers',:action => "back_ads" }),:id=>'Back_ads', :style=>"font-family: Zurich BT; font-size: 10pt" -%>
+<% end %> 
+<p>&nbsp;</p>
+</font>
+
+</td></tr></table>
+   </td></tr></table>
+   <% if flash[:notice] %>
+
+ <div id="notice"><%=image_tag 'flash-check.png'%><%= flash[:notice] -%></div>
+ <% end %>
+
+</body>
+</html>

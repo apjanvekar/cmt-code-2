@@ -1,0 +1,952 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Counter No: <% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+                              		<%= @counter.counterno %>
+                              		
+
+                              
+</title>
+ <%= javascript_include_tag "prototype","effects","application",:defaults %>
+ 
+ <script type="text/javascript">
+
+if (typeof window.event != 'undefined')
+	document.onkeydown = function()
+	{
+		if (event.srcElement.tagName.toUpperCase() != 'INPUT')
+			return (event.keyCode != 8);
+	}
+else
+	document.onkeypress = function(e)
+	{
+		if (e.target.nodeName.toUpperCase() != 'INPUT')
+			return (e.keyCode != 8);
+	}
+
+</script>
+
+      <script>
+function Checkstatus()
+{
+counterstatus='<%= @counter.counterno %>';
+if(counterstatus=="0")
+{
+alert("You have been logged off by the admin, Please contact admin")
+
+new Ajax.Request("<%= url_for :controller=> :account,:action=>:log %>",{method:'get'})
+
+}
+}
+ </script>
+                              		
+ <script language="javascript">
+function check(object) {
+var bulkcount=document.getElementById("transact_bulkcount");
+
+var regex = /^[s\d]*$/;
+var space=/ /;
+if ((!regex.test(object.value)) || (space.test(object.value))) {
+alert("please enter numeric value only for bulk count")
+bulkcount.value="";
+bulkcount.focus();
+return(false);	
+} 
+
+
+}
+</script>
+ 
+<script language="javascript">
+function checkField(object) {
+var ano=document.all("transact_accno");
+
+var regex = /^[a-z\A-Z\s\d]*$/;
+var space=/ /;
+if ((!regex.test(object.value)) || (space.test(object.value)))
+ {
+alert("please enter alphanumberic values only")
+ano.focus();
+return(false);
+
+} 
+
+	
+	if(ano.value.length>0)
+	{
+
+		if(ano.value.length<12 || ano.value.length>12 && ano.value.length<17)
+		{
+		alert("Please enter 12 or 17 digit account number!")
+		ano.focus();
+		return(false);
+		}
+		if(ano.value.length>17)
+		{
+		alert("Please enter 12 or 17 digit account number!")
+		ano.focus();
+		return(false);
+		}
+		
+	
+	}
+
+
+
+
+}
+</script>
+
+
+ <script>
+function waitdiff(a,c)
+{
+var z=new Date(a);
+var z1=new Date(c);
+var sec=(z1.getTime()-z.getTime());
+var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
+	hours = Math.floor(sec / hour);
+	if(hours<10)
+	hours="0"+hours;
+	sec -= hours * hour;
+	minutes = Math.floor(sec / minute);
+	if(minutes<10)
+	var minutes="0"+minutes;
+	
+	sec -= minutes * minute;
+	seconds = Math.floor(sec / second);
+	if(seconds<10)
+	seconds="0"+seconds;
+	
+	var diff=hours+":"+minutes+":"+seconds;
+
+			
+			
+			document.getElementById('waittime').innerHTML=diff;
+
+}
+ </script>
+ <script>
+var no;
+function takediff(a)
+{
+ no=a;
+
+
+show(no);
+}
+var x=no
+function show(x)
+{
+
+no=no+1;
+alert(no);
+setTimeout("show(x)",1000);
+
+}
+</script>
+ 
+ <script>
+ 
+var g1=0;
+var b1=0;
+ function pausetimer()
+ {
+ var div_ref1 = document.getElementById("show");
+ if(div_ref1.style.visibility == 'visible')
+	{
+	g1=g1+1;
+  }
+ else
+ {
+ }
+
+
+
+if(g1>=60)
+{
+b1=b1+1;
+g1=0;
+window.status=g1;
+if(g1>=10)
+document.getElementById('show').innerHTML="00:0"+b1+":"+g1;
+else
+document.getElementById('show').innerHTML="00:0"+b1+":0"+g1;
+
+}
+else
+{
+if(g1>=10)
+document.getElementById('show').innerHTML="00:0"+b1+":"+g1;
+else
+document.getElementById('show').innerHTML="00:0"+b1+":0"+g1;
+}
+
+ setTimeout("pausetimer()",1000);
+
+
+ }
+ </script>
+ 
+ <script>
+var g=0;
+var b=0;
+function timer()
+{
+alert("in timer");
+g=g+1;
+if(g>60)
+{
+b=b+1;
+g=0;
+window.status=g;
+
+}
+else
+{
+}
+setTimeout("timer()",1000);
+}
+
+</script>
+
+
+ 
+<SCRIPT LANGUAGE=javascript>
+
+var no1,x,no2;
+ 
+function timediff(a,b,c)
+{
+var z=new Date(a);
+var z1=new Date(c);
+no1=(z1.getTime()-z.getTime());
+no2=b;
+showdiff(no1,no2);
+}
+
+var x=no1;
+var y=no2;
+var hours;
+var minutes;
+var seconds;
+function showdiff(no1,no2)
+{
+x=no1+1000;
+y=no2;
+var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
+	hours = Math.floor(no1 / hour);
+	if(hours<10)
+	hours="0"+hours;
+	no1 -= hours * hour;
+	minutes = Math.floor(no1 / minute);
+	if(minutes<10)
+	var minutes="0"+minutes;
+	
+	no1 -= minutes * minute;
+	seconds = Math.floor(no1 / second);
+	if(seconds<10)
+	seconds="0"+seconds;
+	
+	var diff=hours+":"+minutes+":"+seconds;
+
+			if(no2<diff)
+			document.getElementById('time').innerHTML="<FONT COLOR='red'>"+diff+"</font>";
+			else
+			document.getElementById('time').innerHTML=diff;
+            
+			setTimeout("showdiff(x,y)",1000);
+}
+
+ </SCRIPT>
+
+
+<SCRIPT>
+var oLastBtn=0;
+bIsMenu = false;
+//No RIGHT CLICK************************
+if (window.Event)
+document.captureEvents(Event.MOUSEUP);
+function nocontextmenu()
+{
+event.cancelBubble = true
+event.returnValue = false;
+return false;
+}
+function norightclick(e)
+{
+if (window.Event)
+{
+if (e.which !=1)
+return false;
+}
+else
+if (event.button !=1)
+{
+event.cancelBubble = true
+event.returnValue = false;
+return false;
+}
+}
+document.oncontextmenu = nocontextmenu;
+document.onmousedown = norightclick;
+function onKeyDown() {
+if ((event.altKey) || ((event.keyCode == 8) ||((event.ctrlKey) && ((event.keyCode == 78) || (event.keyCode == 82))) ||(event.keyCode == 116)||(event.keyCode == 122)))
+{
+event.keyCode = 0;
+event.returnValue = false;
+}
+}
+</SCRIPT>
+
+ <script> 
+window.history.forward(1); 
+document.attachEvent("onkeydown", my_onkeydown_handler); 
+function my_onkeydown_handler() 
+{ 
+switch (event.keyCode) 
+{ 
+
+case 116 : // 'F5' 
+event.returnValue = false; 
+event.keyCode = 0; 
+window.status = "We have disabled F5"; 
+break; 
+} 
+} 
+</script>
+
+
+
+ <script type="text/javascript">
+!--
+history.forward();
+
+-->
+</script>
+ 
+ <script language="JavaScript">
+function handleCloseEvent(evt)
+{
+evt = window.event ? window.event : evt;
+evt.cancelBubble=true;
+evt.returnValue = "This will close your Oracle Forms and all uncommitted data will be lost"; }
+
+function size() {
+window.resizeTo(1550,500)
+}
+</script>
+
+<script  language="JavaScript">
+			
+function show() {
+var div_ref = document.all("id_div");
+  div_ref.style.visibility = "visible";
+var div_ref = document.all("bulk_div");
+  div_ref.style.visibility = "visible";
+}
+
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       var d = document.getElementById("bulk_div");
+
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';     
+    }
+
+  function toggle_visibility1(id) {
+       var e = document.getElementById(id);
+       
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';     
+    }
+
+
+function Validate()
+{
+	
+	
+	
+	var stp=document.getElementById("transact_stp");
+	var v_stp = stp.options[stp.selectedIndex].value;
+	
+	
+
+	if(v_stp=="")
+	{
+	alert('Please Select Stp Service! ')
+	stp.focus();
+	return(false);
+	}
+	var ano=document.all("transact_accno");
+	
+	
+
+	var nonstpdiv=document.all("id_div");
+	
+	if(nonstpdiv.style.display == 'block')
+	{
+	var accno=document.all("transact_accno");
+	var nonstp=document.getElementById("transact_nonstp");
+	var v_nonstp = nonstp.options[nonstp.selectedIndex].value;
+	var bulkcount=document.getElementById("transact_bulkcount");
+	
+	
+
+	if(v_nonstp=="")
+	{
+	alert('Please Select NonStp Service! ')
+	nonstp.focus();
+	return(false);
+	}
+	
+	if(accno.value.length<1)
+	{
+		alert('Please Enter Account number')
+		accno.focus();
+		return(false);		
+	}
+	
+	
+	
+	if(bulkcount.value.length<1)
+	{
+	alert('Please Enter Bulk count')
+		bulkcount.focus();
+		return(false);		
+	}
+
+	
+
+	}
+	else
+	{
+		
+		return(true);
+
+	}
+	
+	
+}
+
+
+	function Pause()
+  	{
+	  
+  		var div_ref = document.all("aux_div");
+        div_ref.style.visibility = "visible";
+  		
+  		
+
+		disable();     
+		
+   		}
+  	}
+function disable()
+{
+	document.form1.submit.disabled=true;
+	document.form1.pause.disabled=true;
+} 
+  
+function Release()
+{
+
+ document.form1.submit.disabled=false;
+ document.form1.pause.disabled=false;
+ var div_ref = document.all("aux_div");
+ div_ref.style.visibility = "hidden";
+
+  		var div_ref = document.all("time_div");
+        div_ref.style.visibility = "visible";
+} 
+
+ function Prompt()
+ {
+ 	a=confirm("Do you want to want to log out?");
+ }
+ 
+ 
+ 
+</script>
+ 
+<script type="text/javascript">
+
+var myclose = false;
+
+function ConfirmClose()
+{
+if (event.clientY < 0)
+{
+event.returnValue = 'Are You Sure You Want to Quit?';
+
+setTimeout('myclose=false',100);
+myclose=true;
+}
+}
+
+function HandleOnClose()
+{
+if(myclose==true)
+{
+new Ajax.Request("<%= url_for :controller=> :account,:action=>:logout2 %>",{method:'get'})
+}
+
+}
+function shrink()
+ {
+ window.open('shrink1','myWin','toolbar=no, directories=no, location=no, status=NO, menubar=no, resizable=yes, scrollbars=no, width=250, height=300,left=0,top=0,alwaysRaised=yes'); 
+
+ return false
+ }
+
+</script>
+ 
+ 
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 522px; 
+HEIGHT:125px;
+} 
+</STYLE> 
+<%= stylesheet_link_tag "style" %>
+
+
+</head>
+<body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()" onload="Checkstatus();" >
+<p align="center">
+<br />
+		</p>
+		<div align="center">
+          <center>
+
+		<table height="10" style="border-collapse: collapse" bordercolor="#111111" cellpadding="0" cellspacing="0">   
+			<tr>	
+			<form id="form1" name="form1" method="post" action="updatetransact" align="center" onSubmit="return Validate()">	
+				
+	
+				
+				
+	
+				<td align="center">
+					<table border=5 bordercolor="#FF6600" width="712" height="214" bgcolor="#E5DBB8">
+					<tr>
+					
+
+						<td width="468" height="151">
+						
+						
+						<table align="left" width="26" height="167"><tr>
+						
+ 						<td width=584 height="126">
+ 						<%= error_messages_for 'transact' %> 
+ 						
+                          <table  id="AutoNumber1" align=left width="87" height="188">						 			
+						
+						<tr>
+							<td>
+								<table width="100%">
+									<tr>
+              							<td width="33%" height="16" align=left >    		 		
+                              				<% @counter=User.find_first(["login=?",@session['user']['login']]) %>                               
+                              				<font face="Arial" color="#000080" size=2>
+                              				<b>User:<%= @counter.login %> </b>                               
+                              				</font> 
+			              				</td>
+			              				<td width="33%" height="16" align=right>							
+								    							
+								   				
+								    <div id="shrink">
+								    <a href="javascript:;" onClick="shrink(),self.close()" >
+								    
+                                    Shrink&nbsp;</a></div>
+								    
+								</td>		    
+              							<td width="33%" height="16" align=right>              				       				 
+                        					<%= link_to "Change Password ?", :controller=> "client", :action => 'password' %>
+                        				</td>  
+                        			</tr>
+                        		</table>
+                        	</td>       													    
+						</tr>
+						<tr>
+						  <td  height="5" width="499">
+                        <table width="443" ><tr>
+						 	<td width="77">					
+ 								<%= submit_to_remote 'pause','Pause',:url => {:controller=>'users',:action => "pause" },  :id=>'pause',:confirm=>'Taking pause will complete the current service!  Do you want to continue?' %>
+  					        </td> 
+						 	 <td width="77">
+  					        	<%= button_to_function 'Missing',remote_function(:url => {:controller=>'client',:action => "callmissing" }),  :id=>'callmissing1'%>
+  					        </td>
+  					        <td width="77">
+  					        	<INPUT TYPE="button" onClick="history.go(0)" VALUE="Refresh">
+
+  					        </td>
+  					         <td width="77">
+  					        	<%= button_to_function 'Redirect',remote_function(:url => {:controller=>'client',:action => "redirecting" }),  :id=>'redirect'%>
+  					        </td>
+  					        <td width="32">			        
+                				<% @a= Transact.find_first(["counterno = ? AND  tokenstatus=2",@counter.counterno]) %>
+								<% if @a==nil %>
+
+                				<div id="logou">  
+                				<%= submit_to_remote "Log out", "Log out", :url=>{:controller=> "account", :action => 'logout1'} , :confirm=>'Are you sure?'%>
+                				</div>
+                				<% else %>
+                                <div id="logou">  
+                				<%= submit_to_remote "Log out","Log out", :url=>{:controller=> "account", :action => 'logout1'} , :submit=>"form1",:confirm=>'This will complete your current service! Are You Sure?'%>
+                				</div>							
+  					       		<%end%>
+  					       	</td>
+  					       </tr></table></td>
+ 					     </tr>
+						<tr>
+						<td  height="5" width="499" align="left">
+							<%= button_to_function 'Release',remote_function(:url=> {:controller=>'users',:action => "release" }), :disabled => true, :id=>'Release' %>
+    					</td> 		                                
+                        </tr>
+                       
+						<tr>					
+  							    <td  align=left width="499" height="1"><font face="Arial" size="4" color="#FF6600">
+  							    <div id='pending_div' > 
+  							    <% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+								<%pendingtoken =Transact.count(["tokenstatus=0 and counterno=?",@counter.counterno]) %>  							  
+						    	<%= periodically_call_remote :update => 'pending_div', :url => {:controller =>'users',:action => 'pending'}, :complete => visual_effect(:pulsate, 'pending_div'), :frequency =>3.0 %>
+								Pending Token for Counter No. <%= @counter.counterno %>: <%= pendingtoken %></font>
+								</div>
+    					</td></tr>
+    					
+    					<tr>
+                			<td width="499" align="left" height="22" >  
+                			<% @a= Transact.find_first(["counterno = ? AND tokenstatus=2",@counter.counterno]) %>
+								<% if @a==nil %>                         	
+                            	                           
+                            		<script type="text/javascript">                            					 
+									{
+                            			document.form1.pause.disabled=true;
+                            			document.form1.redirect.disabled=true;
+									}
+									</script>		
+								<% else %>                 	
+									                      					
+									<font color="#0000FF" face="Arial" size="3">
+									<label>Current Token Being Served : <%= @a.tokenno -%></label>
+									</font>
+															
+                       		</td>
+    					</tr>
+    					<tr>
+    						<td height="18" width="499">
+    								<% @s= Service.find_first(["serviceid = ? ",@a.serviceid]) %>
+    								<font color="#0000FF" face="Arial" size="3">Service Type : </font><font face="Arial" size="3" color="#0000FF"><%= @s.servicename %>
+    						</td>
+    					</tr><% end %>
+    					
+    					<tr>
+  						<td height="18" width="499" align=right>
+ 	  						<p align="center">
+ 	  						<input type="submit" name="submit" id="submit" value="   Next   " style="float: left; height: 45px; width: 100px">
+ 	  						<% if @a==nil %>
+ 	  						
+ 	  						
+						<%else%>
+						<%= button_to_function '  Hold  ' , remote_function(:url=> {:controller=>"client", :action=>"hold"}), :style=>"float: left" %>
+ 	  						<%end%>
+ 					        
+							</td>
+						
+ 	  						
+					</tr>	 
+  						<tr>
+  							<td width="499" height="54" ><table><tr><td>
+  								<table width="441" height="1">
+                          			<tr>                     					
+									<td width="472" height="20" >
+    							 <div id="aux_div" style="visibility:hidden; width:457;
+  									border: 2px solid blue;
+  									padding-bottom: 0px;
+  									margin-bottom: 0px;
+  									background-color: #f0f0f0; height:38; padding-left:2px; padding-right:2px; padding-top:2px">
+                                   <table width="384" height="34"><tr>
+                                    <td width="545" height="30">Please select Pause Reason :
+                                    <% @auxs=Auxreason.find(:all, :order => "reasons").map { |u| [u.reasons] } %>
+                                    <%= select(:transact, :reasons, @auxs, :prompt=>'Please Select' ) -%> 
+									<%= submit_to_remote 'Go','Go !',:url => {:controller=>'client',:action => "save_pause" }, :disabled=>true, :id=>'go'%>
+									</td></tr>
+                                    </table> 
+                                     </div>
+                                     </td></tr></table>
+                                    </td></tr>
+                          			<!--<tr>                     					
+                              		<td width="203" height="8" colspan="1" >
+                              		<table><tr><td>
+                              			<table  height="5" align=left width="193">
+                              			<tr>
+											<td width="46" > 
+											 <% @a= Transact.find_first(["counterno = ? AND  tokenstatus=2",@counter.counterno]) %>
+											<% if @a==nil %>
+                            				
+	     									
+                            				<% else %>          	
+       	
+        								<% @update=Transact.update(@a.id,{:login=> @session['user']['login']}) %>
+  
+
+                            			
+
+
+                                             <b>
+                                 			<font color="#800000" face="Arial" size="2">
+                                            STP : </font></b>
+                                			</td>
+      										<td width="141"   > 
+      											
+      											<% @stps=Stp.find(:all,:conditions=>["serviceid=? and status=1",@a.serviceid]) %>
+      											<select id="transact_stp" name="transact[stpname]">
+													<option value="">Please Select Stp</option>			
+     	 											<% @stps.each do |c| %>
+     	 											<option value="<%= c.stpname %>"><%= c.stpname %></option>
+     	 											<% end %>
+     	 										</select>
+
+      											
+      										</td>                             		
+ 		                      			</tr>
+ 		                      			</table>      
+                              		</td>
+                              		<td width="495"  align=left height="8">
+                              		<input type="button" value="NON STP"  onclick="toggle_visibility('id_div');toggle_visibility1('bulk_div');">&nbsp; </td>
+
+                            		</tr>
+                            			</table>   
+                            		</td></tr></table>					  		
+									</td>	      
+    							</tr>
+    							 <tr>								
+                                   <td width="482" height="30" >
+                                <table width="480" height="1" align="left">
+									<tr>
+										<td width="100" height="1" colspan="2" >
+                            				<font color="#800000"><b>
+                            				<font face="Arial" size="2">Account No:</font> </b></font>
+                            			</td>     
+     	 								<td width="120" height="1" colspan="3" >     	 					
+     	 									
+     	 									<input type=text id="transact_accno" name="transact[accno]" size="16" onblur="checkField(this);"></td>
+     	 								<td width="264"  height="1" >
+     	 								<div id=id_div style="display:none">
+													
+      												<% @s=Nonstp.find(:all) %>
+      											<select id="transact_nonstp" name="transact[nonstpname]">
+													<option value="">Select a nonstp</option>			
+     	 											<% @s.each do |c| %>
+     	 											<option value="<%= c.nonstpname %>"><%= c.nonstpname %></option>
+     	 											<% end %>
+     	 										</select>
+     	 									</div>
+     	 								<% end %></td>						
+									</tr>
+									</table>
+								</td></tr>  -->
+								
+    							  
+    							  
+								
+    							 
+ 							</table>
+  					</td></tr>
+  					
+  					<tr>
+  					              	<td width="508" height="1">
+              	     <table width="187" height="22"><tr>
+                       <td width="292" height="18">
+              				<table width="198" height="18">
+              				
+              				<!--<tr>           					
+           					<% if @a==nil %>	  						
+	  						<% else %>
+							<td width="88" height="14" >                            
+                            <font color="#800000" face="Arial" size="2"><b>Wait Time&nbsp;:</b></font> </td>
+	  						<td width="127" align="left" height="14" ><label>
+	  						<% if @a.waittime!=nil %>
+	  						<%= @a.waittime.strftime("%H:%M:%S") -%>
+	  						<% end %>
+	  						</label>
+	  						</td>
+							<td width="107" height="1"> <b>
+                            <div id='servicetime'><font face="Arial" size="2" color="#800000">
+                              Serviced Time&nbsp;: </font></div>
+                              
+                            </b></td>
+      						<td width="149" align="left" height="1">
+	  						<label value="" id="servicetime">	  						
+	  						<%= periodically_call_remote :update => 'time_div', :url => {:controller =>'client',:action => 'time'},:frequency => 7.0  %>
+							<div id='time_div'>	</div>
+							
+							<div id='time'></div>
+			
+								
+							<% @s= Service.find_first(["serviceid = ? ",@a.serviceid]) %>
+
+							<script>
+
+								<% if @a.call1!=nil%>
+									X='<%= @a.call1.strftime("%H:%M:%S") %>';
+								<% else %>
+									X='<%= Time.parse("00:00:00").strftime("%H:%M:%S") %>';
+								<% end %>
+
+								<% if @a.calledtime!=nil%>
+									X1='<%= @a.calledtime.strftime("%H:%M:%S") %>';
+								<% else %>
+									X1='<%= Time.parse("00:00:00").strftime("%H:%M:%S") %>';
+								<% end %>
+
+
+								//alert(X)
+								//alert(X1)
+
+								if(X=="00:00:00")
+								{
+									a='<%= @a.transdate.strftime("%d/%m/%y") %>'+" "+X1;
+								}
+								else
+								{
+									a='<%= @a.transdate.strftime("%d/%m/%y") %>'+" "+X;
+
+								}
+									b='<%= @s.thresholdtime.strftime("%H:%M:%S") %>'
+
+									c='<%= @a.transdate.strftime("%d/%m/%y") %>'+" "+'<%= Time.now().strftime("%H:%M:%S") %>';
+									timediff(a,b,c);
+		
+							</script>
+
+							<% end %>					
+							
+							</label>
+      						</td>
+      						</tr> -->
+      						
+      						
+      						<tr>           					
+							<td width="5" height="14"> <b>
+                            <font face="Arial" size="2" color="red">
+                              <div id='pausetime' style="visibility:hidden; width:104; height:16"> Pause Time&nbsp;:</div>   </font>                          
+                            </b></td>
+      						<td width="1" align="left" height="14"><font face="Arial" size="2" color="red">
+							<div id='show' style="visibility:hidden; width:86; height:16"><b>
+							
+							</div></b></font>
+							<script>
+							
+							pausetimer();
+						    </script>
+			
+      						</td></tr></table></td>
+      						</tr></table>  
+              				</td> 							  						
+ 	  						
+
+  					</tr>
+  					 
+  				</table> 
+ 			</td>
+ 			<td height="126" width="235">
+ 			<table height="208" width="215">
+ 			<tr>
+ 			<td height="64" width="224">
+ 			<table width="222"><tr>
+ 				<td width="63">&nbsp;</td>
+              <td id=transact_client height="62" width="149" align="right"> 
+ 				</td>
+ 				</tr></table>
+ 			</td>
+ 			</tr>
+ 			<tr>
+ 			<td width="224" height="81">
+ 			<table><tr>
+ 			<td height="50" width="214">			
+             
+ 			<table width="100%" border=1 bordercolor="#000080" align="center">
+ 			<tr>
+ 				<td align="center" width="200">
+                  	<%= button_to_function 'Attended',remote_function(:url => {:controller=>'client',:action => "showattended" }),  :id=>'showattended'%> &nbsp;</td>
+                </td>
+ 			</tr>
+ 			<tr>
+ 				<td align="center" width="200">
+  					 <%= button_to_function 'Missing',remote_function(:url => {:controller=>'client',:action => "missing" }),  :id=>'missing'%> &nbsp;</td>
+ 			</tr>
+			<tr>
+ 				<td align="center" width="200">
+  					       		<% @counter=User.find_first(["login=?",@session['user']['login']])%>
+  							  	<% @transact= Transact.find_first(["tokenstatus=2 and counterno=?",@counter.counterno])  %>
+    							<%# Transact.transaction do  %>         
+      								<% @pendingtoken =Transact.find(:first,:conditions=>["tokenstatus=0 and counterno=?",@counter.counterno],:order=>"redirecttime DESC,ctypeid ASC,tokenid ASC",:lock=>'LOCK IN SHARE MODE') %>  
+        							<% if(@pendingtoken==nil)&& (@transact==nil) %>
+        								<%= button_to_function 'On Hold',remote_function(:url => {:controller=>'client',:action => "on" }),  :id=>'onhold'%>
+	       							<% else %>         							
+							 		<%= submit_to_remote 'On Hold','On Hold', :url => {:controller=>'client',:action => "on"},  :id=>'onhold', :confirm=>'This will complete the current service!  Do you want to continue?' %>
+        							<% end %>
+      							<%# end %>&nbsp;</td>
+             </tr></table>
+             
+             </td>
+ 			</tr>
+			</tr>				
+ 			</table>
+ 			</td>
+ 			</tr>
+ 			<tr>
+ 			<td align="center" width="224">
+ 			<hr color="#000080" width="96%">
+ 				<%= button_to_function 'Pull Traffic',remote_function(:url => {:controller=>'client',:action => "pulltraffic" }),  :id=>'redirect' -%>
+ 			<hr color="#000080" width="96%">
+ 			</td>
+ 			</tr>
+ 			<tr><td height="51" width="224">
+ 				<table  align="left" width="100%" height="53">                 
+    			<tr>
+    				<td  height="1" align="left" width="100%">
+    			 		<font color="#800000" face="Arial" size="2"><b>Available Services<b></font><br/>
+                  	 	   <div id='services_div' ><font face="Arial" size="2">     
+								<%= render(:partial=>"services") %>
+							</div>
+      		 	   	</td>  
+    			</tr>
+    			</td>
+    		</tr>	
+    				
+    		
+						
+						</td></tr></table>	
+ 						</table> 		
+ 						</center>
+        		</div>
+ 						</td>    
+ 
+</td></tr>
+</form>
+</font>
+</table>
+</ul>
+          </div>
+</body>
+</html>

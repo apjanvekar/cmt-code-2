@@ -1,0 +1,75 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<title>Status</title>
+<SCRIPT LANUAGE="JavaScript">
+
+function size() {
+window.resizeTo(380,380)
+
+window.menubar=no;
+window.toolbar=no;
+window.locationbar=no;
+window.personalbar=no;
+window.scrollbars=no;
+window.statusbar=no;
+
+}
+
+
+
+</script>
+</head>
+
+<body onload="size()">
+<table width="313" height="93">
+<tr> 
+	<td width="307" height="89">
+	<table border=5 bordercolor="#800000"><tr><td>
+		<form method="POST"> 
+			<table width="308" height="5">
+				<tr>
+					<td width="303" height="24">
+					</td>
+				</tr>
+				<tr>
+					<td width="303" height="28">  <% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+
+   <% @a= Transact.find_first(["counterno = ? AND tokenstatus=0",@counter.counterno]) %>
+	<% if @a==nil %>
+		<% else %>
+
+						<font face="Zurich Ex BT"><font color="#800000">Token No. :</font><b>&nbsp;<font color="#0000FF"> <%= @a.tokenno -%> 
+<% end %>
+</font></b></font>
+					</td>
+				</tr>
+				<tr>
+					<td width="303" height="31">
+							<font face="Zurich Ex BT" color="#800000">Service Name : </font><b>
+							<font face="Zurich Ex BT" color="#0000FF">Service Name</font></b>
+					</td>
+				</tr>
+				<tr>
+    				<td width="303" height="5" align=center>
+  						<br />
+  						   <%= button_to_function 'Arrived',remote_function(:url => {:controller=>'client',:action => "arrived" }),  :id=>'arrived'%>
+&nbsp;
+  						<%= button_to_function 'Missing',remote_function(:url => {:controller=>'client',:action => "missed" }),  :id=>'missed '%>
+
+
+					</td>
+				</tr>
+				<tr></tr><tr></tr></table>
+				</td></tr></table>
+</td>
+</tr></form>
+
+</table>
+</body>
+
+</html>

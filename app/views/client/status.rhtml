@@ -1,0 +1,140 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2011. All rights reserved  -->
+<html>
+<head>
+      <%= stylesheet_link_tag "style" %>
+      <%= javascript_include_tag "prototype","effects","application",:defaults %>
+      <script type="text/javascript">
+      <!--
+          history.forward();
+          function back()
+          {
+ 	        window.history.forward(-1);
+          }
+      -->
+      </script>
+      <script type="text/javascript">
+              var myclose = false;
+              function ConfirmClose()
+              {
+               //if (event.clientY < 0)
+               //{
+                   //event.returnValue = 'Are You Sure You Want to Quit?';
+                   //setTimeout('myclose=false',100);
+                   //myclose=true;
+               //}
+               //else
+               //{
+                   if(window.event.keyCode==0 && event.altKey==true)
+                   {
+                      event.returnValue = 'Are You Sure You Want to Quit?';
+                      setTimeout('myclose=false',100);
+                      myclose=true;
+                   }
+               //}
+              }
+              function HandleOnClose()
+              {
+                if(myclose==true)
+                {
+                   new Ajax.Request("<%= url_for :controller=> :admin1,:action=>:logout,:id=>"status_close" %>",{method:'get'})
+                }
+              }
+      </script>
+</head>
+<body topmargin=0 bottommargin=0 leftmargin=0 rightmargin=0  align=center   onbeforeunload="ConfirmClose()" onunload="HandleOnClose();back();" >   
+       <!--<body onload="return preventerOn();">-->
+       <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#000080" width="100%" id="AutoNumber1" height="588" bgcolor="#ffffff">
+       <tr>
+           <form id="form1" name="form1" method="post" action="updateteller" align="center">
+                 <td height="546" width="100%" align="center"><% session[:gvar]=0%><% session[:b]=0%>
+      	             <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="90%" id="AutoNumber2" height="482" bgcolor="#800000">
+		             <tr>    
+  		                 <td width="100%" height="78" align="center">
+					          <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="95%" id="AutoNumber3" height="436" bgcolor="#FFFFFF">
+  			                         <td align=center width="100%" height="118"><%= error_messages_for 'teller' %>
+                                     <table border=0 >
+                                     <tr>
+	                                     <td width="307" height="89">
+	                                         <table border=5 bordercolor="#800000"><tr><td>
+			                                        <table width="308" height="5">
+				                                    <tr>
+					                                    <td width="303" height="24"></td>
+				                                    </tr>
+				                                    <tr>
+					                                    <td width="303" height="28">  
+					                                    <% @counter=User.find(:first, :conditions=>["login=?",@session['user']]) %>
+                                                        <% @a= Transact.find(:first, :conditions=>["counterno = ? AND tokenstatus=2",@counter.counterno]) %>
+					                                    <% if @a==nil %>
+					                                          <%= render(:action=>"transact") %>
+					                                    <% else %>
+                                                              <!--<%#@x=Transact.find(:all, :conditions=>["tokenstatus=2 and tokenid=? and counterno=? and serviceid<>?",@a.tokenid,@counter.counterno,@a.serviceid]) %>
+                                                              <%#@x.each do |x| %>
+                                                                   <%#x.tokenstatus=4 %>
+                                                                   <%#x.save %>
+                                                              <%#end %>-->
+                       		                                  <% @d=Tokendisplay.find(:first, :conditions=>["counterno=?",@a.counterno]) %>
+                       		                                  <% Tokendisplay.update(@d.counterno,{:tokenno=>@a.tokenno,:calledtime=>Time.now()})  %>
+                                                              <!-- <next in queue Logic>
+                                                                 <%#@fd=Transact.find(:first ,:select =>"tokenno",:conditions =>["tokenstatus=? and counterno=?",0,@counter.counterno],:order =>["ctypeid asc"])%>
+                                                                 <%#@gold=Transact.find(:first,:select =>"tokenno",:conditions => ["tokenstatus=? and ctypeid=?",0,1])%>
+                                                                 <%#@customer=Transact.find(:first,:select =>"tokenno",:conditions => ["tokenstatus=?  and ctypeid=?",0,2])%>
+                                                                 <%#@non_customer=Transact.find(:first,:select =>"tokenno",:conditions => ["tokenstatus=?  and ctypeid=?",0,3])%>
+                       	                                         <%#if @gold!=nil and @customer!=nil and @non_customer!=nil%>
+                       	                                               <%#Nextintoken.update(id=1,{:nexttokenno=>"#{@gold.tokenno},#{@customer.tokenno},#{@non_customer.tokenno}"})%> 
+                       	                                         <%#elsif @gold==nil  and @customer!=nil and @non_customer!=nil%>
+                       	       	                                       <%#Nextintoken.update(id=1,{:nexttokenno=>"#{@customer.tokenno},#{@non_customer.tokenno}"})%> 
+							                                     <%#elsif @gold!=nil  and @customer==nil and @non_customer!=nil%>
+							      	                                   <%#Nextintoken.update(id=1,{:nexttokenno=>"#{@gold.tokenno},#{@non_customer.tokenno}"})%> 
+                                                                 <%#elsif @gold!=nil  and @customer!=nil and @non_customer==nil%>
+                              	                                       <%#Nextintoken.update(id=1,{:nexttokenno=>"#{@gold.tokenno},#{@customer.tokenno}"})%> 
+                                                                 <%#elsif @gold==nil and @customer==nil and @non_customer!=nil%>
+                       	                                               <%#Nextintoken.update(id=1,{:nexttokenno=>"#{@non_customer.tokenno}"})%> 
+                                                                 <%#elsif @gold!=nil and @customer==nil and @non_customer==nil%>
+                       	                                               <%#Nextintoken.update(id=1,{:nexttokenno=>"#{@gold.tokenno}"})%> 
+                                                                 <%#elsif @gold==nil and @customer!=nil and @non_customer==nil%>
+                       	                                               <%#Nextintoken.update(id=1,{:nexttokenno=>"#{@customer.tokenno}"})%> 
+  	                   	                                         <%#else%>
+                       	                                               <%#"test"%>
+                       	                                               <%#@text="Queue Empty"%>
+                       	                                               <%#Nextintoken.update(id=1,{:nexttokenno=>@text})%> 
+                       	                                         <%#end%>-->
+
+					                                          <b>
+					                                             <font color="#800000" face="Zurich BT">Token No.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</font></b><font face="Zurich Ex BT"><b><font color="#800000">&nbsp; <%= @a.tokenno -%>
+                                                 </font></b></font>
+					</td>
+				</tr>
+				<tr>
+					<td width="303" height="31">
+						<b>
+						<font face="Zurich BT" color="#800000">Service Name: <% @s= Service.find(:first,:select=>"servicename" ,:conditions=>["serviceid = ? ",@a.serviceid]) %>
+						<%= @s.servicename %><% end %> </font></b>
+					</td>
+				</tr>
+				<tr>
+    				<td width="303" height="5" align=center>
+  						<br /><font face="Zurich BT" color="#800000">
+  						<%= button_to_function 'Arrived',remote_function(:url => {:controller=>'client',:action => "arrived" }),  :id=>'arrived'%>
+						&nbsp;
+  						<%= button_to_function 'Missing',remote_function(:url => {:controller=>'client',:action => "missed" }),  :id=>'missed '%>
+				</font>	</td>
+				</tr>
+				</table>
+				</td></tr></table>
+			  </td>
+            </tr>
+           
+				</table>
+ 				
+ 			</td>
+ 			
+ 		</tr></table>
+ 		</td></tr>
+ 		</table>
+ </form>
+ 
+ </td></tr></table>
+
+</body>
+</html>

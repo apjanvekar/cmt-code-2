@@ -1,0 +1,60 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+<script  language="JavaScript">
+function Validate()
+{
+	
+	
+	
+	
+	var endtime=document.getElement(endtime).value;
+	
+
+	alert("value is "+endtime)
+
+
+   
+	
+	
+	
+
+
+}
+	
+
+</script>
+
+
+</head>
+
+<body>
+<table border=0 width="768"><tr><td bgcolor="#FFFFFF" width="762">
+<table align="left" border=5 bordercolor="#336699" width="768" cellpadding=15 >
+<tr><td width="750">
+<h3 align="center"><font color="#336699" face="Arial"><u>Editing service</u></font></h3>
+<%= error_messages_for 'service' %><font color="#990000">
+
+<p>&nbsp;</p>
+
+<% form_tag :action => 'update', :id => @service.id do  %>
+<%= render :partial => 'form' %> </font>
+  
+ <font color="#336699" face="Arial">  
+ &nbsp;<%= submit_tag 'Save',:onclick =>"return Validate()" %> &nbsp; &nbsp;<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'services',:action => "back" }),:id=>'Back1' %>
+ </p></font>
+  
+<% end %> </font>
+<p>&nbsp;</p>
+
+</td></tr></table>
+</td></tr></table>   
+</body>
+</html>

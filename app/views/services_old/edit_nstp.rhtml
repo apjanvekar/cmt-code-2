@@ -1,0 +1,30 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+</head>
+
+<body>
+<table border=0><tr><td bgcolor="#FFFFFF">
+<table align="left" border=5 bordercolor="#FF66000" width="342" cellpadding=15 >
+<tr><td width="324">
+<h3><font color="#800000"><u>Editing NONSTP Service</u></font></h3>
+
+
+
+<% form_tag :action => 'update_nstp', :id => @nonstp.id do %>
+  <%= render :partial => 'formnstp' %>
+  <p align=center>
+  <%= submit_tag 'Save' %> &nbsp; | &nbsp; <%= link_to 'Back', :action => 'list_nstp' %></p>
+<% end %>
+
+
+</td></tr></table>
+</td></tr></table>   
+</body>
+</html>

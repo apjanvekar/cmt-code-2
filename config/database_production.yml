@@ -1,0 +1,8 @@
+
+production:
+  adapter: mysql
+  database: dqms_production
+  username: root
+  password: 
+  host: localhost
+  socket: /var/lib/mysql/mysql.sock	

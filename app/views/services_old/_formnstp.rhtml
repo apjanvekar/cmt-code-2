@@ -1,0 +1,23 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<%= error_messages_for 'service' %>
+
+<!--[form:service]-->
+
+<p align=left><b><font face="Arial" size="2" color="#800000"><label for="nonstp_nonstpname">
+NON STP Name </label><br/>
+<%= text_field 'nonstp', 'nonstpname', :size =>30  %></font></b></p><br>
+<p align=left>
+
+<p align=left><font face="Arial"><b><font color="#800000"><label for="nonstp_status">
+<font size="2">Status</font></label><font size="2"><br/>
+</font>
+<input type="radio" id="nonstp_status" name="nonstp[status]"  value="1" checked="checked"  /></font><font size="2" color="#800000">Active &nbsp;&nbsp;&nbsp;
+</font><font color="#800000">
+ <input type="radio" id="nonstp_status" name="nonstp[status]"  value="0" unchecked/></font><font size="2" color="#800000">In Active
+</font></b></font>
+</p><br/>
+
+<!--[eoform:service]-->

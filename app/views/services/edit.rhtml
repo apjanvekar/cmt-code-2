@@ -1,0 +1,50 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+<!-- version DQMS_ROR_ver1.0.2 -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+<script  language="JavaScript">
+function Validate()
+{
+var endtime=document.getElement(endtime).value;
+alert("value is "+endtime)
+}
+	
+
+</script>
+
+
+</head>
+
+<body>
+<table border=0 align=center width="734" height="352" bordercolor="#800000">
+<tr><td bgcolor="#FFFFFF" align="center" width="728" height="348">
+<table align="center" border=5 bordercolor="#800000" width="451" height="173">
+<tr><td width="734" height="167" align="center" >
+
+<h3 align=center><span style="font-weight: 400">
+</h3>
+<h3><font color="#990000" face="Zurich BT"> Edit Service</font></h3>
+<% form_tag :action => 'update', :id => @service.id do  %>
+<%= error_messages_for 'service' %><font color="#990000">
+
+  <table><tr><td>
+
+</br>
+<%= render :partial => 'form' %> </font>
+  </td></tr></table>
+ 
+ </br>
+ <div align="center">
+<font color="#990000"><%= submit_tag 'Save' %>  <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'services',:action => "back" }),:id=>'Back' %></font>
+</div>
+<% end %> </font>
+</td></tr></table>
+</td></tr></table>   
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+<!-- version DQMS_ROR_ver1.0.2 -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+</head>
+
+<body>
+<table border=10><tr><td bgcolor="#FFFFFF">
+<table align="left" border=5 bordercolor="#800000" width="342" cellpadding=15 >
+<tr><td width="324">
+<h3><font color="#990000"><u>Editing STP Service</u></font></h3>
+
+
+
+<% form_tag :action => 'update_stp', :id => @stp.id do %><font color="#990000">
+  <%= render :partial => 'formstp' %> </font>
+  <p align=center>
+  <font color="#990000">
+  <%= submit_tag 'Save' %> &nbsp; | &nbsp; <%= link_to 'Back', :action => 'list_stp' %></p>
+<% end %> </font>
+
+
+</td></tr></table>
+</td></tr></table>   
+</body>
+</html>

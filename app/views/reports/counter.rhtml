@@ -1,0 +1,16 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<%= start_form_tag :action => 'counter_report' %>
+	
+	<p><label >Start Date</label>
+<%= date_select('range', 'start_date', :order => [:month, :day, :year])%> 
+
+	</p>
+
+	<p><label>End Date</label>
+<%= date_select('range', 'end_date', :order => [:month, :day, :year])%> 
+  </p>
+    <%= submit_tag "counter_report" %>
+<%= end_form_tag %>

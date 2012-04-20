@@ -1,0 +1,216 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 850px; 
+HEIGHT:200px;
+} 
+</STYLE> 
+ <%= javascript_include_tag "prototype","effects","application",:defaults %>
+ 
+ <SCRIPT LANGUAGE=javascript>
+
+
+
+ function addZero(vNumber){ 
+    return ((vNumber < 10) ? "0" : "") + vNumber 
+  } 
+        
+  function formatDate(vDate, vFormat){ 
+    var vDay              = addZero(vDate.getDate()); 
+    var vMonth            = addZero(vDate.getMonth()+1); 
+    var vYearLong         = addZero(vDate.getFullYear()); 
+    var vYearShort        = addZero(vDate.getFullYear().toString().substring(3,4)); 
+    var vYear             = (vFormat.indexOf("yyyy")>-1?vYearLong:vYearShort) 
+    var vHour             = addZero(vDate.getHours()); 
+    var vMinute           = addZero(vDate.getMinutes()); 
+    var vSecond           = addZero(vDate.getSeconds()); 
+    var vDateString       = vFormat.replace(/dd/g, vDay).replace(/MM/g, vMonth).replace(/y{1,4}/g, vYear) 
+    vDateString           = vDateString.replace(/hh/g, vHour).replace(/mm/g, vMinute).replace(/ss/g, vSecond) 
+    return vDateString 
+  } 
+  
+ function difference(a,b,c)
+ {
+var dateformat="dd/MM/yy hh:mm:ss";
+
+var today=formatDate(new Date(),dateformat);
+
+var z=new Date(a);
+var z1=new Date(today);
+
+
+	var sec=(z1.getTime()-z.getTime());
+	
+ 	var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
+	var hours = Math.floor(sec / hour);
+	if(hours<10)
+	hours="0"+hours;
+	sec -= hours * hour;
+	var minutes = Math.floor(sec / minute);
+	if(minutes<10)
+	minutes="0"+minutes;
+	
+	sec -= minutes * minute;
+	var seconds = Math.floor(sec / second);
+	if(seconds<10)
+	seconds="0"+seconds;
+	
+	var diff=hours+":"+minutes+":"+seconds;
+			if(b<=diff)
+			document.getElementById(c).style.background = "red";
+
+			document.getElementById(c).innerHTML="<FONT COLOR='white'>"+diff+"</font>";
+			else
+			document.getElementById(c).innerHTML=diff;
+
+         
+
+
+}
+ </SCRIPT>
+
+
+</head>
+
+<body>
+ 
+							    	
+<table  height="344"><tr><td height="340" >
+<table border=5 bordercolor="#990000"><tr>
+  <td bgcolor="#FFFFFF" height="236">
+   <div class=clsDataGrid id=divList bgcolor=white style=" height: 237">
+<table align=center border=0 bordercolor="#800000"><tr><td>
+ <table border="1"  cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="26" >
+<caption><h3 align="center"><span style="font-weight: 400">
+<font face="Zurich BT" color="#990000">Service Area Floorview</font></span></h3>
+</caption>
+<tr align=center bgcolor="#800000">
+      	<th height="11"  bgcolor="#990000" width="56">
+        <font color=white face="Zurich BT" size="2">&nbsp;Counter&nbsp;</font></th>
+      	<th nowrap height="11" bgcolor="#990000" width="35">
+        <font color=white face="Zurich BT" size="2">&nbsp;CounterStatus&nbsp;</font></th>
+		<th nowrap height="11"  bgcolor="#990000" width="45">
+        <font color=white face="Zurich BT" size="2">&nbsp;ActiveToken</font></th>
+		<th nowrap height="11"  bgcolor="#990000" width="20">
+        <font color=white face="Zurich BT" size="2">&nbsp;ServiceName</font></th>
+		<th nowrap height="11"  bgcolor="#990000" width="56">
+        <font color=white face="Zurich BT" size="2">&nbsp;CustomerType</font></th>
+		<th nowrap height="11"  bgcolor="#990000" width="56">
+        <font color=white face="Zurich BT" size="2">&nbsp;ThresholdValue&nbsp;</font></th>
+		<th  height="11"  bgcolor="#990000" width="10">
+        <font color=white face="Zurich BT" size="2">&nbsp;WaitTime</font></th>
+        <th  height="11"  bgcolor="#990000" width="10">
+        <font color=white face="Zurich BT" size="2">&nbsp;ServingTime</font></th>
+
+</tr>
+<% @t = Counter.find_by_sql("select * from counters where counterstatus=1 order by counterno" ) %><font size="1" face="Zurich BT">
+<% @t.each do |c| %> </font>
+<tr align=center>
+<td nowrap  height="11" align=center ><font size="2" face="Zurich BT">
+<%= c.counterno %></font></td>
+
+<td nowrap  height="11" align=left >
+	<% if c.loginstatus=='Y'%>
+	<font size="2" face="Zurich BT">
+		<% @pause=Transact.find_first(["counterno=? and pauseflag=1",c.counterno])%>
+		<% if @pause!=nil %> 
+				<% if @pause.pauseflag==1  %>
+				<font size="2" face="Zurich BT"><b>
+
+				<%= @pause.reasons %></b>
+				<% else %>
+				Logged In 
+				<% end%>
+		<% else %>
+				Logged In 
+
+		<% end %>
+	<%else%><font size="2" face="Zurich BT">
+		Logged Out</font>
+	<%end%>
+
+</td>
+<% if c.loginstatus=='Y'%>
+<% @a= Transact.find_first(["counterno = ? and tokenstatus=2 and waittime>0",c.counterno]) %>
+
+<% if @a==nil %>
+<%else %>
+
+<td nowrap height="11"  width="111" align=center>
+<font size="2" face="Zurich BT">
+
+
+<%= @a.tokenno -%> </font></td>
+
+<td nowrap height="11" align=left width="120">
+
+<% @b= Service.find_first(["serviceid = ? ",@a.serviceid]) %><font size="2" face="Zurich BT">
+
+<%= @b.servicename -%> </font>
+</td>
+
+<td nowrap  height="11" align=left width="116">
+<% @c= Customertype.find_first(["ctypeid = ? ",@a.ctypeid]) %><font size="2" face="Zurich BT">
+<%= @c.ctypedesc -%> </font>
+</td>
+<td nowrap height="11" align=left width="116">
+<% @d= Service.find_first(["serviceid = ? ",@a.serviceid]) %><font size="2" face="Zurich BT">
+<%= @d.thresholdtime.strftime("%H:%M:%S") -%> </font>
+</td>
+
+
+<td nowrap  height="11" align=left width="107">
+<font size="2" face="Zurich BT">
+<%= @a.waittime.strftime("%H:%M:%S") -%>
+</font>
+</td>
+<td nowrap  height="11" align=left width="107">
+<font size="2" face="Zurich BT">
+<div id="<%= @a.tokenno %>"></div>
+<div id='time'></div>
+<% @s= Service.find_first(["serviceid = ? ",@a.serviceid]) %>
+<script>				
+a='<%= @a.transdate.strftime("%d/%m/%y") %>'+" "+'<%= @a.calledtime.strftime("%H:%M:%S") %>';
+b='<%= @s.thresholdtime.strftime("%H:%M:%S") %>'
+c='<%= @a.tokenno %>'
+difference(a,b,c)
+
+
+</script>
+</font>
+
+</td>
+<% end %>
+<%end%>
+
+</tr>
+<% end %>
+ </font>
+</table></div>
+   </center>
+ </div></td></tr></table>
+ 
+ </td></tr></table>
+ 
+<p>&nbsp;</p>
+</td>
+  </tr>
+  </table>
+</table>
+</td></tr></table>
+</body>
+
+</html>

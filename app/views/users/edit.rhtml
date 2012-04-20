@@ -1,0 +1,120 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+
+</head>
+
+<body>
+<table border=0  bordercolor="#800000" width="977" height="351"><tr>
+  <td bgcolor="#FFFFFF" width="967" align="center" height="345">
+<table align="center" border=5 bordercolor="#800000" width="371">
+
+<tr>
+<td width="353">
+<h2 align="center"><span style="font-weight: 400">
+<font color="#800000" face="Arial" size="4">Editing User</font></span></h2>
+<p>&nbsp;</p>
+
+<p >
+<% form_tag :action => 'update', :id => @user do %>
+ 
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+<%= error_messages_for 'user' %>
+
+<!--[form:user]-->
+<p align=left>
+<font face="Arial" size="2" color="#800000">
+<label for="user_firstname">Enter First & Last name:</label></font><br/>
+<font face="Arial" size="2" color="#336699">
+<%= text_field "user", "firstname", :size => 20 %> &nbsp;<%= text_field "user", "lastname", :size => 20 %><br/></font></p>
+<p align=left><font face="Arial" size="2" color="#800000"><label for="user_login">Login Name</label><b><br/>
+<%= text_field 'user', 'login', :size =>10 %></b></font></p>
+<p align=left> <font face="Arial" size="2" color="#800000"> <label for="user_usertype">User Type</label></font><b><font face="Arial" size="2" color="#800000"><br/>
+<!--<%= text_field 'user', 'usertype', :size =>10 %>-->
+</font> <font face="Arial" size="2" color="#336699"> 
+<select  id="user_usertype" name="user[usertype]" style="font-family: Arial">
+<% @z=User.find(params[:id])%>
+<% @type=@z.usertype %>
+<% if @type=="Admin" %>
+<option value="Admin">Admin</option>
+<option value="SuperAdmin">Super Admin</option>
+<option value="Operator">Operator</option>
+<% elsif @type=="SuperAdmin" %>
+<option value="SuperAdmin">Super Admin</option>
+<option value="Admin">Admin</option>
+<option value="Operator">Operator</option>
+<% else %>
+<option value="Operator">Operator</option>
+<option value="SuperAdmin">Super Admin</option>
+<option value="Admin">Admin</option>
+<% end %>
+</select> </font>
+
+
+
+</b>
+<p align=left> &nbsp;<font face="Arial" size="2"><p align=left>
+<font face="Arial"><label for="user_userstatus">
+<font size="2" color="#800000">User Status</font></label></font></font><font face="Arial" size="2" color="#336699"><font face="Arial" color="#336699"><b><font size="2"><br/>
+<% @a= User.find(params[:id])%>
+<% @b=@a.userstatus %>
+<% if @b.to_i== 1 %> </font>
+<input type="radio" id="user_userstatus" name="user[userstatus]" value="1" checked="checked"  /></b></font></font><font face="Arial"><font size="2" color="#800000" face="Arial">Active
+</font><font face="Arial" size="2" color="#336699"> <b>&nbsp;&nbsp;&nbsp; </b>
+<b><font color="#336699" face="Arial">
+
+<input type="radio" id="user_userstatus" name="user[userstatus]" value="0" unchecked/></font></b></font><font size="2" color="#800000" face="Arial">Inactive</font><font face="Arial" size="2" color="#336699"><b><br/>
+
+<% else %> </b>  <b><font color="#336699" face="Arial">
+
+<input type="radio" id="user_userstatus" name="user[userstatus]" value="1" unchecked/></font></b></font><font size="2" color="#800000" face="Arial">Active</font><font face="Arial" size="2" color="#336699"><b>
+</b> 
+<font color="#336699" face="Arial">
+
+<b>
+
+<input type="radio" id="user_userstatus" name="user[userstatus]" value="0" checked="checked"/></b></font><b></b></b><font size="2" color="#800000" face="Arial">Inactive</font></font></font><font face="Arial" size="2" color="#336699"><font face="Arial"><b><br/>
+<% end %><!--[eoform:user]--> </b></font>
+<font color="#336699"><b>&nbsp;</b></font></p>
+</font>
+
+
+
+<p align=left><font face="Arial"><label for="user_loginstatus">
+<font size="2" color="#800000">Login Status</font></label></font><font face="Arial" color="#336699"><b><font size="2"><br/>
+<% @a= User.find(params[:id])%>
+<% @b=@a.loginstatus %>
+<% if @b.to_s== 'Y' %> </font>
+<input type="radio" id="user_loginstatus" name="user[loginstatus]" value="Y" checked="checked"  /></b></font><font face="Arial"><font size="2" color="#800000" face="Arial">Logged In
+</font><font size="2" color="#336699" face="Arial"> <b>&nbsp;&nbsp;&nbsp; </b>
+</font><b><font color="#336699" face="Arial">
+
+<input type="radio" id="user_loginstatus" name="user[loginstatus]" value="N" unchecked/></font></b><font size="2" color="#800000" face="Arial">Logged Out</font><font size="2" color="#336699" face="Arial"><b><br/>
+
+<% else %> </b>  </font><b><font color="#336699" face="Arial">
+
+<input type="radio" id="user_loginstatus" name="user[loginstatus]" value="Y" unchecked/></font></b><font size="2" color="#800000" face="Arial">Logged In</font><font size="2" color="#336699" face="Arial"><b>
+</b> 
+</font><font color="#336699" face="Arial">
+
+<b>
+
+<input type="radio" id="user_loginstatus" name="user[loginstatus]" value="N" checked="checked"/></b></font><b></b></b><font size="2" color="#800000" face="Arial">Logged Out</font><b><br/>
+<% end %><!--[eoform:user]--> </b></font>
+</br>
+</p> <%= submit_tag 'Save', :style=>"font-family: Arial; font-size: 10pt" %>   <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'users',:action => "cancel" }),:id=>'cancel', :style=>"font-family: Arial; font-size: 10pt" %>
+
+<% end %>
+<p>&nbsp;</p>
+</td></tr></table></td></tr></table>
+</body>
+</html>

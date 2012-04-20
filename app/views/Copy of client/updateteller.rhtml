@@ -1,0 +1,95 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+<head>
+<%= stylesheet_link_tag "style" %>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+ <script type="text/javascript">
+!--
+history.forward();
+
+-->
+</script>
+
+</head>
+<body topmargin="0" leftmargin="0" align=center>
+<table  border="0" cellspacing="0" cellpadding="0"  width="698" height="546" align=center>
+
+<tr>
+<form id="form1" name="form1" method="post" action="updateteller" align="center">
+<td height="546" width="716"><% session[:gvar]=0%><% session[:b]=0%>
+		<table align="center" width="699" height="560">
+    
+    <tr>
+    <td width="696" height="115">
+    <table height="126" ><tr>
+  			<td id=banner width="636" height="100%" ></td>
+  			
+  			<td id=logo style="background-repeat:no-repeat" width=221 height=122  > </td>
+  			
+  		</tr></table>
+  		</td></tr>
+  		<tr>
+  			<td width="709" height="19" bgcolor="#800000" colspan="3" bordercolor="#800000">&nbsp;</td>
+  		</tr>
+  		<tr>
+  		<td height="25">
+  		<table width="693"><tr>
+  			<td width="597" height="22" colspan="2">&nbsp;</td>
+  			<td width="86" height="22" align="right" ><p align="right"> <b>
+            <font face="Arial" color="#800000"><%= link_to "Log Out", :controller=> "account", :action => 'logout' %></font></b></td>
+  		</tr></table>
+  		</td></tr>
+  		<tr>
+  		<td width="696" height="124">
+  		<table><tr>
+  			
+  			<td align=center width="755" height="118"><%= error_messages_for 'teller' %>
+        <table border=0 ><tr>
+ 					<td bgcolor="#FFFFFF" align="center">
+ 						<table border=5 bordercolor="#800000" width="253">
+ 							<tr><td width="235">
+								<table>
+									<tr>
+										<td bgcolor="white">
+                                        <span style="background-color: white>
+                                        <b>
+                                        <font face="Arial" size="2" color="#800000">
+                                        <b>
+                                        <font face="Zurich BT" size="2" color="#800000">Select&nbsp;</font></b></span><font face="Zurich BT" size="2" color="#800000"><b>Counter Number:</span></b></font></td>
+										<td bgcolor="#FFFFFF">
+										<%= 
+											@counters=Counter.find(:all, :conditions => "counterstatus=1 and loginstatus='N'",  :order => "counterno").map { |u| [u.counterno, u.id] } 
+										 	select(:updateteller, :counterno, @counters ) 
+										 %>  </td>
+									 </tr>
+
+									<tr>
+										<td height="50" align=center colspan="2">
+                                        <input type="submit" value="   OK   " name="B1" style="font-family: Zurich BT; font-size: 10pt; float: right"> 
+                                        <p>
+                                        <input type="reset" value="Reset" name="B2" style="font-family: Zurich BT; font-size: 10pt"></td>
+									</tr>
+								</table>
+							</td></tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+ 				
+ 			</td>
+ 			
+ 		</tr></table>
+ 		</td></tr>
+ 		<tr>
+  			<td width="709" height="257" colspan="3">&nbsp;</td>
+  			</tr>
+ </table>
+ </form>
+ 
+ </td></tr></table>
+
+</body>
+</html>

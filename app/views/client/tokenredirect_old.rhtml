@@ -1,0 +1,158 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<%= stylesheet_link_tag "style" %>
+
+
+ <%= javascript_include_tag "prototype"%>
+
+
+<script type="text/javascript">
+!--
+history.forward();
+
+-->
+</script>
+
+<script type="" language="JavaScript">
+function disable()
+{
+	document.form1.submit.disabled=true;
+ } 
+ 
+ function enabled()
+{
+	document.form1.nonstp.disabled=false;
+ } 
+
+</script>
+</head>
+<body>
+<table height="119" align="center">
+	<tr><td height="35" align="center">
+		<table height="271" align="center" width="622" >			
+			<tr><td height="474" align="center" width="838">
+				<table align="center" width="709" height="204">
+				<tr>
+  					<td id=banner width="552"  colspan="2" height="102" ></td>
+  					<td id=logo width="147" height="102" > 
+  					<tr>
+  					<td width="171" height="1" align=right ></td>
+  				</tr>
+  				<tr>
+  					<td width="703" height="21" bgcolor="#800000" colspan="3" align=right>
+  										
+  					</td>
+  				</tr>
+  				
+  				<tr>
+  					<td width="171" height="21">&nbsp;</td>
+  					<td width="377" height="21" align=right >
+  						 <font face="ZurichBT" size="3" ><b>
+						<!--<%= link_to "Back", :controller=> "client", :action => 'transact' %>-->&nbsp;&nbsp;</td>
+						<td height="21" width="147"><font face="ZurichBT" size="3" ><b>
+						&nbsp;&nbsp;
+						<%= link_to "Back", :controller=> "client", :action => 'transact' %>
+						<!--<%= link_to "Log Out", :controller=> "account", :action => 'logout' %>--></td>
+						
+						</tr>
+  				
+  				<tr>
+  					<td width="171" height="175">&nbsp;</td>
+  					<td width="377" height="175" >
+  					<table border=10><tr><td>
+  						<table border=5 bordercolor="#800000"><tr><td>
+                          <p align="center"><b><font size="4">Token Redirecting
+                          </font></b></p>
+ 							<table border="1" width ="329" cellpadding="0"  cellspacing="0"  bordercolor="#111111"  id="AutoNumber1" bgcolor=white height="41">
+ 							<form id="form1" name="form1" method="POST" action="updatetoken" align="center">
+							<tr bgcolor="#800000">
+								<th nowrap width="101"  >
+       							 <font face="Arial" size="2" color="#FFFFFF">
+                                 CounterNo</font></th>
+								<th nowrap width="113"  >
+        						<font color="#FFFFFF" face="Arial" size="2">&nbsp;Pending Count</font></th>      	
+   								 <th nowrap width="107"  >
+        						&nbsp;
+        						</th>
+
+   								
+    				    	</tr>
+    				    	 <% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+
+    				    <% @servid=Transact.find(:first,:conditions=> ["tokenstatus=2 and counterno=?",@counter.counterno])%>
+    				    <% if @servid==nil %>
+    				    <%else%>	
+    				    <% @map=Csmapping.find(:all,:conditions=> ["serviceid=? and counterno<>?",@servid.serviceid,@counter.counterno]) %>
+					
+							
+							<% @map.each do |c| %>
+							
+							<% @m=Counter.find_first(["loginstatus='Y' and counterno=?",c.counterno]) %>
+							<% if(@m!=nil) %>
+							<tr >
+								<td height="19" bgcolor="#FFCC66" width="101">
+								
+								<%= c.counterno -%> &nbsp;</td>
+								<td width="113" height="19" bgcolor="#FFCC66">					
+								<% @c =Transact.count(["tokenstatus=0 and counterno=? and serviceid=?",c.counterno,c.serviceid]) %> 
+								<%= @c -%>
+								&nbsp;</td>
+								
+
+
+							
+								<td height="19" bgcolor="#FFCC66" width="107" align=center> 
+								
+								
+								<% @counter=User.find_first(["login=?",@session['user']['login']]) %>
+
+								<% @b= Transact.count(["counterno = ?  and tokenstatus=0 ",c.counterno])%> 
+								
+								
+                                <% d=Transact.find_first(["counterno=? and tokenno=?",c.counterno,@servid.tokenno]) %>
+                                <% if(d!=nil) %>
+								<%= link_to 'Redirect', :action => 'redirect', :id => d.id %>
+								<% end %>
+								&nbsp;	
+								</td>
+							</tr><% end %>	<% end %>
+							<% end %>	
+
+						</table></td></tr>
+						</table>
+						</td></tr></table>	
+						</td>
+  					
+  					
+  					
+  					</td>
+						<td height="175" width="147">&nbsp;</td>
+						
+						</tr>
+  				
+  				<tr>
+  					<td width="171" height="169"></td>
+  					<td width="377" height="169" >
+  						
+						
+						
+						
+						<td height="169" width="147">&nbsp;</td>
+						
+						</tr></table>
+						</td></tr></table>
+						</td></tr></table>
+
+
+
+
+
+</body>
+
+</html>

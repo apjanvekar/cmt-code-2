@@ -1,0 +1,270 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+<!-- version DQMS_ROR_ver1.0.2 -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>:: Welcome To ICICI ::</title>
+<%= javascript_include_tag "backButton",:defaults %>
+
+<script language="JavaScript"> 
+var message="Sorry right click is disabled!"; // Message for the alert box
+
+// code for right click disable Don't edit below! 
+
+function click(e) {
+	if(document.all) {
+		if (event.button == 2) {
+			alert(message);
+			return false;
+		}
+	}else if(document.layers || document.getElementById){
+		if (e.which==2||e.which==3){
+			alert(message);
+			return false;
+		}
+	}
+}
+if (document.layers) {
+	document.captureEvents(Event.MOUSEDOWN);
+}
+document.onmousedown=click;
+// --> </script>
+
+<script type="text/javascript">
+
+var myclose = false;
+
+function ConfirmClose()
+{
+    //if (event.clientY < 0)
+    //{
+       //event.returnValue = 'Are You Sure You Want to Quit?';
+      // setTimeout('myclose=false',100);
+       //myclose=true;
+    //}
+    //else
+    //{
+      if(window.event.keyCode==0 && event.altKey==true)
+      {
+        event.returnValue = 'Are you sure,want to quit?';
+        setTimeout('myclose=false',100);
+        myclose=true;
+      }
+    //}
+}
+
+function HandleOnClose()
+{
+if(myclose==true)
+{
+new Ajax.Request("<%= url_for :controller=> :admin1,:action=>:logout %>",{method:'get'})
+}
+}
+</script>
+
+<%= stylesheet_link_tag "style" %>
+<%= stylesheet_link_tag "mymenu" %>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+<%= javascript_include_tag  :defaults %>
+<%= javascript_include_tag "dropdowntabs2"%>
+<%= stylesheet_link_tag 'calendar_date_select/silver.css' %>
+<%= javascript_include_tag 'calendar_date_select/calendar_date_select.js'%>
+<%= javascript_include_tag 'calendar_date_select/format_db.js'%>
+
+
+</head>
+<body onbeforeunload="ConfirmClose()" onunload="HandleOnClose();back();" onload="click()" font face="Zurich BT" >
+<table  border="0" cellspacing="0" cellpadding="0" align="center" width="100%" height="448">
+  <tr>    
+    <!--<td  height="448" align="center">-->
+    <table  border="0" align="center" cellpadding="0" cellspacing="0" height="47" width="100%">
+     <tr width="100%">
+  			<td id=logo_accounts style="background-repeat:no-repeat" width="274" height="30" bgcolor="#901010" >
+        
+  			</td>
+  			<td width="535" height="28" rowspan="2"  bgcolor=#901010  ></td>
+  			<td width="380" height="10"  bgcolor=#901010  >
+  			<div style="float:right; margin-right:20px;">
+  			<font face="Zurich BT">
+  			<font style="color:white">Login : <%=@session['user']%>&nbsp;&nbsp; | &nbsp;&nbsp;</font>
+  			<%time = Time.new%><font style="color:white">   Date : <%=time.strftime("%d-%m-%Y")%> </font>
+            </font></div>
+            </td>
+  		</tr>      
+     </table>
+     <!--<div id="links" style="width: 923; height: 23">-->
+      <table width="100%" border="1" bordercolor="#800000" cellpadding="0" cellspacing="0"  height="1" align="center"  >
+        <tr  bgcolor="eb922c" width="100%">       
+       
+           <td  width="100%" height="1" align="left" >
+        	   
+                       
+
+<div id="invertedtabs">
+	<ul>
+		<li title="Footer Message"><font face="Zurich BT"> <span><%= link_to 'Footer Message', :controller => 'tellers', :action => "list_ad" %></span></font></li>
+		<!--<li title="Scroll Message"><font face="Zurich BT"> <span><%= link_to 'Scroll Message', :controller => 'displayscrollmsgs', :action => "list" %></span></font></li>-->
+		<!--<li> <span><%= link_to 'Users', :controller => 'users', :action => "list" %></span></li>-->
+		<li title="Services"><font face="Zurich BT"> <span><%= link_to 'Services', :controller => 'services', :action => "list" %></span></font></li>
+		<li title="Counters"> <font face="Zurich BT"><span><%= link_to 'Counters', :controller => 'tellers', :action => "list" %></span></font></li>
+		<!--<li> <span><%= link_to 'Change Password', :controller => 'users', :action => "password" %></span></li>-->		
+		<!--<li> <span><%# link_to 'Reports', :controller => 'users', :action => "report" %></span></li>-->
+<!--		<li> <a  href="#" rel="dropmenu5_a" title="Reports"> <span>Reports</span> </a>	 -->
+		<li title="Client Operation"> <font face="Zurich BT"><span><%= link_to "Client Operation", :controller=> "client", :action => 'updateteller' %></span></font></li>
+
+		
+    	<li> <font face="Zurich BT"> <a  href="#" rel="dropmenu1_a" title="Online Info"> <span>Online Info</span> </a>
+		</font>
+		<li > <font face="Zurich BT"> <a  href="#" rel="dropmenu2_a" title="Settings"> <span>Settings</span> </a>		
+		</font>		
+		<li><font face="Zurich BT"><a  href="#" rel="dropmenu3_a" title="Floorview"> <span>Floorview</span> </a>
+        </font></li>
+		<li> <font face="Zurich BT"> <a  href="#" rel="dropmenu5_a" title="Reports"> <span>Reports</span> </a>
+        </font>
+<!--		<li> <a  href="#" rel="dropmenu6_a" title="Graphs"> <span>Graphs</span> </a>	 -->
+		<li><font face="Zurich BT"> <a  href="#" rel="dropmenu6_a" title="Graphs"> <span>Graphs</span> </a>	</font>
+		<li title="Log Out"><font face="Zurich BT"> <span><%= link_to "Log Out", :controller=> "dqms", :action => 'logout' %></span></font></li>
+
+		
+	</ul>
+</div>
+
+<!--1st drop down menu -->                                                   
+<div id="dropmenu1_a" class="dropmenudiv_a">
+<%= link_to 'Service Wise Pending Token Count', :controller => 'users', :action => "servicewisemain" %>
+	<%= link_to 'User Wise Completed Token Count', :controller => 'users', :action => "onlineinfo" %>
+	<%= link_to 'Counter Wise Pending Token Count', :controller => 'users', :action => "counterwisemain" %>
+
+</div>
+
+<!--2nd drop down menu-->                                              
+<div id="dropmenu2_a" class="dropmenudiv_a">
+	<%= link_to 'Configuration Settings', :controller => 'settings', :action => "list" %>
+	<!--<%= link_to 'Backup', :controller => 'backup', :action => "backup" %>-->
+	<%= link_to 'Shut Down',{:controller => 'backup', :action => "shutdown"},:confirm =>"You will get logout.Are you sure,want to shutdown DQM ?"%>
+	
+
+</div>  
+ 
+<!--3rd drop down menu-->                                              
+
+<div id="dropmenu3_a" class="dropmenudiv_a">
+	<%= link_to ' Service Area Floorview ', :controller => 'users', :action => 'floorview' %>
+	<%= link_to ' Wait Area Floorview ', :controller => 'users', :action => 'floorview1' %></div>
+
+<!--4th drop down menu-->                                              
+
+<div id="dropmenu4_a" class="dropmenudiv_a">
+	<%= link_to "Upload Logo" , :controller=>"upload", :action=>"uploadfile" %>	
+	<%= link_to "Upload DQMS Header image " , :controller=>"upload", :action=>"uploadfileheader" %>
+	<%= link_to "Upload DQMS Printer Logo" , :controller=>"upload", :action=>"uploadfileprinter" %>
+	<%= link_to "Upload DQMS Advertise Images" , :controller=>"upload", :action=>"advertiseimage" %>
+	<%= link_to "Branch ID" , :controller=>"settings", :action=>"Branchid" %>
+	<%= link_to "Version History" , :controller=>"versionhistories", :action=>"list" %>
+</div>
+<!--<div id="dropmenu5_a" class="dropmenudiv_a">
+	<%= link_to "Servicewise Tokens Breakup" , :controller=>"users", :action=>"ServiceTkensh" %>
+	<%= link_to "Average Service and Wait Time " , :controller=>"users", :action=>"avgwaittserviceth" %>	
+	<%= link_to "Servicewise Breakup For Month" , :controller=>"users", :action=>"selection1" %>
+	<%= link_to "Average Service and Wait Time For Month" , :controller=>"users", :action=>"selection2" %>
+	<%= link_to "Daywise Services Offered For Month" , :controller=>"users", :action=>"selection3" %>
+	<%= link_to "Employee Monthly Score" , :controller=>"users", :action=>"selection" %>
+	<%= link_to "Benchmark Service Time For All Services" , :controller=>"users", :action=>"Servicebenchmarkh" %>
+	<%= link_to "Total Services Availed By Customer For The Day" , :controller=>"users", :action=>"masterreporth" %>
+
+</div>-->
+
+<div id="dropmenu5_a" class="dropmenudiv_a">
+	<% link_to "Detailed Counter Wise Report " , :controller=>"analysis", :action=>"selection1" %>	
+	<% link_to "Counter Wise Summery Report" , :controller=>"analysis", :action=>"selection" %>	
+	<% link_to "Daywise Breakup Of Services" , :controller=>"analysis", :action=>"selection3" %>
+	<%= link_to "Detailed Master Report " , :controller=>"users", :action=>"Masterreporth" %>
+	<%= link_to "Detailed Master Report For Today's Date" , :controller=>"analysis", :action=>"masterreporth1" %>
+	<% link_to "Missing/Pending Token" , :controller=>"analysis", :action=>"selection4" %>
+	<% link_to "Month Wise User Summary" , :controller=>"analysis", :action=>"selection5" %>
+	<% link_to "Service Wise Summary Report " , :controller=>"analysis", :action=>"selection6" %>
+	<% link_to "Service Wise Benchmark report " , :controller=>"analysis", :action=>"selection7" %>
+	<% link_to "User Summary Report " , :controller=>"analysis", :action=>"selection8" %>
+
+
+	
+
+</div>
+<!--<div id="dropmenu6_a" class="dropmenudiv_a">
+	<%= link_to "Employee Score Card" , :controller=>"Dbdemo1", :action=>"selection" %>
+	<% link_to "Footfall Summary " , :controller=>"Dbdemo1", :action=>"selection1" %>	
+	<% link_to "Servicewise Breakup For Month" , :controller=>"users", :action=>"servicewisemonth" %>
+	<% link_to "Average Service and Wait time For Month" , :controller=>"users", :action=>"avgwaittservicetmonth" %>
+	<% link_to "Daywise Services offered for month" , :controller=>"users", :action=>"daywiseserviceoffered" %>
+	<% link_to "Employee Monthly Score" , :controller=>"users", :action=>"employeescore" %>
+	<% link_to "Benchmark Service time for all services" , :controller=>"users", :action=>"Servicebenchmark" %>
+	<% link_to "Total Services availed by customer for the day" , :controller=>"users", :action=>"report" %>
+
+</div>-->
+
+
+<div id="dropmenu6_a" class="dropmenudiv_a">
+	<%= link_to "Branch Analysis Chart" , :controller=>"Dbdemo1", :action=>"selection" %>
+	<%= link_to "Customerwise Token Served" , :controller=>"Dbdemo1", :action=>"selection2" %>	
+	<%= link_to "Hourly Footfall Trends" , :controller=>"Dbdemo1", :action=>"Hourly_footfall_trends" %>
+	<%= link_to "Footfall Trends For Services" , :controller=>"Dbdemo1", :action=>"selection4" %>
+	<%#link_to "Employee Score" , :controller=>"Dbdemo1", :action=>"selection5" %>
+	<% link_to "Tellerwise Breakup Of Tokens Served" , :controller=>"Dbdemo1", :action=>"selection6" %>
+	<!--<% link_to "Benchmark Service time for all services" , :controller=>"users", :action=>"Servicebenchmark" %>
+	<% link_to "Total Services availed by customer for the day" , :controller=>"users", :action=>"report" %>-->
+
+</div>
+
+
+<script type="text/javascript">
+ //SYNTAX: tabdropdown.init("menu_id", [integer OR "auto"])
+tabdropdown.init("invertedtabs",3 )
+               </script> 
+               
+		
+
+         		<!--<ul id="menu">
+         			
+         			<li><% #link_to 'Events', :controller => 'tellers', :action => "list_ad" %></li>		
+        	 		<li><%# link_to 'ScrollMsg', :controller => 'displayscrollmsgs', :action => "list" %></li>
+         			<li><%# link_to 'Users', :controller => 'users', :action => "list" %></li>
+         			<li><%# link_to 'Services', :controller => 'services', :action => "list" %></li>
+         			<li><% #link_to 'Counters', :controller => 'tellers', :action => "list" %></li>
+         			<li><%# link_to 'Password', :controller => 'users', :action => "password" %></li>
+         			<li><%# link_to 'OnlineInfo', :controller => 'users', :action => "onlineinfomain" %></li>
+         			<li><%# link_to 'Reports', :controller => 'users', :action => "report" %></li>
+         			<li><% #link_to 'FloorView', :controller => 'users', :action => "floorviewmain" %></li>
+         			<li><% #link_to 'Settings',:controller=>"backup",  :action => "settings" %></li>
+         			<li><%# link_to "Log Out", :controller=> "account", :action => 'logout' %></li>
+         		</ul>-->
+         	</td>		
+        </tr>
+      </table>
+      <table  border="0" cellspacing="0" cellpadding="0"  width="100%" height="105">
+       
+        <tr bgcolor=#901010>
+        
+          <td height="1" width="100%" bgcolor="#003366" class="style14"  >
+          <BLINK>
+          <MARQUEE  scrolldelay="100" class='menu' width="100%" height="16"><font color="#FFFFF" face="Zurich BT" > <b>Welcome to ICICI Bank <%#= @session['user']['usertype'] %></b></font></MARQUEE></BLINK></td>
+        </tr>
+        
+        <tr align=center>
+        
+          <td height="241" width="100%" align=center>  <div id="content" align=center>
+  	  <h2><%= @page_heading %></h2><center>
+      <%= @content_for_layout %></center>
+  	</div>  
+                </td>
+        </tr>
+        </table>
+      
+     </td>
+    
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>Welcome to ICICI Bank</title>
+</head>
+<body>
+      <div id="header">
+           <%=link_to image_tag("icici_logo.gif", :border=>0)%> 
+           <hr></hr>
+      </div>
+      <center>
+      <div id="content">
+           <div id="message">
+                         <h4><%=flash[:notice] %></h4>
+           </div>
+           <div class="logout">
+                  <table border="1" style="text-align:center;">
+                         <tr>
+                             <th>User</th>
+                             <th>Counter Number</th>
+                             <th>Role</th>
+                             <th>Action</th>
+                         </tr>
+                          <%@login_users=User.find(:all)%>
+                          <%@login_users.each do |users|%>
+                         <tr>
+                                   <td><%=users.login%>&nbsp;</td>
+                                   <td><%=users.counterno%>&nbsp;</td>
+                                    <td><%=users.usertype%>&nbsp;</td>
+                                   <td><%= link_to 'Logout', :controller => 'dqms',:action => "user_logout",:id => users.id%>&nbsp;</td>
+                         </tr>
+                         <%end%>
+                         <%#= link_to 'Logout All', :controller => 'dqms', :action => "release_all" %> 
+                  </table>    
+          </div>
+         
+       </div> 
+       </center>  
+       <div id="footer" style="clear:both;">
+            <hr></hr>
+       </div> 
+</body>
+</html>

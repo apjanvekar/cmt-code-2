@@ -1,0 +1,30 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+</head>
+
+<body>
+<table border=0 width="142"><tr><td width="114" bgcolor="#FFFFFF">
+<table align="center" border=5 bordercolor="#FF66000" width="265"><tr>
+  <td width="247"  >
+<h3 align="center"><font color="#990000" face="Arial"><u>Edited Counter</u></font></h3>
+<p>&nbsp;</p>
+<% for column in Counter.content_columns %><font color="#990000"> </font>
+<p align =left >
+  <font color="#990000"><b>&nbsp;<%= column.human_name %>&nbsp; : <%=h @counter.send(column.name) %></b>
+</p>
+<% end %> </font><font color="#990000">
+<br />
+<%= link_to 'Edit', :action => 'edit', :id => @counter.id %> |
+<%= link_to 'Back', :action => 'list' %> </font>
+<p>&nbsp;</p>
+</td></tr></table>
+   </td></tr></table>
+</body>
+</html>

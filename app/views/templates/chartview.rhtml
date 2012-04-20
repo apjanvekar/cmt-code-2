@@ -1,0 +1,23 @@
+<html>
+<body style="margin:5px 0px 0px 5px">
+
+<!-- Title -->
+<div style="font-size:18pt; font-family:verdana; font-weight:bold">
+    <%= @title %>
+</div>
+<hr style="border:solid 1px #000080" />
+
+<!-- Source Code Listing Link -->
+<div style="font-size:9pt; font-family:verdana; margin-bottom:1.5em">
+    <%= link_to "Source Code Listing", 
+        :controller => "cddemo", :action => "viewsource",
+        :ctrl_file => @ctrl_file, :view_file => File.expand_path(__FILE__) %>
+</div>
+
+<!-- Create one or more IMG tags to display the demo chart(s) -->
+<% 0.upto(@noOfCharts - 1) do |i| %>
+    <img src="<%= url_for(:action => "getchart", :img => i) %>">
+<% end %>
+
+</body>
+</html>

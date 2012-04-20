@@ -1,0 +1,160 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin</title>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH:390px; 
+HEIGHT:100px;
+} 
+</STYLE> 
+<%= javascript_include_tag "prototype","effects","backButton",:defaults %>
+<script language="javascript">
+function check(object) {
+var counter=document.getElementById("counter_counterno");
+
+var regex = /^[s\d]*$/;
+var space=/ /;
+if ((!regex.test(object.value)) || (space.test(object.value))) {
+alert("please enter numeric value")
+counter.value="";
+counter.focus();
+return(false);	
+} 
+
+
+if(counter.value.length>0)
+	{
+		if(counter.value==0)
+		{
+		alert("Please proper counter number!")
+		counter.value="";
+
+		counter.focus();
+		return(false);
+		}
+
+	
+	}
+	
+
+}
+</script>
+
+</head>
+
+<body onunLoad="back()">
+<table border=0 width="940" ><tr><td bgcolor="#FFFFFF" width="934">
+<table align="center" border=5 bordercolor="#800000" width="784" height="19"><tr>
+  
+  
+  <td width="766" align="center" height="255">
+&nbsp;<table width="824" height="322">
+<tr><td colspan=2 align=center> <font face="Zurich BT" size="4" color="#800000">Add New Counter</font></td></tr>
+<tr>
+    <td width="404" rowspan="5" height="318">
+   
+<%= start_form_tag :controller=> 'tellers', :action => 'create' %>  
+<%= error_messages_for 'counter' %>
+<p align=left>
+<b>
+<label for="counter_counterno"><font face="Zurich BT" color="#800000">
+Counter No.</font></label></b></br>
+&nbsp;<!--<%= text_field 'counter', 'counterno' %> --> <font face="Zurich BT">
+<input  type=text id="counter_counterno" name="counter[counterno]" size="20" onblur="check(this);"></font>
+&nbsp;<p align=left>
+<b>
+<label for="counter_status"><font color="#800000" face="Zurich BT">
+Status :-</font></label></b><br/>
+&nbsp;<font face="Zurich BT"><input type="radio" id="counter_status" name="counter[counterstatus]" value="1" checked="checked"  /></font><font size="2" face="Zurich BT">
+</font>
+<font face="Zurich BT" color="#800000" size="2">Active</font><font face="Zurich BT" color="#336699" size="2">&nbsp;&nbsp;
+<input type="radio" id="counter_status" name="counter[counterstatus]" value="0"/></font><font face="Zurich BT" color="#800000" size="2"> Inactive</font></p>
+<p align=left>
+&nbsp;</p>
+<p align=left>
+<b>
+<font face="Zurich BT" color="#800000"><label for="counter_countertype">Customer 
+Type</label> :-</font></b><br>
+<font face="Zurich BT">
+<input type="checkbox" name="type1" value="1"></font><font size="2" face="Zurich BT">
+</font>
+<font color="#800000" face="Zurich BT" size="2">Privilege Customer </input></font>
+<p align=left>
+<font face="Zurich BT">
+<input type="checkbox" name="type2" value="2"></font><font size="2" face="Zurich BT" color="#800000">Customer</font><font size="2" face="Zurich BT" color="#336699"></input></font><font size="2" face="Zurich BT">
+</font>
+<p align=left>
+<font face="Zurich BT">
+<input type="checkbox" name="type3" value="3"></font><font size="2" face="Zurich BT" color="#800000">Representative</input>
+</font>
+
+
+<p align=left>
+<font face="Zurich BT" color="#336699" size="2"><br/></p>
+
+</tr>
+<tr>
+<td width="414" height="34">
+</td>
+
+</tr>
+<tr><td width="414" height="13">
+<p align="left">
+&nbsp;<p align="left">
+<font face="Zurich BT" color="#800000">
+<b>
+Select Services For This Counter :-</b></tr>
+<tr>
+<td width="414" height="189">
+<p align="left">
+
+
+<div  id=rep align=left >
+		<%= render :partial=>"rep" %>
+</div> 
+</td></tr>
+<tr>
+<td width="414" height="66">
+&nbsp;</td></tr>
+<tr><td colspan=2 align=center>
+
+<font color="#336699"><font size="2" face="Zurich BT" color="#336699">
+<!--<input type="submit" value="Create Counter &#187;" class="primary" style="font-family: Zurich BT; font-size: 14px" />-->&nbsp;
+&nbsp;
+
+ <!--<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'tellers',:action => "back" }),:id=>'list', :style=>"font-family: Zurich BT; font-size: 10pt" %>-->
+<%= submit_to_remote 'Create', 'Create Counter' , :url=> {:controller=>'tellers',:action => "create" }, :style=>"font-family: Zurich BT; font-size: 10pt" %>
+
+<%= submit_to_remote 'Cancel', 'Cancel' , :url=> {:controller=>'tellers',:action => "back" }, :style=>"font-family: Zurich BT; font-size: 10pt" %>
+
+
+
+</td></tr>
+
+</table>
+
+
+ 
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table></td></tr></table>
+
+</td></tr></table>
+</body>
+</html>

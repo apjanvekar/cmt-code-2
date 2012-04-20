@@ -1,0 +1,52 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- ? Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Hinduja Hospital-Dynamic Queue Management System(DQMS)</title>
+<%= stylesheet_link_tag 'style' -%>
+
+</head>
+
+<body topmargin=0 bottommargin=0 leftmargin=0 rightmargin=0 >
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#000080" width="100%" id="AutoNumber1" height="588" bgcolor="#ffffff">
+    <tr> 
+      <td width="100%" height="434" align=center>
+      	<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="90%" id="AutoNumber2" height="482" bgcolor="#800000">
+          	<tr>
+            		<td width="100%" height="482" bgcolor="#800000" align="center">
+					<%= start_form_tag :action=> "login" %>	
+					<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="95%" id="AutoNumber3" height="436" bgcolor="#FFFFFF">
+                			<tr>
+                  				<td id=login width="50%" height="436" bgcolor="#FFFFFF">&nbsp;</td>
+                 	 			<td width="50%" height="436" bgcolor="#FFFFFF" >	
+								<table border="0" bordercolor="#800000" style="border-collapse: collapse" align="center" width="302" height="65" >
+									<tr>
+ 										<td width="50%" height="373" align="left" >
+											<h3 >
+                                            <font color="#800000" face="Arial" size="5">Logoff</font></h3><br>
+											<div class="memo" style="width: 614; height: 81" align="left">  
+    											<p>
+                                                <font color="#800000" face="Arial">You are now logged out of the system...</font></p>
+											<p> <font face="Arial" size="5">&nbsp; </font> </p>
+											<p> &nbsp; </p>
+   											<font color="#FF6600" face="Arial" size="2"><b> <%= link_to "&#171; Click Here To Login Again", :controller=>"dqms",:action=>"login"%></b> </font> 
+											</div>
+										</td>									
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</body>
+</html>

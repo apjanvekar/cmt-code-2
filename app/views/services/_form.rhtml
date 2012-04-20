@@ -1,0 +1,119 @@
+<!-- An unpublished work of Sprylogic Technologies Ltd.  -->
+<!-- © Copyright Sprylogic Technologies Ltd. 2008. All rights reserved  -->
+<!-- version DQMS_ROR_ver1.0.2 -->
+
+<html>
+<head>
+
+</head>
+<body>
+<div style="color:#800000;"><%=@msg%></div>
+
+<!--[form:service]-->
+<table width=691 align="left" height="72">
+	<tr>
+    	<td width="305" align="left">
+			<b>
+			<label for="service_serviceid">
+            <font face="Zurich BT" color="#800000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Service ID</font></label><font face="Zurich BT"> </font></b></td>
+		<td width="7">:</td>
+		<td width="370"><font size="2" face="Zurich BT" color="#800000"><%= text_field 'service', 'serviceid', :style=>"font-family: Zurich BT; font-size: 10pt", :disabled=>true  %></font>
+		</td>
+	</tr>
+	<tr>
+		<td width="305" align="left">
+			&nbsp;</td>
+		<td width="7">
+        	&nbsp;</td>
+		<td width="370">
+        	&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="305" align="left">
+			<font face="Zurich BT" color="#800000"><b><label for="service_servicename">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Service Name</label>	
+		</td>
+		<td width="7">
+        	:</td>
+		<td width="370">
+        	<%= text_field 'service', 'servicename', :style=>"font-family: Zurich BT; font-size: 10pt", :disabled=>true %></b></font></p>
+        </td>
+	</tr>
+	<tr>
+		<td width="305" align="left">
+			&nbsp;</td>
+		<td width="7">
+			&nbsp;</td>	
+		<td width="370">
+			&nbsp;</td>	
+		<td width="45">
+         	&nbsp;</td>
+	</tr>		
+	<tr>
+		<td width="305" align="left">
+			<font face="Zurich BT" color="#800000"><b><label for="service_servicestatus">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Service Status</label>&nbsp;
+            <% @a= Service.find(params[:id])%>
+				<% @b=@a.servicestatus %>
+				<% if @b.to_i== 1 %>
+            </td>
+		<td width="7">
+			:</td>	
+		<td width="370">
+			<font face="Zurich BT">
+			<input type="radio" id="service_servicestatus" name="service[servicestatus]" value="1" checked="checked"  /></font></font><font size="2" face="Zurich BT" color="#800000">Active</font><font face="Zurich BT">	
+			<input type="radio" id="service_servicestatus" name="service[servicestatus]" value="0" unchecked/></font></b></font><font size="2" color="#800000" face="Zurich BT">Inactive<b><br/>
+		</td>	
+			<% else %>
+		<td width="45">
+         	<font face="Zurich BT" color="#800000"><font size="2">&nbsp; </font> <input type="radio" id="service_servicestatus" name="service[servicestatus]" value="1" unchecked/></font><font size="2" color="#800000" face="Zurich BT"> </b>Active &nbsp;<b>&nbsp;&nbsp;</b></font><b><font face="Zurich BT">
+            </font>
+       			<font face="Zurich BT" color="#800000"><font size="2">&nbsp;</font><input type="radio" id="service_servicestatus" name="service[servicestatus]" value="0" checked="checked"/></font></b><font size="2" color="#800000" face="Zurich BT">Inactive</font><font face="Zurich BT">
+            </font>
+		</td>
+	</tr>		
+			<% end %> 
+
+
+<!--<p align=left><font face="Zurich BT" size="2" color="#800000"><b>&nbsp;</b><label for="service_buttonno">Buttons Configured</label></font><b><font face="Arial" size="2" color="#800000"><br/>
+&nbsp;<%= text_field 'service', 'buttonno', :size =>10%></font></b></p>-->
+	<tr>
+		<td width="305" align="left">
+			&nbsp;</td>
+		<td width="7">
+			&nbsp;</td>
+		<td width="370">
+			&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="305" align="left">
+			<b><font face="Zurich BT">
+			<font color="#800000"><label for="setting_missingtime">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Service Start Time</label></font> </font></b></td>
+		<td width="7">
+			:</td>
+		<td width="370">
+			<%= time_select 'service', 'starttime', :include_seconds => true   %>
+		</td>
+	</tr>
+	<tr>
+		<td width="305" align="left">
+			&nbsp;</td>
+		<td width="7">
+			&nbsp;</td>
+		<td width="370">
+			&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="305" align="left">
+			<b><font face="Zurich BT">
+			<font color="#800000"><label for="setting_missingtime">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Service End Time</label></font> </font></b></td>
+		<td width="7">
+			:</td>
+		<td width="370">
+			<%= time_select 'service', 'endtime', :include_seconds => true   %>
+		</td>
+	</tr>
+	
+ 
+</table>
+
+</body>
+</html>
